@@ -1,6 +1,7 @@
 from binance.client import Client
 import pandas as pd
 import numpy as np
+import os
 import requests
 from datetime import datetime
 
@@ -18,16 +19,63 @@ MIN_VOLUME = 2000000  # 2 juta USDT
 client = Client()
 active_buys = {}
 
+def calculate_ema(series, period):
+    return series.ewm(span=period, adjust=False).mean()
+
+def calculate_macd(series, fast, slow, signal):
+    ema_fast = calculate_ema(series, fast)
+    ema_slow = calculate_ema(series, slow)
+    macd = ema_fast - ema_slow
+    signal_line = calculate_ema(macd, signal)
+    return macd, signal_line
+
+def calculate_atr(df, period):
+    df['prev_close'] = df['close'].shift(1)
+    tr = np.maximum(
+        df['high'] - df['low'],
+        np.abs(df['high'] - df['prev_close']),
+        np.abs(df['low'] - df['prev_close'])
+    )
+    return tr.rolling(period).mean()
+
+def calculate_rsi(series, period):
+    delta = series.diff()
+    gain = delta.where(delta > 0, 0)
+    loss = -delta.where(delta < 0, 0)
+    
+    avg_gain = gain.rolling(period).mean()
+    avg_loss = loss.rolling(period).mean()
+    
+    rs = avg_gain / avg_loss
+    return 100 - (100 / (1 + rs))
+
+def calculate_adx(df, period):
+    high = df['high']
+    low = df['low']
+    close = df['close']
+    
+    up = high.diff()
+    down = -low.diff()
+    
+    plus_dm = np.where((up > down) & (up > 0), up, 0.0)
+    minus_dm = np.where((down > up) & (down > 0), down, 0.0)
+    
+    tr = calculate_atr(df, period)
+    
+    plus_di = 100 * calculate_ema(pd.Series(plus_dm), period) / tr
+    minus_di = 100 * calculate_ema(pd.Series(minus_dm), period) / tr
+    
+    dx = 100 * np.abs(plus_di - minus_di) / (plus_di + minus_di)
+    return calculate_ema(pd.Series(dx), period)
+
 def get_top_pairs():
-    """Mendapatkan pair dengan volume dan likuiditas tinggi"""
     tickers = client.get_ticker()
     usdt_pairs = [t for t in tickers if t['symbol'].endswith('USDT')]
     
-    # Filter volume dan likuiditas
     filtered = [
         p for p in usdt_pairs 
         if float(p['quoteVolume']) > MIN_VOLUME 
-        and float(p['count']) > 1000  # Jumlah transaksi
+        and float(p['count']) > 1000
     ]
     
     sorted_pairs = sorted(filtered, 
@@ -36,42 +84,33 @@ def get_top_pairs():
     return [p['symbol'] for p in sorted_pairs]
 
 def calculate_indicators(df):
-    """Menghitung semua indikator teknis tanpa TA-Lib"""
     try:
-        # EMA (Exponential Moving Average)
-        df['ema12'] = df['close'].ewm(span=12, adjust=False).mean()
-        df['ema26'] = df['close'].ewm(span=26, adjust=False).mean()
+        # Price-based indicators
+        df['ema12'] = calculate_ema(df['close'], 12)
+        df['ema26'] = calculate_ema(df['close'], 26)
+        df['macd'], df['signal'] = calculate_macd(df['close'], 12, 26, 9)
         
-        # MACD (Moving Average Convergence Divergence)
-        df['macd'] = df['ema12'] - df['ema26']
-        df['signal'] = df['macd'].ewm(span=9, adjust=False).mean()
+        # Volatility
+        df['atr'] = calculate_atr(df, 14)
         
-        # ATR (Average True Range)
-        df['tr'] = df['high'].combine(df['close'].shift(), lambda x, y: abs(x - y))
-        df['atr'] = df['tr'].rolling(window=14).mean()
+        # Momentum
+        df['rsi'] = calculate_rsi(df['close'], 14)
+        df['adx'] = calculate_adx(df, 14)
         
-        # RSI (Relative Strength Index)
-        delta = df['close'].diff()
-        gain = delta.where(delta > 0, 0)
-        loss = -delta.where(delta < 0, 0)
-        avg_gain = gain.rolling(window=14).mean()
-        avg_loss = loss.rolling(window=14).mean()
-        rs = avg_gain / avg_loss
-        df['rsi'] = 100 - (100 / (1 + rs))
+        # Trend
+        df['ema200'] = calculate_ema(df['close'], 200)
+        df['sma50'] = df['close'].rolling(50).mean()
         
-        # ADX (Average Directional Index)
-        df['adx'] = df['high'].rolling(window=14).max() - df['low'].rolling(window=14).min()
+        # Volume
+        df['volume_ma'] = df['volume'].rolling(20).mean()
         
-        # EMA 200 & SMA 50
-        df['ema200'] = df['close'].ewm(span=200, adjust=False).mean()
-        df['sma50'] = df['close'].rolling(window=50).mean()
-        
-        # Volume Moving Average
-        df['volume_ma'] = df['volume'].rolling(window=20).mean()
-        
-        # Price Action: 24H High & Low
-        df['24h_high'] = df['high'].rolling(6).max()  # 4h * 6 = 24 jam
+        # Price Action
+        df['24h_high'] = df['high'].rolling(6).max()
         df['24h_low'] = df['low'].rolling(6).min()
+        
+        # Support & Resistance
+        df['resistance'] = df['high'].rolling(14).max().shift(1)
+        df['support'] = df['low'].rolling(14).min().shift(1)
         
         return df.dropna()
     except Exception as e:
@@ -79,28 +118,25 @@ def calculate_indicators(df):
         return df
 
 def adaptive_macd_params(volatility):
-    """Menyesuaikan parameter MACD berdasarkan volatilitas"""
-    if volatility > 7:   # High volatility
+    if volatility > 7:
         return 8, 16, 6
-    elif volatility > 4: # Medium volatility
+    elif volatility > 4:
         return 12, 24, 8
-    else:                # Low volatility
+    else:
         return 14, 28, 9
 
 def dynamic_rsi_thresholds(adx_value):
-    """Menyesuaikan level RSI berdasarkan kekuatan tren"""
-    if adx_value > 25:  # Strong trend
-        return 70, 30   # Lebih longgar
-    else:               # Weak trend
-        return 65, 35   # Lebih ketat
+    if adx_value > 25:
+        return 70, 30
+    else:
+        return 65, 35
 
 def analyze_pair(symbol):
     try:
-        # Ambil data historis
         klines = client.get_klines(
             symbol=symbol,
             interval=INTERVAL,
-            limit=300  # Untuk indikator jangka panjang
+            limit=300
         )
         
         df = pd.DataFrame(klines, columns=[
@@ -110,26 +146,20 @@ def analyze_pair(symbol):
         ]).apply(pd.to_numeric)
         
         df = calculate_indicators(df)
-        if len(df) < 100:  # Pastikan data cukup
+        if len(df) < 100:
             return None
             
         current = df.iloc[-1]
         prev = df.iloc[-2]
         
-        # Analisis kondisi pasar
         volatility = df['close'].pct_change().std() * 100
         market_trend = 'trending' if current['adx'] > 25 else 'ranging'
         
-        # Parameter dinamis
         fast, slow, signal = adaptive_macd_params(volatility)
-        df['macd'], df['signal'], _ = talib.MACD(df['close'], 
-                                               fastperiod=fast,
-                                               slowperiod=slow,
-                                               signalperiod=signal)
+        df['macd'], df['signal'] = calculate_macd(df['close'], fast, slow, signal)
         
         overbought, oversold = dynamic_rsi_thresholds(current['adx'])
         
-        # Kondisi masuk
         macd_bullish = prev['macd'] < prev['signal'] and current['macd'] > current['signal']
         macd_bearish = prev['macd'] > prev['signal'] and current['macd'] < current['signal']
         
@@ -149,25 +179,24 @@ def analyze_pair(symbol):
             symbol in active_buys
         )
         
-        if buy_conditions:
-            return 'buy'
-        elif sell_conditions:
-            return 'sell'
-        return None
+        if buy_conditions or sell_conditions:
+            return 'buy' if buy_conditions else 'sell', current
+        return None, None
         
     except Exception as e:
         print(f"Error analyzing {symbol}: {e}")
-        return None
+        return None, None
 
 def send_telegram_alert(symbol, signal, data):
-    """Mengirim laporan lengkap ke Telegram"""
     message = (
         f"🚨 **{signal.upper()} {symbol}**\n"
         f"▫️ Harga: ${data['close']:.4f}\n"
         f"▫️ RSI: {data['rsi']:.1f} | ADX: {data['adx']:.1f}\n"
+        f"▫️ Support: ${data['support']:.4f}\n"
+        f"▫️ Resistance: ${data['resistance']:.4f}\n"
         f"▫️ EMA200: ${data['ema200']:.4f}\n"
         f"▫️ Volume: {data['volume']:.2f} vs MA: {data['volume_ma']:.2f}\n"
-        f"▫️ ATR: {data['atr']:.4f} ({'High Vol' if data['atr'] > 0.02 else 'Low Vol'})\n"
+        f"▫️ ATR: {data['atr']:.4f}\n"
         f"▫️ 24H High/Low: ${data['24h_high']:.4f}/${data['24h_low']:.4f}"
     )
     
@@ -176,32 +205,22 @@ def send_telegram_alert(symbol, signal, data):
         json={'chat_id': TELEGRAM_CHAT_ID, 'text': message, 'parse_mode': 'Markdown'}
     )
 
-def market_hours_filter():
-    """Filter waktu trading optimal (UTC)"""
-    hour = datetime.utcnow().hour
-    return 8 <= hour < 22  # Waktu pasar aktif global
-
 def main():
     print(f"\n🔍 Monitoring mulai @ {datetime.utcnow()}")
-    if market_hours_filter():
-        pairs = get_top_pairs()
-        
-        for symbol in pairs:
-            try:
-                signal = analyze_pair(symbol)
-                if signal:
-                    df = client.get_klines(symbol=symbol, interval=INTERVAL, limit=1)
-                    last_data = df[0] if df else None
-                    
-                    if signal == 'buy':
-                        active_buys[symbol] = last_data
-                        send_telegram_alert(symbol, signal, last_data)
-                    elif signal == 'sell':
-                        del active_buys[symbol]
-                        send_telegram_alert(symbol, signal, last_data)
-            except Exception as e:
-                print(f"Error processing {symbol}: {str(e)}")
-                continue
+    pairs = get_top_pairs()
+    
+    for symbol in pairs:
+        try:
+            signal, data = analyze_pair(symbol)
+            if signal:
+                if signal == 'buy':
+                    active_buys[symbol] = data
+                elif signal == 'sell' and symbol in active_buys:
+                    del active_buys[symbol]
+                send_telegram_alert(symbol, signal, data)
+        except Exception as e:
+            print(f"Error processing {symbol}: {str(e)}")
+            continue
 
 if __name__ == "__main__":
     main()
