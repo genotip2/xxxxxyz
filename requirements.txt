@@ -1,0 +1,5 @@
+binance
+pandas
+numpy
+ta-lib
+requests
