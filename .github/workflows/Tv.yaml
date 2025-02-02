@@ -27,7 +27,7 @@ jobs:
       run: python TradingView.py
       
     - name: Commit and push changes
-        run: |
+      run: |
           git config --local user.name "github-actions[bot]"
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git add active_buys.json
