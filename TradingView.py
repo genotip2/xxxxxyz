@@ -63,6 +63,9 @@ def analyze_pair(symbol):
         return None
 
 def generate_signal(data):
+    # Contoh filter tambahan
+  if data['volume'] > 1000000:  # Filter volume > $1 juta
+  if data['price'] > data['sma50']:  # Filter harga di atas SMA 50
     if "BUY" in data['recommendation']:
         if data['rsi'] < 65 and data['macd'] > data['signal']:
             return 'BUY'
