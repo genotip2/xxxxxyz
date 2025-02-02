@@ -21,7 +21,7 @@ jobs:
       - name: Send Test Message to Telegram
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          TELEGRAM_CHAT_ID: "[MASUKKAN_CHAT_ID_ANDA]"
+          TELEGRAM_CHAT_ID: "[-1002333084438]"
         run: |
           python <<EOF
           import os
