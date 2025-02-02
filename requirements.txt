@@ -1,4 +1,0 @@
-Client
-pandas
-numpy
-requests
