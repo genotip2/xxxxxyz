@@ -50,17 +50,20 @@ def analyze_pair(symbol):
         support = analysis.indicators.get('pivotPoints.standard.S1', 'N/A')
         resistance = analysis.indicators.get('pivotPoints.standard.R1', 'N/A')
         
-    return {
-        'price': indicators['close'],
-        'rsi': indicators['RSI'],
-        'macd': indicators['MACD.macd'],
-        'signal': indicators['MACD.signal'],
-        'adx': indicators['ADX'],
-        'volume': indicators['volume'],
-        'recommendation': summary['RECOMMENDATION'],
-        'support': indicators.get('Pivot.M.S1', indicators['low']),
-        'resistance': indicators.get('Pivot.M.R1', indicators['high'])
-    }
+        return {
+            'recommendation': analysis.summary['RECOMMENDATION'],
+            'rsi': analysis.indicators['RSI'],
+            'macd': analysis.indicators['MACD.macd'],
+            'signal': analysis.indicators['MACD.signal'],
+            'support': support,
+            'resistance': resistance,
+            'price': analysis.indicators['close']
+        }
+        
+    except Exception as e:
+        print(f"Error analyzing {symbol}: {e}")
+        return None
+        
 def generate_signal(pair, data):
     current_price = data['price']
     
