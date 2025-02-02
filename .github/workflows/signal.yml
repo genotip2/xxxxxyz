@@ -2,28 +2,28 @@ name: Signal Bot
 
 on:
   schedule:
-    - cron: "0 * * * *"  # Setiap jam sekali
-  workflow_dispatch:  # Memungkinkan untuk menjalankan secara manual
+    - cron: '0 * * * *'  # Setiap jam (UTC)
+  workflow_dispatch:  # Memungkinkan untuk menjalankan manual
 
 jobs:
-  run_bot:
+  run-script:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout Repository
+    - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Setup Python
+    - name: Set up Python
       uses: actions/setup-python@v2
       with:
-        python-version: '3.8'  # Sesuaikan dengan versi Python yang digunakan
+        python-version: '3.9'
 
-    - name: Install Dependencies
+    - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -r requirements.txt  # Jika ada dependencies lain di requirements.txt
+        pip install -r requirements.txt
 
-    - name: Run Crypto Trading Bot
+    - name: Run trading script
       env:
         TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
         TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
