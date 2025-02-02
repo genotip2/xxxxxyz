@@ -1,4 +1,4 @@
-binance
+Client
 pandas
 numpy
 requests
