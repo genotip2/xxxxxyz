@@ -10,28 +10,46 @@ TELEGRAM_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN')
 TELEGRAM_CHAT_ID = os.getenv('TELEGRAM_CHAT_ID')
 ACTIVE_BUYS = {}  # Format: {pair: {'price': x, 'time': y}}
 
-def get_top_pairs():
-    """Ambil 50 pair teratas dari CoinGecko"""
+def get_binance_top_pairs():
+    """Ambil top 50 coin di Binance berdasarkan volume trading"""
     url = "https://api.coingecko.com/api/v3/exchanges/binance/tickers"
+    params = {
+        'include_exchange_logo': 'false',
+        'order': 'volume_desc',
+        'depth': 'false'
+    }
+    
     try:
-        response = requests.get(url, params={'order': 'volume_desc'})
-        usdt_pairs = [t for t in response.json()['tickers'] if t['target'] == 'USDT']
-        return sorted([f"{p['base']}USDT" for p in usdt_pairs], 
-                     key=lambda x: float(x.volume), reverse=True)[:50]
-    except:
-        return ["BTCUSDT", "ETHUSDT", "BNBUSDT"]  # Fallback
+        response = requests.get(url, params=params)
+        data = response.json()
+        
+        # Filter USDT pairs dan urutkan berdasarkan volume
+        usdt_pairs = [t for t in data['tickers'] if t['target'] == 'USDT']
+        sorted_pairs = sorted(usdt_pairs, 
+                            key=lambda x: x['converted_volume']['usd'], 
+                            reverse=True)[:50]
+        
+        return [f"{p['base']}USDT" for p in sorted_pairs]
+    
+    except Exception as e:
+        print(f"Error fetching data: {e}")
+        return []
 
-def analyze_pair(pair):
-    analysis = TA_Handler(
-        symbol=pair,
-        exchange="BINANCE",
-        screener="CRYPTO",
-        interval=Interval.INTERVAL_4_HOURS
-    ).get_analysis()
-    
-    indicators = analysis.indicators
-    summary = analysis.summary
-    
+def analyze_pair(symbol):
+    try:
+        handler = TA_Handler(
+            symbol=symbol,
+            exchange="BINANCE",
+            screener="CRYPTO",
+            interval=Interval.INTERVAL_4_HOURS
+        )
+        
+        analysis = handler.get_analysis()
+        
+        # Support & Resistance dari TradingView
+        support = analysis.indicators.get('pivotPoints.standard.S1', 'N/A')
+        resistance = analysis.indicators.get('pivotPoints.standard.R1', 'N/A')
+        
     return {
         'price': indicators['close'],
         'rsi': indicators['RSI'],
