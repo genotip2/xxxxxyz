@@ -43,7 +43,6 @@ def analyze_pair(pair):
         'support': indicators.get('Pivot.M.S1', indicators['low']),
         'resistance': indicators.get('Pivot.M.R1', indicators['high'])
     }
-
 def generate_signal(pair, data):
     current_price = data['price']
     
@@ -57,16 +56,34 @@ def generate_signal(pair, data):
         data['volume'] > 1000000  # Volume > $1 juta
     )
     
-    # Kondisi Sell
+    # Kondisi Sell Berdasarkan Indikator Teknikal
     sell_conditions = (
         "SELL" in data['recommendation'] and
+        (data['rsi'] > 70 or  # RSI overbought
+         data['macd'] < data['signal'] or  # MACD cross down
+         data['adx'] < 25 or  # ADX menurun
+         current_price < data['support'])  # Harga tembus support
+    )
+    
+    # Kondisi Take Profit (Profit > 5%)
+    take_profit_conditions = (
         pair in ACTIVE_BUYS and
-        current_price < ACTIVE_BUYS[pair]['price'] * 0.98  # Stop loss 2%
+        current_price > ACTIVE_BUYS[pair]['price'] * 1.05  # Profit > 5%
+    )
+    
+    # Kondisi Stop Loss (Kerugian > 2%)
+    stop_loss_conditions = (
+        pair in ACTIVE_BUYS and
+        current_price < ACTIVE_BUYS[pair]['price'] * 0.98  # Loss > 2%
     )
     
     if buy_conditions and pair not in ACTIVE_BUYS:
         return 'BUY', current_price
-    elif sell_conditions:
+    elif take_profit_conditions:
+        return 'TAKE PROFIT', current_price
+    elif stop_loss_conditions:
+        return 'STOP LOSS', current_price
+    elif sell_conditions and pair in ACTIVE_BUYS:
         return 'SELL', ACTIVE_BUYS[pair]['price']
     return None, None
 
@@ -79,13 +96,27 @@ def send_telegram_alert(signal_type, pair, current_price, buy_price=None):
 🔍 RSI: {data['rsi']:.1f} | MACD: {data['macd']:.4f}"""
         ACTIVE_BUYS[pair] = {'price': current_price, 'time': datetime.now()}
         
+    elif signal_type == 'TAKE PROFIT':
+        message = f"""✅ **TAKE PROFIT {pair}**
+▫️ Exit Price: ${current_price:.4f}
+▫️ Buy Price: ${ACTIVE_BUYS[pair]['price']:.4f}
+▫️ Profit: {((current_price - ACTIVE_BUYS[pair]['price'])/ACTIVE_BUYS[pair]['price'])*100:.2f}%
+🕒 Hold Duration: {str(datetime.now() - ACTIVE_BUYS[pair]['time']).split('.')[0]}"""
+        # Tidak menghapus ACTIVE_BUYS, karena ini hanya take profit, bukan sell
+    elif signal_type == 'STOP LOSS':
+        message = f"""⚠️ **STOP LOSS {pair}**
+▫️ Exit Price: ${current_price:.4f}
+▫️ Buy Price: ${ACTIVE_BUYS[pair]['price']:.4f}
+▫️ Loss: {((current_price - ACTIVE_BUYS[pair]['price'])/ACTIVE_BUYS[pair]['price'])*100:.2f}%
+🕒 Hold Duration: {str(datetime.now() - ACTIVE_BUYS[pair]['time']).split('.')[0]}"""
+        del ACTIVE_BUYS[pair]  # Menghapus dari ACTIVE_BUYS karena stop loss
     elif signal_type == 'SELL':
         message = f"""⚠️ **SELL {pair}**
 ▫️ Exit Price: ${current_price:.4f}
 ▫️ Buy Price: ${buy_price:.4f}
 ▫️ Profit: {((current_price - buy_price)/buy_price)*100:.2f}%
 🕒 Hold Duration: {str(datetime.now() - ACTIVE_BUYS[pair]['time']).split('.')[0]}"""
-        del ACTIVE_BUYS[pair]
+        del ACTIVE_BUYS[pair]  # Menghapus dari ACTIVE_BUYS karena sell
         
     requests.post(
         f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage",
