@@ -66,8 +66,8 @@ def analyze_pair(symbol):
             'rsi': analysis.indicators.get('RSI', 0),
             'macd': analysis.indicators.get('MACD.macd', 0),
             'signal': analysis.indicators.get('MACD.signal', 0),
-            'support': analysis.indicators.get('Pivot.M.S1', 0),
-            'resistance': analysis.indicators.get('Pivot.M.R1', 0),
+            'support': analysis.indicators.get('Pivot.S1', 0),
+            'resistance': analysis.indicators.get('Pivot.R1', 0),
             'price': analysis.indicators.get('close', 0),
             'volume': analysis.indicators.get('volume', 0),
             'adx': analysis.indicators.get('ADX', 0)
