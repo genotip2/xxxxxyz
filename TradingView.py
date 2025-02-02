@@ -2,6 +2,8 @@ import os
 import requests
 from tradingview_ta import TA_Handler, Interval
 from datetime import datetime, timedelta
+import json
+import subprocess
 
 # ==============================
 # KONFIGURASI
@@ -11,6 +13,7 @@ TELEGRAM_CHAT_ID = os.getenv('TELEGRAM_CHAT_ID')
 ACTIVE_BUYS = {}  # Menyimpan posisi BUY yang sedang aktif
 BUY_SCORE_THRESHOLD = 4
 SELL_SCORE_THRESHOLD = 3
+FILE_PATH = 'active_buys.json'
 
 # ==============================
 # FUNGSI PENGAMBILAN DATA PAIR
@@ -93,6 +96,34 @@ def calculate_scores(data):
     return buy_score, sell_score
 
 # ==============================
+# FUNGSI MENYIMPAN DATA KE FILE JSON
+# ==============================
+def save_active_buys_to_json():
+    """Simpan data ACTIVE_BUYS ke dalam file JSON"""
+    with open(FILE_PATH, 'w') as f:
+        json.dump(ACTIVE_BUYS, f)
+
+# ==============================
+# FUNGSI COMMIT DAN PUSH KE GITHUB
+# ==============================
+def commit_and_push_changes():
+    """Commit dan push perubahan file JSON ke GitHub"""
+    try:
+        # Menambahkan file ke staging area
+        subprocess.run(['git', 'add', FILE_PATH], check=True)
+
+        # Commit perubahan
+        commit_message = f"Update active buys data @ {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
+        subprocess.run(['git', 'commit', '-m', commit_message], check=True)
+
+        # Push perubahan ke repositori remote
+        subprocess.run(['git', 'push', 'origin', 'main'], check=True)  # Ganti 'main' dengan nama branch Anda
+        print(f"Successfully committed and pushed to GitHub: {commit_message}")
+    
+    except subprocess.CalledProcessError as e:
+        print(f"Error occurred during git commit/push: {e}")
+
+# ==============================
 # FUNGSI GENERATOR SINYAL
 # ==============================
 def generate_signal(pair, data):
@@ -153,6 +184,10 @@ def send_telegram_alert(signal_type, pair, current_price, data, buy_price=None):
             del ACTIVE_BUYS[pair]
 
     print(f"📢 Sending Telegram alert: {message}")  # Debug log
+
+    # Simpan data ke JSON dan commit ke GitHub
+    save_active_buys_to_json()
+    commit_and_push_changes()
 
     requests.post(
         f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage",
