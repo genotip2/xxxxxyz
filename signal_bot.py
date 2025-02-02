@@ -16,9 +16,13 @@ MIN_VOLUME = 2000000  # 2 juta USDT
 # ==============================
 # INISIALISASI
 # ==============================
-client = Client()
-active_buys = {}
-
+# Gunakan Binance melalui AWS Singapore
+client = Client(
+    tld='com',
+    requests_params={
+        'headers': {'Referer': 'https://www.binance.com'}
+    }
+)
 def calculate_ema(series, period):
     return series.ewm(span=period, adjust=False).mean()
 
