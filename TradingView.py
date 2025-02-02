@@ -3,6 +3,7 @@ import requests
 from tradingview_ta import TA_Handler, Interval
 from datetime import datetime, timedelta
 import json
+import subprocess
 
 # ==============================
 # KONFIGURASI
@@ -47,7 +48,7 @@ def get_binance_top_pairs():
         return []
 
 # ==============================
-# FUNGSI ANALISIS TEKNIKAL
+# FUNGSI ANALISIS TEKNIKAL (REVISI)
 # ==============================
 def analyze_pair(symbol):
     try:
@@ -77,7 +78,7 @@ def analyze_pair(symbol):
         return None
 
 # ==============================
-# FUNGSI PENGHITUNGAN SKOR SINYAL
+# FUNGSI PENGHITUNGAN SKOR SINYAL (REVISI)
 # ==============================
 def calculate_scores(data):
     """Hitung score BUY dan SELL berdasarkan indikator"""
@@ -103,7 +104,7 @@ def calculate_scores(data):
     return buy_score, sell_score
 
 # ==============================
-# FUNGSI MANAJEMEN DATA
+# FUNGSI MENYIMPAN DATA KE FILE JSON (REVISI)
 # ==============================
 def save_active_buys_to_json():
     """Simpan data ACTIVE_BUYS ke dalam file JSON"""
@@ -113,6 +114,7 @@ def save_active_buys_to_json():
         print("✅ Berhasil menyimpan active_buys.json")
     except Exception as e:
         print(f"❌ Gagal menyimpan JSON: {str(e)}")
+
 
 # ==============================
 # FUNGSI GENERATOR SINYAL
@@ -140,7 +142,7 @@ def generate_signal(pair, data):
     return None, None
 
 # ==============================
-# FUNGSI NOTIFIKASI
+# FUNGSI KIRIM NOTIFIKASI TELEGRAM
 # ==============================
 def send_telegram_alert(signal_type, pair, current_price, data, buy_price=None):
     message = ""
@@ -160,12 +162,12 @@ def send_telegram_alert(signal_type, pair, current_price, data, buy_price=None):
         message = f"{base_msg}▫️ Support: ${data['support']:.2f}\n"
         message += f"▫️ Resistance: ${data['resistance']:.2f}\n"
         message += f"🔍 RSI: {data['rsi']:.1f} | MACD: {data['macd']:.4f}"
-        ACTIVE_BUYS[pair] = {'price': current_price, 'time': datetime.now().isoformat()}
+        ACTIVE_BUYS[pair] = {'price': current_price, 'time': datetime.now()}
 
     elif signal_type in ['TAKE PROFIT', 'STOP LOSS', 'SELL']:
-        buy_data = ACTIVE_BUYS.get(pair, {'price': buy_price, 'time': datetime.now().isoformat()})
+        buy_data = ACTIVE_BUYS.get(pair, {'price': buy_price, 'time': datetime.now()})
         profit = ((current_price - buy_data['price'])/buy_data['price'])*100
-        duration = str(datetime.now() - datetime.fromisoformat(buy_data['time'])).split('.')[0]
+        duration = str(datetime.now() - buy_data['time']).split('.')[0]
         
         message = f"{base_msg}▫️ Entry Price: ${buy_data['price']:.4f}\n"
         message += f"▫️ {'Profit' if profit > 0 else 'Loss'}: {profit:.2f}%\n"
@@ -178,8 +180,9 @@ def send_telegram_alert(signal_type, pair, current_price, data, buy_price=None):
 
     try:
         save_active_buys_to_json()
+        commit_and_push_changes()
     except Exception as e:
-        print(f"❌ Gagal menyimpan: {str(e)}")
+        print(f"❌ Gagal menyimpan/commit: {str(e)}")
 
     requests.post(
         f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage",
@@ -212,7 +215,7 @@ def main():
                 
             if pair in ACTIVE_BUYS:
                 buy_data = ACTIVE_BUYS[pair]
-                hold_time = datetime.now() - datetime.fromisoformat(buy_data['time'])
+                hold_time = datetime.now() - buy_data['time']
                 current_profit = (data['price'] - buy_data['price'])/buy_data['price']*100
                 
                 if hold_time > timedelta(hours=24) or abs(current_profit) > 5:
