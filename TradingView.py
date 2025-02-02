@@ -61,13 +61,20 @@ def analyze_pair(symbol):
         
         analysis = handler.get_analysis()
         
+        support = analysis.indicators.get('Pivot.M.S1', None)
+        resistance = analysis.indicators.get('Pivot.M.R1', None)
+        
+        # Menampilkan log untuk memverifikasi indikator
+        print(f"Support: {support if support is not None else 'Data Tidak Tersedia'}")
+        print(f"Resistance: {resistance if resistance is not None else 'Data Tidak Tersedia'}")
+        
         return {
             'recommendation': analysis.summary['RECOMMENDATION'],
             'rsi': analysis.indicators.get('RSI', 0),
             'macd': analysis.indicators.get('MACD.macd', 0),
             'signal': analysis.indicators.get('MACD.signal', 0),
-            'support': analysis.indicators.get('Pivot.S1', 0),
-            'resistance': analysis.indicators.get('Pivot.R1', 0),
+            'support': support,
+            'resistance': resistance,
             'price': analysis.indicators.get('close', 0),
             'volume': analysis.indicators.get('volume', 0),
             'adx': analysis.indicators.get('ADX', 0)
@@ -159,8 +166,8 @@ def send_telegram_alert(signal_type, pair, current_price, data, buy_price=None):
     base_msg += f"📊 Buy Score: {buy_score}/6 | Sell Score: {sell_score}/5\n"
 
     if signal_type == 'BUY':
-        message = f"{base_msg}▫️ Support: ${data['support']:.2f}\n"
-        message += f"▫️ Resistance: ${data['resistance']:.2f}\n"
+        message = f"{base_msg}▫️ Support: ${data['support'] if data['support'] is not None else 'Data Tidak Tersedia'}\n"
+        message += f"▫️ Resistance: ${data['resistance'] if data['resistance'] is not None else 'Data Tidak Tersedia'}\n"
         message += f"🔍 RSI: {data['rsi']:.1f} | MACD: {data['macd']:.4f}"
         ACTIVE_BUYS[pair] = {'price': current_price, 'time': datetime.now()}
 
