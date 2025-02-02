@@ -57,7 +57,9 @@ def analyze_pair(symbol):
             'signal': analysis.indicators['MACD.signal'],
             'support': support,
             'resistance': resistance,
-            'price': analysis.indicators['close']
+            'price': analysis.indicators['close'],
+            'volume': analysis.indicators.get('volume', 0),  # Menambahkan volume
+            'adx': analysis.indicators.get('ADX', 0)  # Menambahkan ADX
         }
         
     except Exception as e:
@@ -145,7 +147,7 @@ def send_telegram_alert(signal_type, pair, current_price, buy_price=None):
     )
 
 def main():
-    pairs = get_top_pairs()
+    pairs = get_binance_top_pairs()  # Memperbaiki penggunaan fungsi
     print(f"Analisis {len(pairs)} pair @ {datetime.now()}")
     
     for pair in pairs:
