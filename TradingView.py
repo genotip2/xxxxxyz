@@ -211,7 +211,7 @@ def main():
 
     for pair in pairs:
         try:
-            formatted_pair = pair.replace('USDT', '/USDT')
+            formatted_pair = pair
             data = analyze_pair(formatted_pair)
             
             if not data:
