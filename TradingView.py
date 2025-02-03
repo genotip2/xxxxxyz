@@ -249,28 +249,60 @@ def send_telegram_alert(signal_type, pair, current_price, data, buy_price=None):
                 entry_price = escape_markdown(f"{entry['price']:.8f}")
                 
                 message = (
-                    f"{base_msg}▫️ Entry: `${entry_price}`\n"
-                    f"▫️ P/L: {profit:+.2f}%\n"
-                    f"🕒 Durasi: {escape_markdown(duration)}\n"
-                    f"🎚 Stoch RSI: K={data['stoch_rsi_k']:.2f}, D={data['stoch_rsi_d']:.2f}"
-                )
+def send_telegram_alert(signal_type, pair, current_price, data, buy_price=None):
+    """Kirim notifikasi ke Telegram"""
+    display_pair = f"{pair[:-4]}/USDT"
+    message = ""
+    buy_score, sell_score = calculate_scores(data)
+    
+    emoji = {
+        'BUY': '🚀', 
+        'SELL': '⚠️', 
+        'TAKE PROFIT': '✅', 
+        'STOP LOSS': '🛑'
+    }.get(signal_type, 'ℹ️')
+
+    base_msg = f"{emoji} *{signal_type} {display_pair}*\n"
+    base_msg += f"▫️ Price: ${current_price:.8f}\n"
+    base_msg += f"📊 Score: BUY {buy_score}/9 | SELL {sell_score}/8\n"
+
+    if signal_type == 'BUY':
+        message = f"{base_msg}▫️ Support: ${data['support']:.8f}\n"
+        message += f"▫️ Resistance: ${data['resistance']:.8f}\n"
+        message += f"🔍 RSI: {data['rsi']:.1f}\n"
+        message += f"🎚 Stoch RSI: K={data['stoch_rsi_k']:.2f}, D={data['stoch_rsi_d']:.2f}"
+        ACTIVE_BUYS[pair] = {'price': current_price, 'time': datetime.now()}
+
+    elif signal_type in ['TAKE PROFIT', 'STOP LOSS', 'SELL']:
+        entry = ACTIVE_BUYS.get(pair)
+        if entry:
+            profit = ((current_price - entry['price'])/entry['price'])*100
+            duration = str(datetime.now() - entry['time']).split('.')[0]
+            
+            message = f"{base_msg}▫️ Entry: ${entry['price']:.8f}\n"
+            message += f"▫️ P/L: {profit:+.2f}%\n"
+            message += f"🕒 Durasi: {duration}\n"
+            message += f"🎚 Stoch RSI: K={data['stoch_rsi_k']:.2f}, D={data['stoch_rsi_d']:.2f}"
+
+            if signal_type in ['STOP LOSS', 'SELL']:
                 del ACTIVE_BUYS[pair]
 
-        # Tambahkan link trading
-        pair_url = f"https://www.binance.com/en/trade/{pair}?type=spot"
-        escaped_url = pair_url.replace('.', '\\.').replace('_', '\\_')
-        message += f"\n\n🔗 [Trade di Binance]({escaped_url})"
+    # Tambahkan link ke Binance yang tersembunyi
+    pair_url = f"https://www.binance.com/en/trade/{pair}?type=spot"
+    escaped_url = pair_url.replace('.', '\\.')  # Escape titik agar valid di MarkdownV2
+    message += f"\n\n🔗 [Trade di Binance]({escaped_url})"
 
-        # Kirim pesan
-        requests.post(
-            f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage",
-            json={
-                'chat_id': TELEGRAM_CHAT_ID,
-                'text': message,
-                'parse_mode': 'MarkdownV2',
-                'disable_web_page_preview': True
-            }
-        )
+    print(f"📢 Mengirim alert: {message}")
+
+    try:
+        save_active_buys_to_json()
+    except Exception as e:
+        print(f"❌ Gagal menyimpan: {str(e)}")
+
+    requests.post(
+        f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage",
+        json={'chat_id': TELEGRAM_CHAT_ID, 'text': message, 'parse_mode': 'MarkdownV2'}
+    )
         
         save_active_buys_to_json()
 
