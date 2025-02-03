@@ -97,7 +97,6 @@ def analyze_pair(symbol):
             exchange="BINANCE",
             screener="CRYPTO",
             interval=Interval.INTERVAL_4_HOURS
-
             indicators={
               'Stochastic RSI': ['K', 'D'],  # Memastikan Stoch RSI dihitung
               'RSI': 14,                     # Konfigurasi default RSI
