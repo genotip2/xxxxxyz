@@ -10,8 +10,8 @@ import json
 TELEGRAM_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN')
 TELEGRAM_CHAT_ID = os.getenv('TELEGRAM_CHAT_ID')
 ACTIVE_BUYS = {}
-BUY_SCORE_THRESHOLD = 5
-SELL_SCORE_THRESHOLD = 4
+BUY_SCORE_THRESHOLD = 6
+SELL_SCORE_THRESHOLD = 5
 FILE_PATH = 'active_buys.json'
 
 # Inisialisasi file JSON dengan handling datetime
@@ -103,6 +103,10 @@ def analyze_pair(symbol):
         low = indicators.get('low')
         fib = calculate_fibonacci_levels(high, low)
         
+        # Stochastic RSI
+        stoch_rsi_k = indicators.get('Stoch.RSI.K')
+        stoch_rsi_d = indicators.get('Stoch.RSI.D')
+        
         return {
             'recommendation': analysis.summary['RECOMMENDATION'],
             'price': indicators.get('close'),
@@ -114,7 +118,9 @@ def analyze_pair(symbol):
             'support': fib['level_61_8'],
             'resistance': fib['level_23_6'],
             'bb_upper': bb_upper,
-            'bb_lower': bb_lower
+            'bb_lower': bb_lower,
+            'stoch_rsi_k': stoch_rsi_k,
+            'stoch_rsi_d': stoch_rsi_d
         }
         
     except Exception as e:
@@ -133,6 +139,8 @@ def calculate_scores(data):
         price > data['resistance'] * 0.99,
         data['volume'] > 1e6,
         price < data['bb_lower']
+        data['stoch_rsi_k'] > data['stoch_rsi_d'],         # Bullish crossover
+        data['stoch_rsi_k'] < 20                           # Oversold
     ]
     
     sell_conditions = [
@@ -142,6 +150,8 @@ def calculate_scores(data):
         data['adx'] < 20,
         price < data['support'],
         price > data['bb_upper']
+        data['stoch_rsi_k'] < data['stoch_rsi_d'],         # Bearish crossover
+        data['stoch_rsi_k'] > 80                           # Overbought
     ]
     
     return sum(buy_conditions), sum(sell_conditions)
