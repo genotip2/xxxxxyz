@@ -243,7 +243,7 @@ def send_telegram_alert(signal_type, pair, current_price, data, buy_price=None):
 
     requests.post(
         f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage",
-        json={'chat_id': TELEGRAM_CHAT_ID, 'text': message, 'parse_mode': 'Markdown'}
+        json={'chat_id': TELEGRAM_CHAT_ID, 'text': message, 'parse_mode': 'Markdown', "disable_web_page_preview": True}
     )
 
 # ==============================
