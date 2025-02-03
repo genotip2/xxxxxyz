@@ -94,10 +94,6 @@ def analyze_pair(symbol):
         analysis = handler.get_analysis()
         indicators = analysis.indicators
 
-        # Bollinger Bands
-        bb_upper = indicators.get('BB.upper')
-        bb_lower = indicators.get('BB.lower')
-
         # Fibonacci Levels
         high = indicators.get('high')
         low = indicators.get('low')
@@ -111,14 +107,10 @@ def analyze_pair(symbol):
             'recommendation': analysis.summary['RECOMMENDATION'],
             'price': indicators.get('close'),
             'rsi': indicators.get('RSI'),
-            'macd': indicators.get('MACD.macd'),
-            'signal': indicators.get('MACD.signal'),
             'adx': indicators.get('ADX'),
             'volume': indicators.get('volume'),
             'support': fib['level_61_8'],
             'resistance': fib['level_23_6'],
-            'bb_upper': bb_upper,
-            'bb_lower': bb_lower,
             'stoch_rsi_k': stoch_rsi_k,
             'stoch_rsi_d': stoch_rsi_d
         }
@@ -128,17 +120,16 @@ def analyze_pair(symbol):
         return None
 
 def calculate_scores(data):
-    """Hitung skor trading dengan Bollinger Bands dan Stochastic RSI"""
+    """Hitung skor trading dengan Stochastic RSI"""
     price = data['price']
     
     buy_conditions = [
         "BUY" in data['recommendation'],
         data['rsi'] < 60,
-        data['macd'] > data['signal'],
         data['adx'] > 25,
         price > data['resistance'] * 0.99,
         data['volume'] > 1e6,
-        price < data['bb_lower'],
+        price < data['support'],
         data['stoch_rsi_k'] > data['stoch_rsi_d'],  # Bullish crossover
         data['stoch_rsi_k'] < 20                    # Oversold
     ]
@@ -146,10 +137,9 @@ def calculate_scores(data):
     sell_conditions = [
         "SELL" in data['recommendation'],
         data['rsi'] > 65,
-        data['macd'] < data['signal'],
         data['adx'] < 20,
         price < data['support'],
-        price > data['bb_upper'],
+        price > data['resistance'],
         data['stoch_rsi_k'] < data['stoch_rsi_d'],  # Bearish crossover
         data['stoch_rsi_k'] > 80                    # Overbought
     ]
@@ -196,15 +186,14 @@ def send_telegram_alert(signal_type, pair, current_price, data, buy_price=None):
         'STOP LOSS': '🛑'
     }.get(signal_type, 'ℹ️')
 
-    base_msg = f"{emoji} **{signal_type} {display_pair}**\n"
+    base_msg = f"{emoji} *{signal_type} {display_pair}*\n"
     base_msg += f"▫️ Price: ${current_price:.8f}\n"
     base_msg += f"📊 Score: BUY {buy_score}/9 | SELL {sell_score}/8\n"
 
     if signal_type == 'BUY':
         message = f"{base_msg}▫️ Support: ${data['support']:.8f}\n"
         message += f"▫️ Resistance: ${data['resistance']:.8f}\n"
-        message += f"🔍 RSI: {data['rsi']:.1f} | MACD: {data['macd']:.8f}\n"
-        message += f"📉 BB Lower: ${data['bb_lower']:.8f}\n"
+        message += f"🔍 RSI: {data['rsi']:.1f}\n"
         message += f"🎚 Stoch RSI: K={data['stoch_rsi_k']:.2f}, D={data['stoch_rsi_d']:.2f}"
         ACTIVE_BUYS[pair] = {'price': current_price, 'time': datetime.now()}
 
@@ -216,12 +205,16 @@ def send_telegram_alert(signal_type, pair, current_price, data, buy_price=None):
             
             message = f"{base_msg}▫️ Entry: ${entry['price']:.8f}\n"
             message += f"▫️ P/L: {profit:+.2f}%\n"
-            message += f"📈 BB Upper: ${data['bb_upper']:.8f}\n"
             message += f"🕒 Durasi: {duration}\n"
             message += f"🎚 Stoch RSI: K={data['stoch_rsi_k']:.2f}, D={data['stoch_rsi_d']:.2f}"
 
             if signal_type in ['STOP LOSS', 'SELL']:
                 del ACTIVE_BUYS[pair]
+
+    # Tambahkan link ke Binance yang tersembunyi
+    pair_url = f"https://www.binance.com/en/trade/{pair}?type=spot"
+    escaped_url = pair_url.replace('.', '\\.')  # Escape titik agar valid di MarkdownV2
+    message += f"\n\n🔗 [Trade di Binance]({escaped_url})"
 
     print(f"📢 Mengirim alert: {message}")
 
@@ -232,7 +225,7 @@ def send_telegram_alert(signal_type, pair, current_price, data, buy_price=None):
 
     requests.post(
         f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage",
-        json={'chat_id': TELEGRAM_CHAT_ID, 'text': message, 'parse_mode': 'Markdown'}
+        json={'chat_id': TELEGRAM_CHAT_ID, 'text': message, 'parse_mode': 'MarkdownV2'}
     )
 
 # ==============================
@@ -252,7 +245,6 @@ def main():
             display_pair = f"{pair[:-4]}/USDT"
             print(f"\n📈 {display_pair}:")
             print(f"Support: {data['support']:.8f} | Resistance: {data['resistance']:.8f}")
-            print(f"BB: {data['bb_lower']:.8f} - {data['bb_upper']:.8f}")
             print(f"Stoch RSI: K={data['stoch_rsi_k']:.2f}, D={data['stoch_rsi_d']:.2f}")
             
             signal, price = generate_signal(pair, data)
