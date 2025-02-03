@@ -68,7 +68,7 @@ def calculate_fibonacci_levels(high, low):
     }
 
 # ==============================
-# FUNGSI ANALISIS TEKNIKAL (REVISI)
+# FUNGSI ANALISIS TEKNIKAL
 # ==============================
 def analyze_pair(symbol):
     try:
@@ -93,8 +93,8 @@ def analyze_pair(symbol):
             'rsi': analysis.indicators.get('RSI', 0),
             'macd': analysis.indicators.get('MACD.macd', 0),
             'signal': analysis.indicators.get('MACD.signal', 0),
-            'support': fibonacci_levels['level_61_8'],  # Support berdasarkan level Fibonacci
-            'resistance': fibonacci_levels['level_23_6'],  # Resistance berdasarkan level Fibonacci
+            'support': fibonacci_levels['level_61_8'],
+            'resistance': fibonacci_levels['level_23_6'],
             'price': analysis.indicators.get('close', 0),
             'volume': analysis.indicators.get('volume', 0),
             'adx': analysis.indicators.get('ADX', 0)
@@ -105,7 +105,7 @@ def analyze_pair(symbol):
         return None
 
 # ==============================
-# FUNGSI PENGHITUNGAN SKOR SINYAL (REVISI)
+# FUNGSI PENGHITUNGAN SKOR SINYAL
 # ==============================
 def calculate_scores(data):
     """Hitung score BUY dan SELL berdasarkan indikator"""
@@ -131,7 +131,7 @@ def calculate_scores(data):
     return buy_score, sell_score
 
 # ==============================
-# FUNGSI MENYIMPAN DATA KE FILE JSON (REVISI)
+# FUNGSI MENYIMPAN DATA KE FILE JSON
 # ==============================
 def save_active_buys_to_json():
     """Simpan data ACTIVE_BUYS ke dalam file JSON"""
@@ -142,7 +142,6 @@ def save_active_buys_to_json():
     except Exception as e:
         print(f"❌ Gagal menyimpan JSON: {str(e)}")
 
-
 # ==============================
 # FUNGSI GENERATOR SINYAL
 # ==============================
@@ -150,7 +149,7 @@ def generate_signal(pair, data):
     current_price = data['price']
     buy_score, sell_score = calculate_scores(data)
 
-    print(f"{pair} - Price: {current_price:.4f} | Buy Score: {buy_score}/6 | Sell Score: {sell_score}/5")
+    print(f"{pair} - Price: {current_price:.8f} | Buy Score: {buy_score}/6 | Sell Score: {sell_score}/5")
 
     buy_signal = buy_score >= BUY_SCORE_THRESHOLD and pair not in ACTIVE_BUYS
     sell_signal = sell_score >= SELL_SCORE_THRESHOLD and pair in ACTIVE_BUYS
@@ -182,13 +181,13 @@ def send_telegram_alert(signal_type, pair, current_price, data, buy_price=None):
     }.get(signal_type, 'ℹ️')
 
     base_msg = f"{emoji} **{signal_type} {pair}**\n"
-    base_msg += f"▫️ Price: ${current_price:.4f}\n"
+    base_msg += f"▫️ Price: ${current_price:.8f}\n"
     base_msg += f"📊 Buy Score: {buy_score}/6 | Sell Score: {sell_score}/5\n"
 
     if signal_type == 'BUY':
-        message = f"{base_msg}▫️ Support: ${data['support']:.2f}\n"
-        message += f"▫️ Resistance: ${data['resistance']:.2f}\n"
-        message += f"🔍 RSI: {data['rsi']:.1f} | MACD: {data['macd']:.4f}"
+        message = f"{base_msg}▫️ Support: ${data['support']:.8f}\n"
+        message += f"▫️ Resistance: ${data['resistance']:.8f}\n"
+        message += f"🔍 RSI: {data['rsi']:.1f} | MACD: {data['macd']:.8f}"
         ACTIVE_BUYS[pair] = {'price': current_price, 'time': datetime.now()}
 
     elif signal_type in ['TAKE PROFIT', 'STOP LOSS', 'SELL']:
@@ -196,7 +195,7 @@ def send_telegram_alert(signal_type, pair, current_price, data, buy_price=None):
         profit = ((current_price - buy_data['price'])/buy_data['price'])*100
         duration = str(datetime.now() - buy_data['time']).split('.')[0]
         
-        message = f"{base_msg}▫️ Entry Price: ${buy_data['price']:.4f}\n"
+        message = f"{base_msg}▫️ Entry Price: ${buy_data['price']:.8f}\n"
         message += f"▫️ {'Profit' if profit > 0 else 'Loss'}: {profit:.2f}%\n"
         message += f"🕒 Hold Duration: {duration}"
 
@@ -207,7 +206,6 @@ def send_telegram_alert(signal_type, pair, current_price, data, buy_price=None):
 
     try:
         save_active_buys_to_json()
-        commit_and_push_changes()
     except Exception as e:
         print(f"❌ Gagal menyimpan/commit: {str(e)}")
 
@@ -233,8 +231,8 @@ def main():
                 continue
 
             print(f"\n🔎 {formatted_pair} Analysis:")
-            print(f"Support: {data['support']} | Resistance: {data['resistance']}")
-            print(f"RSI: {data['rsi']} | MACD: {data['macd']:.4f}")
+            print(f"Support: {data['support']:.8f} | Resistance: {data['resistance']:.8f}")
+            print(f"RSI: {data['rsi']:.1f} | MACD: {data['macd']:.8f}")
             
             signal, price = generate_signal(pair, data)
             if signal:
