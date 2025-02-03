@@ -10,21 +10,45 @@ import json
 TELEGRAM_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN')
 TELEGRAM_CHAT_ID = os.getenv('TELEGRAM_CHAT_ID')
 ACTIVE_BUYS = {}
-BUY_SCORE_THRESHOLD = 5  # 7 kondisi dengan Bollinger Bands
-SELL_SCORE_THRESHOLD = 4  # 6 kondisi dengan Bollinger Bands
+BUY_SCORE_THRESHOLD = 5
+SELL_SCORE_THRESHOLD = 4
 FILE_PATH = 'active_buys.json'
 
-# Inisialisasi file JSON
+# Inisialisasi file JSON dengan handling datetime
 if not os.path.exists(FILE_PATH):
     with open(FILE_PATH, 'w') as f:
         json.dump({}, f)
 else:
     with open(FILE_PATH, 'r') as f:
-        ACTIVE_BUYS = json.load(f)
+        loaded = json.load(f)
+        ACTIVE_BUYS = {
+            pair: {
+                'price': data['price'],
+                'time': datetime.fromisoformat(data['time'])
+            } 
+            for pair, data in loaded.items()
+        }
 
 # ==============================
-# FUNGSI UTAMA
+# FUNGSI UTILITAS
 # ==============================
+def save_active_buys_to_json():
+    """Simpan data dengan konversi datetime ke string"""
+    try:
+        to_save = {}
+        for pair, data in ACTIVE_BUYS.items():
+            to_save[pair] = {
+                'price': data['price'],
+                'time': data['time'].isoformat()
+            }
+            
+        with open(FILE_PATH, 'w') as f:
+            json.dump(to_save, f, indent=4)
+            
+        print("✅ Berhasil menyimpan active_buys.json")
+    except Exception as e:
+        print(f"❌ Gagal menyimpan: {str(e)}")
+
 def get_binance_top_pairs():
     """Ambil 50 pair teratas berdasarkan volume trading"""
     url = "https://api.coingecko.com/api/v3/exchanges/binance/tickers"
@@ -54,6 +78,9 @@ def calculate_fibonacci_levels(high, low):
         'level_78_6': high - 0.786 * diff
     }
 
+# ==============================
+# FUNGSI ANALISIS
+# ==============================
 def analyze_pair(symbol):
     """Analisis teknikal dengan Fibonacci dan Bollinger Bands"""
     try:
@@ -105,7 +132,7 @@ def calculate_scores(data):
         data['adx'] > 25,
         price > data['resistance'] * 0.99,
         data['volume'] > 1e6,
-        price < data['bb_lower']  # Kondisi Bollinger Bands
+        price < data['bb_lower']
     ]
     
     sell_conditions = [
@@ -114,11 +141,14 @@ def calculate_scores(data):
         data['macd'] < data['signal'],
         data['adx'] < 20,
         price < data['support'],
-        price > data['bb_upper']  # Kondisi Bollinger Bands
+        price > data['bb_upper']
     ]
     
     return sum(buy_conditions), sum(sell_conditions)
 
+# ==============================
+# FUNGSI TRADING
+# ==============================
 def generate_signal(pair, data):
     """Generate trading signal"""
     price = data['price']
@@ -168,24 +198,23 @@ def send_telegram_alert(signal_type, pair, current_price, data, buy_price=None):
         ACTIVE_BUYS[pair] = {'price': current_price, 'time': datetime.now()}
 
     elif signal_type in ['TAKE PROFIT', 'STOP LOSS', 'SELL']:
-        entry = ACTIVE_BUYS.get(pair, {'price': buy_price, 'time': datetime.now()})
-        profit = ((current_price - entry['price'])/entry['price'])*100
-        duration = str(datetime.now() - entry['time']).split('.')[0]
-        
-        message = f"{base_msg}▫️ Entry: ${entry['price']:.8f}\n"
-        message += f"▫️ P/L: {profit:+.2f}%\n"
-        message += f"📈 BB Upper: ${data['bb_upper']:.8f}\n"
-        message += f"🕒 Durasi: {duration}"
+        entry = ACTIVE_BUYS.get(pair)
+        if entry:
+            profit = ((current_price - entry['price'])/entry['price'])*100
+            duration = str(datetime.now() - entry['time']).split('.')[0]
+            
+            message = f"{base_msg}▫️ Entry: ${entry['price']:.8f}\n"
+            message += f"▫️ P/L: {profit:+.2f}%\n"
+            message += f"📈 BB Upper: ${data['bb_upper']:.8f}\n"
+            message += f"🕒 Durasi: {duration}"
 
-        if signal_type in ['STOP LOSS', 'SELL']:
-            del ACTIVE_BUYS[pair]
+            if signal_type in ['STOP LOSS', 'SELL']:
+                del ACTIVE_BUYS[pair]
 
     print(f"📢 Mengirim alert: {message}")
 
-    # Simpan dan kirim
     try:
-        with open(FILE_PATH, 'w') as f:
-            json.dump(ACTIVE_BUYS, f, indent=4)
+        save_active_buys_to_json()
     except Exception as e:
         print(f"❌ Gagal menyimpan: {str(e)}")
 
@@ -194,6 +223,9 @@ def send_telegram_alert(signal_type, pair, current_price, data, buy_price=None):
         json={'chat_id': TELEGRAM_CHAT_ID, 'text': message, 'parse_mode': 'Markdown'}
     )
 
+# ==============================
+# FUNGSI UTAMA
+# ==============================
 def main():
     """Program utama"""
     pairs = get_binance_top_pairs()
