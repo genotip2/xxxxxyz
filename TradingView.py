@@ -94,10 +94,6 @@ def analyze_pair(symbol):
         analysis = handler.get_analysis()
         indicators = analysis.indicators
 
-        # Bollinger Bands
-        bb_upper = indicators.get('BB.upper')
-        bb_lower = indicators.get('BB.lower')
-
         # Fibonacci Levels
         high = indicators.get('high')
         low = indicators.get('low')
@@ -111,11 +107,11 @@ def analyze_pair(symbol):
             'signal': indicators.get('MACD.signal'),
             'adx': indicators.get('ADX'),
             'volume': indicators.get('volume'),
-            'sma_50': indicators['SMA50'],
+            'sma_50': indicators.get['SMA50'],
             'support': fib['level_61_8'],
             'resistance': fib['level_23_6'],
-            'bb_upper': bb_upper,
-            'bb_lower': bb_lower
+            'bb_upper': indicators.get('BB.upper'),
+            'bb_lower': indicators.get('BB.lower')
         }
         
     except Exception as e:
