@@ -138,7 +138,7 @@ def calculate_scores(data):
         data['adx'] > 25,
         price > data['resistance'] * 0.99,
         data['volume'] > 1e6,
-        price < data['bb_lower']
+        price < data['bb_lower'],
         data['stoch_rsi_k'] > data['stoch_rsi_d'],         # Bullish crossover
         data['stoch_rsi_k'] < 20                           # Oversold
     ]
@@ -149,7 +149,7 @@ def calculate_scores(data):
         data['macd'] < data['signal'],
         data['adx'] < 20,
         price < data['support'],
-        price > data['bb_upper']
+        price > data['bb_upper'],
         data['stoch_rsi_k'] < data['stoch_rsi_d'],         # Bearish crossover
         data['stoch_rsi_k'] > 80                           # Overbought
     ]
