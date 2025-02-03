@@ -1,7 +1,5 @@
 import os
 import requests
-fromimport os
-import requests
 from tradingview_ta import TA_Handler, Interval
 from datetime import datetime, timedelta
 import json
