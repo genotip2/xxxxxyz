@@ -236,10 +236,10 @@ def main():
             print(f"Support: {data['support']:.8f} | Resistance: {data['resistance']:.8f}")
             print(f"BB: {data['bb_lower']:.8f} - {data['bb_upper']:.8f}")
             
-            signal, price = generate_signal(pair, data)
+            signal, price, recommendation = generate_signal(pair, data)
             if signal:
-                send_telegram_alert(signal, pair, data['price'], data, price)
-                
+               send_telegram_alert(signal, pair, data['price'], data, price, recommendation)
+    
             # Auto close position
             if pair in ACTIVE_BUYS:
                 position = ACTIVE_BUYS[pair]
