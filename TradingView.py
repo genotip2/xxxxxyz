@@ -107,7 +107,6 @@ def analyze_pair(symbol):
             'signal': indicators.get('MACD.signal'),
             'adx': indicators.get('ADX'),
             'volume': indicators.get('volume'),
-            'sma_50': indicators['SMA50'],
             'support': fib['level_61_8'],
             'resistance': fib['level_23_6'],
             'bb_upper': indicators.get('BB.upper'),
@@ -154,7 +153,7 @@ def generate_signal(pair, data):
 
     print(f"{display_pair} - Price: {price:.8f} | Buy: {buy_score}/7 | Sell: {sell_score}/6")
 
-    buy_signal = buy_score >= BUY_SCORE_THRESHOLD and pair not in ACTIVE_BUYS and price > data['sma_50']
+    buy_signal = buy_score >= BUY_SCORE_THRESHOLD and pair not in ACTIVE_BUYS
     sell_signal = sell_score >= SELL_SCORE_THRESHOLD and pair in ACTIVE_BUYS
     take_profit = pair in ACTIVE_BUYS and price > ACTIVE_BUYS[pair]['price'] * 1.05
     stop_loss = pair in ACTIVE_BUYS and price < ACTIVE_BUYS[pair]['price'] * 0.98
