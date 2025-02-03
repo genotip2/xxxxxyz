@@ -97,6 +97,15 @@ def analyze_pair(symbol):
             exchange="BINANCE",
             screener="CRYPTO",
             interval=Interval.INTERVAL_4_HOURS
+
+            indicators={
+              'Stochastic RSI': ['K', 'D'],  # Memastikan Stoch RSI dihitung
+              'RSI': 14,                     # Konfigurasi default RSI
+              'MACD': (12,26,9),             # Konfigurasi default MACD
+              'ADX': 14,
+              'SMA50': 50,
+              'BB': (20,2)
+            }
         )
         
         analysis = handler.get_analysis()
