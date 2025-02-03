@@ -120,7 +120,7 @@ def analyze_pair(symbol):
             'macd': indicators['MACD.macd'],
             'signal': indicators['MACD.signal'],
             'adx': indicators.get('ADX', 0),
-            'volume': indicators.get('', 0),
+            'volume': indicators.get('volume', 0),
             'support': fib['level_61_8'],
             'resistance': fib['level_23_6'],
             'bb_upper': indicators.get('BB.upper'),
