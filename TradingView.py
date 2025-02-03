@@ -185,7 +185,7 @@ def send_telegram_alert(signal_type, pair, current_price, data, buy_price=None, 
     base_msg = f"{emoji} **{signal_type} {display_pair}**\n"
     base_msg += f"▫️ Price: ${current_price:.8f}\n"
     base_msg += f"📊 Score: BUY {buy_score}/7 | SELL {sell_score}/6\n"
-    base_msg += f"📢 TV: *{recommendation}*\n"
+    base_msg += f"📢 Rekomendasi TradinView: *{recommendation}*\n"
 
     if signal_type == 'BUY':
         message = f"{base_msg}▫️ Support: ${data['support']:.8f}\n"
