@@ -169,7 +169,7 @@ def generate_signal(pair, data):
     
     return None, None
 
-def send_telegram_alert(signal_type, pair, current_price, data, buy_price=None):
+def send_telegram_alert(signal_type, pair, current_price, data, buy_price=None, recommendation=""):
     """Kirim notifikasi ke Telegram"""
     display_pair = f"{pair[:-4]}/USDT"
     message = ""
@@ -185,6 +185,7 @@ def send_telegram_alert(signal_type, pair, current_price, data, buy_price=None):
     base_msg = f"{emoji} **{signal_type} {display_pair}**\n"
     base_msg += f"▫️ Price: ${current_price:.8f}\n"
     base_msg += f"📊 Score: BUY {buy_score}/7 | SELL {sell_score}/6\n"
+    base_msg += f"📢 TV: *{recommendation}*\n"
 
     if signal_type == 'BUY':
         message = f"{base_msg}▫️ Support: ${data['support']:.8f}\n"
@@ -216,7 +217,6 @@ def send_telegram_alert(signal_type, pair, current_price, data, buy_price=None):
         f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage",
         json={'chat_id': TELEGRAM_CHAT_ID, 'text': message, 'parse_mode': 'Markdown'}
     )
-
 # ==============================
 # FUNGSI UTAMA
 # ==============================
