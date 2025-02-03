@@ -251,10 +251,6 @@ def send_telegram_alert(signal_type, pair, current_price, data, buy_price=None):
         json={'chat_id': TELEGRAM_CHAT_ID, 'text': message, 'parse_mode': 'MarkdownV2'}
     )
 
-    try:
-        save_active_buys_to_json()
-    except Exception as e:
-        print(f"❌ Gagal menyimpan: {str(e)}")
 # ==============================
 # FUNGSI UTAMA
 # ==============================
