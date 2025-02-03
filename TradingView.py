@@ -197,59 +197,6 @@ def generate_signal(pair, data):
 # NOTIFIKASI TELEGRAM
 # ==============================
 def send_telegram_alert(signal_type, pair, current_price, data, buy_price=None):
-    """Kirim notifikasi format MarkdownV2 dengan escape karakter"""
-    try:
-        # Escape karakter khusus
-        display_pair = escape_markdown(f"{pair[:-4]}/USDT")
-        current_price_escaped = escape_markdown(f"{current_price:.8f}")
-        
-        emoji = {
-            'BUY': '🚀', 
-            'SELL': '⚠️', 
-            'TAKE PROFIT': '✅', 
-            'STOP LOSS': '🛑'
-        }.get(signal_type, 'ℹ️')
-
-        base_msg = f"{emoji} *{signal_type} {display_pair}*\n"
-        base_msg += f"▫️ Price: `${current_price_escaped}`\n"
-        
-        buy_score, sell_score = calculate_scores(data)
-        base_msg += f"📊 Score: BUY {buy_score}/9 | SELL {sell_score}/8\n"
-
-        if signal_type == 'BUY':
-            support = escape_markdown(f"{data['support']:.8f}")
-            resistance = escape_markdown(f"{data['resistance']:.8f}")
-            message = (
-                f"{base_msg}▫️ Support: `${support}`\n"
-                f"▫️ Resistance: `${resistance}`\n"
-                f"🔍 RSI: {data['rsi']:.1f}\n"
-                f"🎚 Stoch RSI: K={data['stoch_rsi_k']:.2f}, D={data['stoch_rsi_d']:.2f}"
-            )
-            ACTIVE_BUYS[pair] = {'price': current_price, 'time': datetime.now()}
-
-        elif signal_type in ['TAKE PROFIT']:
-            entry = ACTIVE_BUYS.get(pair)
-            if entry:
-                profit = ((current_price - entry['price'])/entry['price'])*100
-                duration = str(datetime.now() - entry['time']).split('.')[0]
-                entry_price = escape_markdown(f"{entry['price']:.8f}")
-                
-                message = (
-                    f"{base_msg}▫️ Entry: `${entry_price}`\n"
-                    f"▫️ P/L: {profit:+.2f}%\n"
-                    f"🕒 Durasi: {escape_markdown(duration)}\n"
-                    f"🎚 Stoch RSI: K={data['stoch_rsi_k']:.2f}, D={data['stoch_rsi_d']:.2f}"
-                )
-
-        elif signal_type in ['STOP LOSS', 'SELL']:
-            entry = ACTIVE_BUYS.get(pair)
-            if entry:
-                profit = ((current_price - entry['price'])/entry['price'])*100
-                duration = str(datetime.now() - entry['time']).split('.')[0]
-                entry_price = escape_markdown(f"{entry['price']:.8f}")
-                
-                message = (
-def send_telegram_alert(signal_type, pair, current_price, data, buy_price=None):
     """Kirim notifikasi ke Telegram"""
     display_pair = f"{pair[:-4]}/USDT"
     message = ""
@@ -293,6 +240,17 @@ def send_telegram_alert(signal_type, pair, current_price, data, buy_price=None):
     message += f"\n\n🔗 [Trade di Binance]({escaped_url})"
 
     print(f"📢 Mengirim alert: {message}")
+
+    try:
+        save_active_buys_to_json()
+    except Exception as e:
+        print(f"❌ Gagal menyimpan: {str(e)}")
+
+    requests.post(
+        f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage",
+        json={'chat_id': TELEGRAM_CHAT_ID, 'text': message, 'parse_mode': 'MarkdownV2'}
+    )
+    
 
     try:
         save_active_buys_to_json()
