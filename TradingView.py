@@ -120,13 +120,13 @@ def analyze_pair(symbol):
             'macd': indicators['MACD.macd'],
             'signal': indicators['MACD.signal'],
             'adx': indicators.get('ADX', 0),
-            'volume': indicators.get('volume', 0),
+            'volume': indicators.get('', 0),
             'support': fib['level_61_8'],
             'resistance': fib['level_23_6'],
             'bb_upper': indicators.get('BB.upper'),
             'bb_lower': indicators.get('BB.lower'),
-            'stoch_rsi_k': indicators.get('Stoch.RSI.K'),
-            'stoch_rsi_d': indicators.get('Stoch.RSI.D')
+            'stoch_rsi_k': indicators.get('Stoch.RSI.K', 50),
+            'stoch_rsi_d': indicators.get('Stoch.RSI.D', 50)
         }
         
     except Exception as e:
