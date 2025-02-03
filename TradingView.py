@@ -103,12 +103,9 @@ def analyze_pair(symbol):
         indicators = analysis.indicators
 
         # Validasi data penting
-        required_fields = ['close', 'high', 'low', 'RSI', 'MACD.macd', 'MACD.signal', 'Stoch.RSI.K', 'Stoch.RSI.D']
+        required_fields = ['close', 'high', 'low', 'RSI', 'MACD.macd', 'MACD.signal']
         if any(ind not in indicators for ind in required_fields):
             print(f"⚠️ Data indikator tidak lengkap untuk {symbol}")
-            print("Keys:", indicators.keys())  # Tampilkan semua key indikator
-            print("Stoch RSI K:", indicators.get('Stoch.RSI.K'))
-            print("Stoch RSI D:", indicators.get('Stoch.RSI.D'))
             return None
 
         fib = calculate_fibonacci_levels(
@@ -129,8 +126,8 @@ def analyze_pair(symbol):
             'resistance': fib['level_23_6'],
             'bb_upper': indicators.get('BB.upper'),
             'bb_lower': indicators.get('BB.lower'),
-            'stoch_rsi_k': indicators.get('Stoch.RSI.K'),
-            'stoch_rsi_d': indicators.get('Stoch.RSI.D')
+            'stoch_rsi_k': indicators.get('Stoch.RSI.K', 50),
+            'stoch_rsi_d': indicators.get('Stoch.RSI.D', 50)
         }
         
     except Exception as e:
