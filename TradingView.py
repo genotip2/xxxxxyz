@@ -125,8 +125,8 @@ def analyze_pair(symbol):
             'resistance': fib['level_23_6'],
             'bb_upper': indicators.get('BB.upper'),
             'bb_lower': indicators.get('BB.lower'),
-            'stoch_rsi_k': indicators.get('Stoch.RSI.K', 50),
-            'stoch_rsi_d': indicators.get('Stoch.RSI.D', 50)
+            'stoch_rsi_k': indicators.get('Stoch.RSI.K'),
+            'stoch_rsi_d': indicators.get('Stoch.RSI.D')
         }
         
     except Exception as e:
