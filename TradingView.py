@@ -88,7 +88,7 @@ def analyze_pair(symbol):
             symbol=symbol,
             exchange="BINANCE",
             screener="CRYPTO",
-            interval=Interval.INTERVAL_4_HOURS
+            interval=Interval.INTERVAL_1_HOURS
         )
         
         analysis = handler.get_analysis()
@@ -193,8 +193,7 @@ def send_telegram_alert(signal_type, pair, current_price, data, buy_price=None):
     if signal_type == 'BUY':
         message = f"{base_msg}▫️ Support: ${data['support']:.8f}\n"
         message += f"▫️ Resistance: ${data['resistance']:.8f}\n"
-        message += f"🔍 RSI: {data['rsi']:.1f} | MACD: {data['macd']:.8f}\n"
-        message += f"📉 BB Lower: ${data['bb_lower']:.8f}"
+        message += f"🔍 RSI: {data['rsi']:.1f}"
         ACTIVE_BUYS[pair] = {'price': current_price, 'time': datetime.now()}
 
     elif signal_type in ['TAKE PROFIT', 'STOP LOSS', 'SELL']:
@@ -205,7 +204,6 @@ def send_telegram_alert(signal_type, pair, current_price, data, buy_price=None):
             
             message = f"{base_msg}▫️ Entry: ${entry['price']:.8f}\n"
             message += f"▫️ P/L: {profit:+.2f}%\n"
-            message += f"📈 BB Upper: ${data['bb_upper']:.8f}\n"
             message += f"🕒 Durasi: {duration}"
 
             if signal_type in ['STOP LOSS', 'SELL']:
