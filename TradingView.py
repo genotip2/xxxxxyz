@@ -216,7 +216,7 @@ def send_telegram_alert(signal_type, pair, current_price, data, buy_price=None):
         message = f"{base_msg}▫️ Support: ${data['support']:.8f}\n"
         message += f"▫️ Resistance: ${data['resistance']:.8f}\n"
         message += f"🔍 RSI: {data['rsi']:.1f}\n"
-        message += f"🎚 Stoch RSI: K={data['stoch_rsi_k']:.2f}, D={data['stoch_rsi_d']:.2f}"
+        message += f"🎚 Stoch RSI: K={data['stoch_rsi_k']:.2f}, D={data['stoch_rsi_d']:.2f}\n"
         message += f"🔗 [Trade di Binance]({binance_web_link})"
         ACTIVE_BUYS[pair] = {'price': current_price, 'time': datetime.now()}
 
