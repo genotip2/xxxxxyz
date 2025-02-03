@@ -218,7 +218,7 @@ def send_telegram_alert(signal_type, pair, current_price, data, buy_price=None):
         message += f"▫️ Resistance: ${data['resistance']:.8f}\n"
         message += f"🔍 RSI: {data['rsi']:.1f}\n"
         message += f"🎚 Stoch RSI: K={data['stoch_rsi_k']:.2f}, D={data['stoch_rsi_d']:.2f}\n"
-        message += f"🔗 [Trade di Binance]({binance_app_link})"
+        message += f"🔗 [Trade di Binance]({binance_web_link})"
         ACTIVE_BUYS[pair] = {'price': current_price, 'time': datetime.now()}
 
     elif signal_type in ['TAKE PROFIT', 'STOP LOSS', 'SELL']:
@@ -230,7 +230,7 @@ def send_telegram_alert(signal_type, pair, current_price, data, buy_price=None):
             message = f"{base_msg}▫️ Entry: ${entry['price']:.8f}\n"
             message += f"▫️ P/L: {profit:+.2f}%\n"
             message += f"🕒 Durasi: {duration}\n"
-            message += f"🔗 [Trade di Binance]({binance_app_link})"
+            message += f"🔗 [Trade di Binance]({binance_web_link})"
 
             if signal_type in ['STOP LOSS', 'SELL']:
                 del ACTIVE_BUYS[pair]
