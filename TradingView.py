@@ -151,7 +151,7 @@ def generate_signal(pair, data):
     buy_score, sell_score = calculate_scores(data)
     display_pair = f"{pair[:-4]}/USDT"
 
-    print(f"{display_pair} - Price: {price:.8f} | Buy: {buy_score}/7 | Sell: {sell_score}/6")
+    print(f"{display_pair} - Price: {price:.8f} | Buy: {buy_score}/7 | Sell: {sell_score}/6 | TV: {data['recommendation']}")
 
     buy_signal = buy_score >= BUY_SCORE_THRESHOLD and pair not in ACTIVE_BUYS
     sell_signal = sell_score >= SELL_SCORE_THRESHOLD and pair in ACTIVE_BUYS
@@ -159,15 +159,15 @@ def generate_signal(pair, data):
     stop_loss = pair in ACTIVE_BUYS and price < ACTIVE_BUYS[pair]['price'] * 0.98
 
     if buy_signal:
-        return 'BUY', price
+        return 'BUY', price, data['recommendation']
     elif take_profit:
-        return 'TAKE PROFIT', price
+        return 'TAKE PROFIT', price, data['recommendation']
     elif stop_loss:
-        return 'STOP LOSS', price
+        return 'STOP LOSS', price, data['recommendation']
     elif sell_signal:
-        return 'SELL', ACTIVE_BUYS[pair]['price']
+        return 'SELL', ACTIVE_BUYS[pair]['price'], data['recommendation']
     
-    return None, None
+    return None, None, data['recommendation']
 
 def send_telegram_alert(signal_type, pair, current_price, data, buy_price=None, recommendation=""):
     """Kirim notifikasi ke Telegram"""
