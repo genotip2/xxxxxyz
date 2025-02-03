@@ -82,7 +82,7 @@ def calculate_fibonacci_levels(high, low):
 # FUNGSI ANALISIS
 # ==============================
 def analyze_pair(symbol):
-    """Analisis teknikal dengan Fibonacci, Bollinger Bands, dan Stochastic RSI"""
+    """Analisis teknikal dengan Fibonacci dan Bollinger Bands"""
     try:
         handler = TA_Handler(
             symbol=symbol,
@@ -94,25 +94,27 @@ def analyze_pair(symbol):
         analysis = handler.get_analysis()
         indicators = analysis.indicators
 
+        # Bollinger Bands
+        bb_upper = indicators.get('BB.upper')
+        bb_lower = indicators.get('BB.lower')
+
         # Fibonacci Levels
         high = indicators.get('high')
         low = indicators.get('low')
         fib = calculate_fibonacci_levels(high, low)
         
-        # Stochastic RSI
-        stoch_rsi_k = indicators.get('Stoch.RSI.K')
-        stoch_rsi_d = indicators.get('Stoch.RSI.D')
-        
         return {
             'recommendation': analysis.summary['RECOMMENDATION'],
             'price': indicators.get('close'),
             'rsi': indicators.get('RSI'),
+            'macd': indicators.get('MACD.macd'),
+            'signal': indicators.get('MACD.signal'),
             'adx': indicators.get('ADX'),
             'volume': indicators.get('volume'),
             'support': fib['level_61_8'],
             'resistance': fib['level_23_6'],
-            'stoch_rsi_k': stoch_rsi_k,
-            'stoch_rsi_d': stoch_rsi_d
+            'bb_upper': bb_upper,
+            'bb_lower': bb_lower
         }
         
     except Exception as e:
@@ -120,28 +122,26 @@ def analyze_pair(symbol):
         return None
 
 def calculate_scores(data):
-    """Hitung skor trading dengan Stochastic RSI"""
+    """Hitung skor trading dengan Bollinger Bands"""
     price = data['price']
     
     buy_conditions = [
         "BUY" in data['recommendation'],
         data['rsi'] < 60,
+        data['macd'] > data['signal'],
         data['adx'] > 25,
         price > data['resistance'] * 0.99,
         data['volume'] > 1e6,
-        price < data['support'],
-        data['stoch_rsi_k'] > data['stoch_rsi_d'],  # Bullish crossover
-        data['stoch_rsi_k'] < 20                    # Oversold
+        price < data['bb_lower']
     ]
     
     sell_conditions = [
         "SELL" in data['recommendation'],
         data['rsi'] > 65,
+        data['macd'] < data['signal'],
         data['adx'] < 20,
         price < data['support'],
-        price > data['resistance'],
-        data['stoch_rsi_k'] < data['stoch_rsi_d'],  # Bearish crossover
-        data['stoch_rsi_k'] > 80                    # Overbought
+        price > data['bb_upper']
     ]
     
     return sum(buy_conditions), sum(sell_conditions)
@@ -155,7 +155,7 @@ def generate_signal(pair, data):
     buy_score, sell_score = calculate_scores(data)
     display_pair = f"{pair[:-4]}/USDT"
 
-    print(f"{display_pair} - Price: {price:.8f} | Buy: {buy_score}/9 | Sell: {sell_score}/8")
+    print(f"{display_pair} - Price: {price:.8f} | Buy: {buy_score}/7 | Sell: {sell_score}/6")
 
     buy_signal = buy_score >= BUY_SCORE_THRESHOLD and pair not in ACTIVE_BUYS
     sell_signal = sell_score >= SELL_SCORE_THRESHOLD and pair in ACTIVE_BUYS
@@ -245,7 +245,7 @@ def main():
             display_pair = f"{pair[:-4]}/USDT"
             print(f"\n📈 {display_pair}:")
             print(f"Support: {data['support']:.8f} | Resistance: {data['resistance']:.8f}")
-            print(f"Stoch RSI: K={data['stoch_rsi_k']:.2f}, D={data['stoch_rsi_d']:.2f}")
+            print(f"BB: {data['bb_lower']:.8f} - {data['bb_upper']:.8f}")
             
             signal, price = generate_signal(pair, data)
             if signal:
