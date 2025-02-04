@@ -11,8 +11,8 @@ import subprocess
 TELEGRAM_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN')
 TELEGRAM_CHAT_ID = os.getenv('TELEGRAM_CHAT_ID')
 ACTIVE_BUYS = {}  # Menyimpan posisi BUY yang sedang aktif
-BUY_SCORE_THRESHOLD = 4
-SELL_SCORE_THRESHOLD = 3
+BUY_SCORE_THRESHOLD = 5
+SELL_SCORE_THRESHOLD = 4
 FILE_PATH = 'active_buys.json'
 
 # Inisialisasi file JSON dengan handling datetime
@@ -83,7 +83,7 @@ def analyze_pair(symbol):
             symbol=symbol,
             exchange="BINANCE",
             screener="CRYPTO",
-            interval=Interval.INTERVAL_4_HOURS
+            interval=Interval.INTERVAL_2_HOURS
         )
         
         analysis = handler.get_analysis()
