@@ -184,7 +184,7 @@ def generate_signal(pair, data):
 # FUNGSI KIRIM NOTIFIKASI TELEGRAM
 # ==============================
 def send_telegram_alert(signal_type, pair, current_price, data, buy_price=None):
-	display_pair = f"{pair[:-4]}/USDT"
+    display_pair = f"{pair[:-4]}/USDT"
     message = ""
     buy_score, sell_score = calculate_scores(data)
     emoji = {
