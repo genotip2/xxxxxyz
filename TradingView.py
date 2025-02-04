@@ -197,7 +197,7 @@ def send_telegram_alert(signal_type, pair, current_price, data, buy_price=None):
             duration = str(datetime.now() - entry['time']).split('.')[0]
             
             message = f"{base_msg}▫️ Entry: ${entry['price']:.8f}\n"
-            message += f"▫️ {'Profit' if profit > 0 else 'Loss'}: {profit:+.2f}%\n"
+            message += f"💰 {'Profit' if profit > 0 else 'Loss'}: {profit:+.2f}%\n"
             message += f"🕒 Hold Duration: {duration}"
 
             if signal_type in ['STOP LOSS', 'SELL']:
