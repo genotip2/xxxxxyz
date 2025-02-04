@@ -126,7 +126,7 @@ def calculate_scores(data):
         data['macd'] > data['signal'],
         data['adx'] > 25,
         current_price > data['resistance'] * 0.99 if data['resistance'] else False,
-        data['volume'] > 1e6
+        data['volume'] > 1e6,
         price < data['bb_lower']
     ])
     
@@ -135,7 +135,7 @@ def calculate_scores(data):
         data['rsi'] > 65,
         data['macd'] < data['signal'],
         data['adx'] < 20,
-        current_price < data['support'] if data['support'] else False
+        current_price < data['support'] if data['support'] else False,
         price > data['bb_upper']
     ])
     
