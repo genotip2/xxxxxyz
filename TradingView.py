@@ -184,7 +184,7 @@ def send_telegram_alert(signal_type, pair, current_price, data, buy_price=None):
 
     base_msg = f"{emoji} **{signal_type}**\n"
     base_msg += f"💱 {display_pair}\n"
-    base_msg += f"▫️ Price: ${current_price:.8f}\n"
+    base_msg += f"💲 Price: ${current_price:.8f}\n"
 
     if signal_type == 'BUY':
         message = f"🔍 RSI: {data['rsi']:.1f}"
@@ -196,7 +196,7 @@ def send_telegram_alert(signal_type, pair, current_price, data, buy_price=None):
             profit = ((current_price - entry['price'])/entry['price'])*100
             duration = str(datetime.now() - entry['time']).split('.')[0]
             
-            message = f"{base_msg}▫️ Entry: ${entry['price']:.8f}\n"
+            message = f"{base_msg}💲 Entry: ${entry['price']:.8f}\n"
             message += f"💰 {'Profit' if profit > 0 else 'Loss'}: {profit:+.2f}%\n"
             message += f"🕒 Hold Duration: {duration}"
 
