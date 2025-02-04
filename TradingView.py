@@ -184,11 +184,8 @@ def send_telegram_alert(signal_type, pair, current_price, data, buy_price=None):
 
     base_msg = f"{emoji} **{signal_type} {display_pair}**\n"
     base_msg += f"▫️ Price: ${current_price:.8f}\n"
-    base_msg += f"📊 Score: BUY {buy_score}/7 | SELL {sell_score}/6\n"
 
     if signal_type == 'BUY':
-        message = f"{base_msg}▫️ Support: ${data['support']:.8f}\n"
-        message += f"▫️ Resistance: ${data['resistance']:.8f}\n"
         message += f"🔍 RSI: {data['rsi']:.1f}"
         ACTIVE_BUYS[pair] = {'price': current_price, 'time': datetime.now()}
 
@@ -199,7 +196,7 @@ def send_telegram_alert(signal_type, pair, current_price, data, buy_price=None):
             duration = str(datetime.now() - entry['time']).split('.')[0]
             
             message = f"{base_msg}▫️ Entry: ${entry['price']:.8f}\n"
-            message += f"▫️ P/L: {profit:+.2f}%\n"
+            message += f"▫️ {'Profit' if profit > 0 else 'Loss'}: {profit:+.2f}%\n"
             message += f"🕒 Durasi: {duration}"
 
             if signal_type in ['STOP LOSS', 'SELL']:
