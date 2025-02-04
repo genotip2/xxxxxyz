@@ -123,7 +123,7 @@ def calculate_scores(data):
     
     buy_conditions = [
         "BUY" in data['recommendation'],
-        data['rsi'] < 60,
+        data['rsi'] < 30,
         data['macd'] > data['signal'],
         data['adx'] > 25,
         price > data['resistance'] * 0.99,
@@ -133,7 +133,7 @@ def calculate_scores(data):
     
     sell_conditions = [
         "SELL" in data['recommendation'],
-        data['rsi'] > 65,
+        data['rsi'] > 70,
         data['macd'] < data['signal'],
         data['adx'] < 20,
         price < data['support'],
