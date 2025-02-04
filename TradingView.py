@@ -127,7 +127,7 @@ def calculate_scores(data):
         data['adx'] > 25,
         current_price > data['resistance'] * 0.99 if data['resistance'] else False,
         data['volume'] > 1e6,
-        price < data['bb_lower']
+        current_price < data['bb_lower']
     ])
     
     sell_score = sum([
@@ -136,7 +136,7 @@ def calculate_scores(data):
         data['macd'] < data['signal'],
         data['adx'] < 20,
         current_price < data['support'] if data['support'] else False,
-        price > data['bb_upper']
+        current_price > data['bb_upper']
     ])
     
     return buy_score, sell_score
@@ -160,6 +160,7 @@ def save_active_buys_to_json():
 def generate_signal(pair, data):
     current_price = data['price']
     buy_score, sell_score = calculate_scores(data)
+    display_pair = f"{pair[:-4]}/USDT"
 
     print(f"{pair} - Price: {current_price:.4f} | Buy Score: {buy_score}/6 | Sell Score: {sell_score}/5")
 
@@ -183,6 +184,7 @@ def generate_signal(pair, data):
 # FUNGSI KIRIM NOTIFIKASI TELEGRAM
 # ==============================
 def send_telegram_alert(signal_type, pair, current_price, data, buy_price=None):
+	display_pair = f"{pair[:-4]}/USDT"
     message = ""
     buy_score, sell_score = calculate_scores(data)
     emoji = {
@@ -241,8 +243,9 @@ def main():
             
             if not data:
                 print(f"⚠️ Tidak ada data untuk {pair}")
-                continue
-
+                continue 
+               
+            display_pair = f"{pair[:-4]}/USDT"
             print(f"\n🔎 {formatted_pair} Analysis:")
             print(f"Support: {data['support']} | Resistance: {data['resistance']}")
             print(f"RSI: {data['rsi']} | MACD: {data['macd']:.4f}")
