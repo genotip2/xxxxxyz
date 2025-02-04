@@ -162,7 +162,7 @@ def generate_signal(pair, data):
     buy_score, sell_score = calculate_scores(data)
     display_pair = f"{pair[:-4]}/USDT"
 
-    print(f"{display_pair} - Price: {current_price:.4f} | Buy Score: {buy_score}/6 | Sell Score: {sell_score}/5")
+    print(f"{display_pair} - Price: {current_price:.8f} | Buy Score: {buy_score}/6 | Sell Score: {sell_score}/5")
 
     buy_signal = buy_score >= BUY_SCORE_THRESHOLD and pair not in ACTIVE_BUYS
     sell_signal = sell_score >= SELL_SCORE_THRESHOLD and pair in ACTIVE_BUYS
@@ -195,12 +195,12 @@ def send_telegram_alert(signal_type, pair, current_price, data, buy_price=None):
     }.get(signal_type, 'ℹ️')
 
     base_msg = f"{emoji} **{signal_type} {display_pair}**\n"
-    base_msg += f"▫️ Price: ${current_price:.4f}\n"
+    base_msg += f"▫️ Price: ${current_price:.8f}\n"
     base_msg += f"📊 Buy Score: {buy_score}/7 | Sell Score: {sell_score}/6\n"
 
     if signal_type == 'BUY':
-        message = f"{base_msg}▫️ Support: ${data['support']:.2f}\n"
-        message += f"▫️ Resistance: ${data['resistance']:.2f}\n"
+        message = f"{base_msg}▫️ Support: ${data['support']:.8f}\n"
+        message += f"▫️ Resistance: ${data['resistance']:.8f}\n"
         message += f"🔍 RSI: {data['rsi']:.1f}"
         ACTIVE_BUYS[pair] = {'price': current_price, 'time': datetime.now()}
 
@@ -209,7 +209,7 @@ def send_telegram_alert(signal_type, pair, current_price, data, buy_price=None):
         profit = ((current_price - buy_data['price'])/buy_data['price'])*100
         duration = str(datetime.now() - buy_data['time']).split('.')[0]
         
-        message = f"{base_msg}▫️ Entry Price: ${buy_data['price']:.4f}\n"
+        message = f"{base_msg}▫️ Entry Price: ${buy_data['price']:.8f}\n"
         message += f"▫️ {'Profit' if profit > 0 else 'Loss'}: {profit:.2f}%\n"
         message += f"🕒 Hold Duration: {duration}"
 
@@ -248,7 +248,7 @@ def main():
             display_pair = f"{pair[:-4]}/USDT"
             print(f"\n📈 {display_pair} Analysis:")
             print(f"Support: {data['support']} | Resistance: {data['resistance']}")
-            print(f"RSI: {data['rsi']} | MACD: {data['macd']:.4f}")
+            print(f"RSI: {data['rsi']} | MACD: {data['macd']:.8f}")
             
             signal, price = generate_signal(pair, data)
             if signal:
