@@ -182,7 +182,8 @@ def send_telegram_alert(signal_type, pair, current_price, data, buy_price=None):
         'STOP LOSS': '🛑'
     }.get(signal_type, 'ℹ️')
 
-    base_msg = f"{emoji} **{signal_type} {display_pair}**\n"
+    base_msg = f"{emoji} **{signal_type}**\n"
+    base_msg += f"{display_pair}\n"
     base_msg += f"▫️ Price: ${current_price:.8f}\n"
 
     if signal_type == 'BUY':
