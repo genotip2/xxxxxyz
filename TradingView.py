@@ -162,7 +162,7 @@ def generate_signal(pair, data):
     buy_score, sell_score = calculate_scores(data)
     display_pair = f"{pair[:-4]}/USDT"
 
-    print(f"{pair} - Price: {current_price:.4f} | Buy Score: {buy_score}/6 | Sell Score: {sell_score}/5")
+    print(f"{display_pair} - Price: {current_price:.4f} | Buy Score: {buy_score}/6 | Sell Score: {sell_score}/5")
 
     buy_signal = buy_score >= BUY_SCORE_THRESHOLD and pair not in ACTIVE_BUYS
     sell_signal = sell_score >= SELL_SCORE_THRESHOLD and pair in ACTIVE_BUYS
@@ -184,7 +184,7 @@ def generate_signal(pair, data):
 # FUNGSI KIRIM NOTIFIKASI TELEGRAM
 # ==============================
 def send_telegram_alert(signal_type, pair, current_price, data, buy_price=None):
-    display_pair = f"{pair[:-4]}/USDT"
+	display_pair = f"{pair[:-4]}/USDT"
     message = ""
     buy_score, sell_score = calculate_scores(data)
     emoji = {
@@ -194,7 +194,7 @@ def send_telegram_alert(signal_type, pair, current_price, data, buy_price=None):
         'STOP LOSS': '🛑'
     }.get(signal_type, 'ℹ️')
 
-    base_msg = f"{emoji} **{signal_type} {pair}**\n"
+    base_msg = f"{emoji} **{signal_type} {display_pair}**\n"
     base_msg += f"▫️ Price: ${current_price:.4f}\n"
     base_msg += f"📊 Buy Score: {buy_score}/7 | Sell Score: {sell_score}/6\n"
 
@@ -246,7 +246,7 @@ def main():
                 continue 
                
             display_pair = f"{pair[:-4]}/USDT"
-            print(f"\n🔎 {formatted_pair} Analysis:")
+            print(f"\n📈 {display_pair} Analysis:")
             print(f"Support: {data['support']} | Resistance: {data['resistance']}")
             print(f"RSI: {data['rsi']} | MACD: {data['macd']:.4f}")
             
