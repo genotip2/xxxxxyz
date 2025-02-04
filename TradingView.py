@@ -122,7 +122,7 @@ def calculate_scores(data):
     price = data['price']
     
     buy_conditions = [
-        "BUY" in data['recommendation'],
+        ("BUY" in data['recommendation'] or "STRONG_BUY" in data['recommendation']),
         data['rsi'] < 30,
         data['macd'] > data['signal'],
         data['adx'] > 25,
@@ -132,7 +132,7 @@ def calculate_scores(data):
     ]
     
     sell_conditions = [
-        "SELL" in data['recommendation'],
+        ("SELL" in data['recommendation'] or "STRONG_SELL" in data['recommendation']),
         data['rsi'] > 70,
         data['macd'] < data['signal'],
         data['adx'] < 20,
