@@ -220,7 +220,6 @@ def send_telegram_alert(signal_type, pair, current_price, data, buy_price=None):
 
     try:
         save_active_buys_to_json()
-        commit_and_push_changes()
     except Exception as e:
         print(f"❌ Gagal menyimpan/commit: {str(e)}")
 
