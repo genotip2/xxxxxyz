@@ -88,7 +88,7 @@ def analyze_pair(symbol):
             symbol=symbol,
             exchange="BINANCE",
             screener="CRYPTO",
-            interval=Interval.INTERVAL_15_MINUTES
+            interval=Interval.INTERVAL_1_HOUR
         )
         
         analysis = handler.get_analysis()
