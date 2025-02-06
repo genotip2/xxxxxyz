@@ -1,7 +1,7 @@
 import requests
 
    # Ganti dengan path file lokal atau URL yang legal
-   playlist_url = "http://example.com/playlist.m3u"
+   playlist_url = "boo.ourimagine.my.id/vdevr"
 
    try:
        response = requests.get(playlist_url)
