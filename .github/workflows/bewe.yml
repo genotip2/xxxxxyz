@@ -16,7 +16,7 @@ jobs:
         python-version: '3.9'
 
     - name: Install Dependencies
-      run: pip install requests
+      run: pip install cloudscraper requests
 
     - name: Run Bot
       run: python bewe.py
