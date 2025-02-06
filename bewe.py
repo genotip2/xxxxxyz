@@ -1,6 +1,6 @@
 import requests
 
-playlist_url = "http://boo.ourimagine.my.id/vdevr"
+playlist_url = "https://bewe.gay/all"
 headers = {
     'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36'
 }
