@@ -13,7 +13,7 @@ ACTIVE_BUYS_FILE = 'active_buys.json'
 MAX_HOLD_HOURS = 24
 STOP_LOSS = -2  # -2%
 TAKE_PROFIT = 5  # +5%
-BUY_SCORE_THRESHOLD = 1
+BUY_SCORE_THRESHOLD = 4
 SELL_SCORE_THRESHOLD = 4
 
 # ==============================
@@ -240,7 +240,7 @@ def send_telegram_alert(signal_type, pair, current_price, entry_price=None,
         message += f"📉 *Sell Score:* {sell_score}/7\n"
     
     if data and signal_type == 'BUY':
-        message += f"📌 *RSI M15/H1:* {data['rsi_m15']:.1f}/{data['rsi_h1']:.1f}\n"
+        message += f"📌 *RSI:*M15 = {data['rsi_m15']:.1f} | H1 = {data['rsi_h1']:.1f}\n"
         message += f"🎯 *MACD Cross:* {'Bullish' if data['macd_m15'] > data['macd_signal_m15'] else 'Bearish'}\n"
 
     try:
@@ -252,7 +252,8 @@ def send_telegram_alert(signal_type, pair, current_price, entry_price=None,
                 'parse_mode': 'Markdown'
             }
         )
-    print(f"📢 Mengirim alert: {message}")
+        
+        print(f"📢 Mengirim alert: {signal_type} - {pair}")
     except Exception as e:
         print(f"❌ Gagal mengirim alert: {str(e)}")
 
