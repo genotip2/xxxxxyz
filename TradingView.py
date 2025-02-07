@@ -9,51 +9,45 @@ import json
 # ==============================
 TELEGRAM_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN')
 TELEGRAM_CHAT_ID = os.getenv('TELEGRAM_CHAT_ID')
-ACTIVE_BUYS = {}
-BUY_SCORE_THRESHOLD = 4
+ACTIVE_BUYS_FILE = 'active_buys.json'
+MAX_HOLD_HOURS = 24
+STOP_LOSS = -2  # -2%
+TAKE_PROFIT = 5  # +5%
+BUY_SCORE_THRESHOLD = 1
 SELL_SCORE_THRESHOLD = 4
-FILE_PATH = 'active_buys.json'
-
-# Inisialisasi file JSON dengan handling datetime
-if not os.path.exists(FILE_PATH):
-    with open(FILE_PATH, 'w') as f:
-        json.dump({}, f)
-else:
-    with open(FILE_PATH, 'r') as f:
-        loaded = json.load(f)
-        ACTIVE_BUYS = {
-            pair: {
-                'price': data['price'],
-                'time': datetime.fromisoformat(data['time'])
-            } 
-            for pair, data in loaded.items()
-        }
 
 # ==============================
 # FUNGSI UTILITAS
 # ==============================
-def save_active_buys_to_json():
-    """Simpan data dengan konversi datetime ke string"""
+def load_active_buys():
+    """Load data dari file dengan konversi waktu"""
     try:
-        to_save = {}
-        for pair, data in ACTIVE_BUYS.items():
-            to_save[pair] = {
-                'price': data['price'],
-                'time': data['time'].isoformat()
-            }
-            
-        with open(FILE_PATH, 'w') as f:
-            json.dump(to_save, f, indent=4)
-            
-        print("✅ Berhasil menyimpan active_buys.json")
-    except Exception as e:
-        print(f"❌ Gagal menyimpan: {str(e)}")
+        with open(ACTIVE_BUYS_FILE, 'r') as f:
+            data = json.load(f)
+        return {
+            k: {
+                'price': v['price'],
+                'time': datetime.strptime(v['time'], '%Y-%m-%d %H:%M:%S')
+            } for k, v in data.items()
+        }
+    except:
+        return {}
+
+def save_active_buys():
+    """Simpan data ke file dengan konversi waktu"""
+    converted = {
+        k: {
+            'price': v['price'],
+            'time': v['time'].strftime('%Y-%m-%d %H:%M:%S')
+        } for k, v in ACTIVE_BUYS.items()
+    }
+    with open(ACTIVE_BUYS_FILE, 'w') as f:
+        json.dump(converted, f, indent=4)
 
 def get_binance_top_pairs():
     """Ambil 50 pair teratas berdasarkan volume trading"""
     url = "https://api.coingecko.com/api/v3/exchanges/binance/tickers"
     params = {'include_exchange_logo': 'false', 'order': 'volume_desc'}
-    
     try:
         response = requests.get(url, params=params)
         data = response.json()
@@ -62,11 +56,10 @@ def get_binance_top_pairs():
                             key=lambda x: x['converted_volume']['usd'], 
                             reverse=True)[:100]
         return [f"{p['base']}USDT" for p in sorted_pairs]
-    
     except Exception as e:
         print(f"❌ Error fetching data: {e}")
         return []
-      
+
 # ==============================
 # FUNGSI ANALISIS
 # ==============================
@@ -89,31 +82,28 @@ def analyze_pair(symbol):
         analysis_h1 = handler_h1.get_analysis()
 
         return {
-                'ema10_m15': analysis_m15.indicators.get('EMA10'),
-                'ema20_m15': analysis_m15.indicators.get('EMA20'),
-                'rsi_m15': analysis_m15.indicators.get('RSI'),
-                'macd_m15': analysis_m15.indicators.get('MACD.MACD'),
-                'macd_signal_m15': analysis_m15.indicators.get('MACD.signal'),
-                'bb_lower_m15': analysis_m15.indicators.get('BB.lower'),
-                'bb_upper_m15': analysis_m15.indicators.get('BB.upper'),
-                'close_price_m15': analysis_m15.indicators.get('close'),
-                'adx_m15': analysis_m15.indicators.get('ADX'),
-                'obv_m15': analysis_m15.indicators.get('OBV'),
-                'candle_m15': analysis_m15.summary['RECOMMENDATION'],
+            'ema10_m15': analysis_m15.indicators.get('EMA10'),
+            'ema20_m15': analysis_m15.indicators.get('EMA20'),
+            'rsi_m15': analysis_m15.indicators.get('RSI'),
+            'macd_m15': analysis_m15.indicators.get('MACD.MACD'),
+            'macd_signal_m15': analysis_m15.indicators.get('MACD.signal'),
+            'bb_lower_m15': analysis_m15.indicators.get('BB.lower'),
+            'bb_upper_m15': analysis_m15.indicators.get('BB.upper'),
+            'close_price_m15': analysis_m15.indicators.get('close'),
+            'adx_m15': analysis_m15.indicators.get('ADX'),
+            'candle_m15': analysis_m15.summary['RECOMMENDATION'],
 
-                'ema10_h1': analysis_h1.indicators.get('EMA10'),
-                'ema20_h1': analysis_h1.indicators.get('EMA20'),
-                'rsi_h1': analysis_h1.indicators.get('RSI'),
-                'macd_h1': analysis_h1.indicators.get('MACD.macd'),
-                'macd_signal_h1': analysis_h1.indicators.get('MACD.signal'),
-                'bb_lower_h1': analysis_h1.indicators.get('BB.lower'),
-                'bb_upper_h1': analysis_h1.indicators.get('BB.upper'),
-                'close_price_h1': analysis_h1.indicators.get('close'),
-                'adx_h1': analysis_h1.indicators.get('ADX'),
-                'obv_h1': analysis_h1.indicators.get('OBV'),
-                'candle_h1': analysis_h1.summary['RECOMMENDATION']
-         }
-         
+            'ema10_h1': analysis_h1.indicators.get('EMA10'),
+            'ema20_h1': analysis_h1.indicators.get('EMA20'),
+            'rsi_h1': analysis_h1.indicators.get('RSI'),
+            'macd_h1': analysis_h1.indicators.get('MACD.macd'),
+            'macd_signal_h1': analysis_h1.indicators.get('MACD.signal'),
+            'bb_lower_h1': analysis_h1.indicators.get('BB.lower'),
+            'bb_upper_h1': analysis_h1.indicators.get('BB.upper'),
+            'close_price_h1': analysis_h1.indicators.get('close'),
+            'adx_h1': analysis_h1.indicators.get('ADX'),
+            'candle_h1': analysis_h1.summary['RECOMMENDATION']
+        }
     except Exception as e:
         print(f"⚠️ Error analisis {symbol}: {str(e)}")
         return None
@@ -122,164 +112,216 @@ def analyze_pair(symbol):
 # FUNGSI TRADING
 # ==============================
 def safe_compare(val1, val2, operator='>'):
-    """Periksa apakah kedua nilai bukan None dan bandingkan dengan operator yang diberikan"""
-    if val1 is not None and val2 is not None:
-        if operator == '>':
-            return val1 > val2
-        elif operator == '<':
-            return val1 < val2
-    return False  # Kembalikan False jika ada nilai yang None atau operator yang tidak valid
-	
+    """Helper untuk membandingkan nilai dengan handling None"""
+    if val1 is None or val2 is None:
+        return False
+    if operator == '>':
+        return val1 > val2
+    elif operator == '<':
+        return val1 < val2
+    return False
 
 def calculate_scores(data):
+    """Hitung skor beli/jual berdasarkan indikator"""
     price = data['close_price_m15']
-    ema10_m15 = data['ema10_m15']
-    ema20_m15 = data['ema20_m15']
-    rsi_m15 = data['rsi_m15']
-    macd_m15 = data['macd_m15']
-    macd_signal_m15 = data['macd_signal_m15']
-    bb_lower_m15 = data['bb_lower_m15']
-    bb_upper_m15 = data['bb_upper_m15']
-    adx_m15 = data['adx_m15']
-    obv_m15 = data['obv_m15']
-    candle_m15 = data['candle_m15']
-
-    ema10_h1 = data['ema10_h1']
-    ema20_h1 = data['ema20_h1']
-    rsi_h1 = data['rsi_h1']
-    macd_h1 = data['macd_h1']
-    macd_signal_h1 = data['macd_signal_h1']
-    bb_lower_h1 = data['bb_lower_h1']
-    bb_upper_h1 = data['bb_upper_h1']
-    adx_h1 = data['adx_h1']
-    obv_h1 = data['obv_h1']
-    candle_h1 = data['candle_h1']
-    
     buy_conditions = [
-    safe_compare(ema10_m15, ema20_m15, '>'),  # EMA 10 > EMA 20 di M15
-    safe_compare(ema10_h1, ema20_h1, '>'),    # EMA 10 > EMA 20 di H1
-    safe_compare(macd_m15, macd_signal_m15, '>'),  # MACD M15 > Signal M15 (bullish crossover)
-    price <= bb_lower_m15,                   # Harga di bawah lower BB M15
-    adx_h1 is not None and adx_h1 > 25,       # ADX H1 > 25 (tren kuat)
-    ("BUY" in candle_m15 if candle_m15 else False) or ("STRONG_BUY" in candle_m15 if candle_m15 else False)  # Candlestick reversal di M15
-]
-
+        safe_compare(data['ema10_m15'], data['ema20_m15'], '>'),
+        safe_compare(data['ema10_h1'], data['ema20_h1'], '>'),
+        data['rsi_m15'] < 30 if data['rsi_m15'] else False,
+        safe_compare(data['macd_m15'], data['macd_signal_m15'], '>'),
+        price <= data['bb_lower_m15'],
+        data['adx_h1'] > 25 if data['adx_h1'] else False,
+        any(x in data['candle_m15'] for x in ['BUY', 'STRONG_BUY'])
+    ]
+    
     sell_conditions = [
-    safe_compare(ema10_m15, ema20_m15, '<'),  # EMA 10 < EMA 20 di M15
-    safe_compare(ema10_h1, ema20_h1, '<'),    # EMA 10 < EMA 20 di H1
-    rsi_h1 is not None and rsi_h1 > 55,       # RSI H1 belum oversold
-    safe_compare(macd_h1, macd_signal_h1, '<'),  # MACD H1 < Signal H1 (bearish crossover)
-    price >= bb_upper_h1,                     # Harga di atas upper BB H1
-    adx_h1 is not None and adx_h1 > 25,       # ADX H1 > 25 (tren kuat)
-    ("SELL" in candle_m15 if candle_m15 else False) or ("STRONG_SELL" in candle_m15 if candle_m15 else False)  # Candlestick reversal di M15
-]
+        safe_compare(data['ema10_m15'], data['ema20_m15'], '<'),
+        safe_compare(data['ema10_h1'], data['ema20_h1'], '<'),
+        data['rsi_h1'] > 70 if data['rsi_h1'] else False,
+        safe_compare(data['macd_h1'], data['macd_signal_h1'], '<'),
+        price >= data['bb_upper_h1'],
+        data['adx_h1'] > 25 if data['adx_h1'] else False,
+        any(x in data['candle_m15'] for x in ['SELL', 'STRONG_SELL'])
+    ]
     
     return sum(buy_conditions), sum(sell_conditions)
-	
+
 def generate_signal(pair, data):
-    """Generate trading signal"""
-    price = data['close_price_m15']
+    """Generate sinyal trading"""
+    current_price = data['close_price_m15']
     buy_score, sell_score = calculate_scores(data)
-    display_pair = f"{pair[:-4]}/USDT"
-
-    print(f"{display_pair} - Price: {price:.8f} | Buy: {buy_score}/6 | Sell: {sell_score}/7")
-
-    buy_signal = buy_score >= BUY_SCORE_THRESHOLD and pair not in ACTIVE_BUYS and data['rsi_m15'] < 50
+    
+    buy_signal = buy_score >= BUY_SCORE_THRESHOLD and pair not in ACTIVE_BUYS
     sell_signal = sell_score >= SELL_SCORE_THRESHOLD and pair in ACTIVE_BUYS
-    take_profit = pair in ACTIVE_BUYS and price > ACTIVE_BUYS[pair]['price'] * 1.05
-    stop_loss = pair in ACTIVE_BUYS and price < ACTIVE_BUYS[pair]['price'] * 0.98
 
     if buy_signal:
-        return 'BUY', price
-    elif take_profit:
-        return 'TAKE PROFIT', price
-    elif stop_loss:
-        return 'STOP LOSS', price
+        return 'BUY', current_price
     elif sell_signal:
-        return 'SELL', ACTIVE_BUYS[pair]['price']
-    
+        return 'SELL', current_price
     return None, None
 
-def send_telegram_alert(signal_type, pair, price, data, buy_score, sell_score, buy_price=None):
+def check_expired_buys(current_prices):
+    """Cek posisi yang melebihi waktu hold"""
+    now = datetime.now()
+    to_remove = []
+    
+    for pair, details in ACTIVE_BUYS.items():
+        if (now - details['time']) > timedelta(hours=MAX_HOLD_HOURS):
+            current_price = current_prices.get(pair, details['price'])
+            profit_pct = ((current_price - details['price'])/details['price'])*100
+            hold_duration = str(now - details['time']).split('.')[0]
+            
+            send_telegram_alert(
+                signal_type="SELL - AUTO (Expired)",
+                pair=pair,
+                current_price=current_price,
+                entry_price=details['price'],
+                profit_pct=profit_pct,
+                hold_duration=hold_duration
+            )
+            to_remove.append(pair)
+    
+    for pair in to_remove:
+        del ACTIVE_BUYS[pair]
+    if to_remove:
+        save_active_buys()
+
+def auto_remove_mechanism(current_prices):
+    """Mekanisme auto remove untuk TP/SL"""
+    to_remove = []
+    for pair, details in ACTIVE_BUYS.items():
+        current_price = current_prices.get(pair, details['price'])
+        profit_pct = ((current_price - details['price'])/details['price'])*100
+        hold_duration = str(datetime.now() - details['time']).split('.')[0]
+
+        if profit_pct >= TAKE_PROFIT or profit_pct <= STOP_LOSS:
+            signal_type = "TAKE PROFIT" if profit_pct >= TAKE_PROFIT else "STOP LOSS"
+            send_telegram_alert(
+                signal_type=f"SELL - AUTO ({signal_type})",
+                pair=pair,
+                current_price=current_price,
+                entry_price=details['price'],
+                profit_pct=profit_pct,
+                hold_duration=hold_duration
+            )
+            to_remove.append(pair)
+    
+    for pair in to_remove:
+        del ACTIVE_BUYS[pair]
+    if to_remove:
+        save_active_buys()
+    check_expired_buys(current_prices)
+
+def send_telegram_alert(signal_type, pair, current_price, entry_price=None, 
+                       profit_pct=None, hold_duration=None, data=None, 
+                       buy_score=None, sell_score=None):
     """Kirim notifikasi ke Telegram"""
     display_pair = f"{pair[:-4]}/USDT"
-    message = ""
-    
     emoji = {
-        'BUY': '🚀', 
-        'SELL': '⚠️', 
-        'TAKE PROFIT': '✅', 
-        'STOP LOSS': '🛑'
-    }.get(signal_type, 'ℹ️')
-
-    base_msg = f"{emoji} **{signal_type}**\n"
-    base_msg += f"💱 {display_pair}\n"
-    base_msg += f"💲 Price: ${price:.8f}\n"
-    base_msg += f"📊 Score: Buy {buy_score}/6 | Sell {sell_score}/7\n"
-
-    if signal_type == 'BUY':
-        message = f"{base_msg}🔍 RSI: M15 = {data['rsi_m15']:.2f} | H1 = {data['rsi_h1']:.2f}\n"
-        ACTIVE_BUYS[pair] = {'price': price, 'time': datetime.now()}
-
-    elif signal_type in ['TAKE PROFIT', 'STOP LOSS', 'SELL']:
-        entry = ACTIVE_BUYS.get(pair)
-        if entry:
-            profit = ((price - entry['price'])/entry['price'])*100
-            duration = str(datetime.now() - entry['time']).split('.')[0]
-            
-            message = f"{base_msg}💲 Entry: ${entry['price']:.8f}\n"
-            message += f"💰 {'Profit' if profit > 0 else 'Loss'}: {profit:+.2f}%\n"
-            message += f"🕒 Hold Duration: {duration}"
-
-            if signal_type in ['STOP LOSS', 'SELL']:
-                del ACTIVE_BUYS[pair]
-
-    print(f"📢 Mengirim alert: {message}")
+        'BUY': '🚀',
+        'SELL': '⚠️',
+        'TAKE PROFIT': '✅',
+        'STOP LOSS': '🛑',
+        'SELL - AUTO (Expired)': '⌛'
+    }.get(signal_type.split()[0], 'ℹ️')
+    
+    message = f"{emoji} *{signal_type}*\n"
+    message += f"💱 *Pair:* {display_pair}\n"
+    message += f"💰 *Price:* ${current_price:.8f}\n"
+    
+    if entry_price:
+        message += f"🔹 *Entry Price:* ${entry_price:.8f}\n"
+        message += f"📈 *{'Profit' if profit > 0 else 'Loss'}:* {profit_pct:+.2f}%\n"
+        message += f"⏳ *Hold Duration:* {hold_duration}\n"
+    
+    if buy_score is not None:
+        message += f"📊 *Buy Score:* {buy_score}/7\n"
+    if sell_score is not None:
+        message += f"📉 *Sell Score:* {sell_score}/7\n"
+    
+    if data and signal_type == 'BUY':
+        message += f"📌 *RSI M15/H1:* {data['rsi_m15']:.1f}/{data['rsi_h1']:.1f}\n"
+        message += f"🎯 *MACD Cross:* {'Bullish' if data['macd_m15'] > data['macd_signal_m15'] else 'Bearish'}\n"
 
     try:
-        save_active_buys_to_json()
+        requests.post(
+            f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage",
+            json={
+                'chat_id': TELEGRAM_CHAT_ID,
+                'text': message,
+                'parse_mode': 'Markdown'
+            }
+        )
     except Exception as e:
-        print(f"❌ Gagal menyimpan: {str(e)}")
+        print(f"❌ Gagal mengirim alert: {str(e)}")
 
-    requests.post(
-        f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage",
-        json={'chat_id': TELEGRAM_CHAT_ID, 'text': message, 'parse_mode': 'Markdown'}
-    )
+# ==============================
+# INISIALISASI DATA
+# ==============================
+ACTIVE_BUYS = load_active_buys()
 
 # ==============================
 # FUNGSI UTAMA
 # ==============================
 def main():
     """Program utama"""
-    pairs = get_binance_top_pairs()
-    print(f"🔍 Memulai analisis {len(pairs)} pair - {datetime.now().strftime('%d/%m %H:%M')}")
+    top_pairs = get_binance_top_pairs()
+    active_pairs = list(ACTIVE_BUYS.keys())
+    all_pairs = list(set(top_pairs + active_pairs))
+    current_prices = {}
 
-    for pair in pairs:
+    print(f"🔍 Memulai analisis {len(all_pairs)} pair - {datetime.now().strftime('%d/%m %H:%M')}")
+
+    for pair in all_pairs:
         try:
             data = analyze_pair(pair)
             if not data:
                 continue
 
-            display_pair = f"{pair[:-4]}/USDT"
-            print(f"\n📈 {display_pair}:")
-            
-            signal, price = generate_signal(pair, data)
-            buy_score, sell_score = calculate_scores(data)  # Tambahkan perhitungan skor
+            current_price = data['close_price_m15']
+            current_prices[pair] = current_price
+            buy_score, sell_score = calculate_scores(data)
 
-            if signal:
-                send_telegram_alert(signal, pair, price, data, buy_score, sell_score)
-            # Auto close position
-            if pair in ACTIVE_BUYS:
-                position = ACTIVE_BUYS[pair]
-                duration = datetime.now() - position['time']
-                profit = (data['close_price_m15'] - position['price'])/position['price']*100
-                
-                if duration > timedelta(hours=24) or abs(profit) > 8:
-                    send_telegram_alert('SELL', pair, data['close_price_m15'], data, position['price'])
-                    
+            print(f"\n📊 {pair[:-4]}/USDT - Price: {current_price:.8f} | Buy Score: {buy_score}/7 | Sell Score: {sell_score}/7")
+            print(f"📌 RSI M15: {data['rsi_m15']:.1f} | RSI H1: {data['rsi_h1']:.1f}")
+
+            signal, price = generate_signal(pair, data)
+            buy_score, sell_score = calculate_scores(data)
+
+            if signal == 'BUY':
+                ACTIVE_BUYS[pair] = {'price': price, 'time': datetime.now()}
+                send_telegram_alert(
+                    signal_type='BUY',
+                    pair=pair,
+                    current_price=price,
+                    data=data,
+                    buy_score=buy_score,
+                    sell_score=sell_score
+                )
+                save_active_buys()
+
+            elif signal == 'SELL':
+                entry_price = ACTIVE_BUYS[pair]['price']
+                profit_pct = ((price - entry_price)/entry_price)*100
+                hold_duration = str(datetime.now() - ACTIVE_BUYS[pair]['time']).split('.')[0]
+                send_telegram_alert(
+                    signal_type='SELL',
+                    pair=pair,
+                    current_price=price,
+                    entry_price=entry_price,
+                    profit_pct=profit_pct,
+                    hold_duration=hold_duration,
+                    buy_score=buy_score,
+                    sell_score=sell_score
+                )
+                del ACTIVE_BUYS[pair]
+                save_active_buys()
+
         except Exception as e:
             print(f"⚠️ Error di {pair}: {str(e)}")
             continue
+
+    auto_remove_mechanism(current_prices)
 
 if __name__ == "__main__":
     main()
