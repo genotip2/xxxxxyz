@@ -172,7 +172,7 @@ def check_expired_buys(current_prices):
             hold_duration = str(now - details['time']).split('.')[0]
             
             send_telegram_alert(
-                signal_type="SELL - AUTO (Expired)",
+                signal_type=f"{emoji} EXPIRED",
                 pair=pair,
                 current_price=current_price,
                 entry_price=details['price'],
@@ -197,7 +197,7 @@ def auto_remove_mechanism(current_prices):
         if profit_pct >= TAKE_PROFIT or profit_pct <= STOP_LOSS:
             signal_type = "TAKE PROFIT" if profit_pct >= TAKE_PROFIT else "STOP LOSS"
             send_telegram_alert(
-                signal_type=f"SELL - AUTO ({signal_type})",
+                signal_type=f"{emoji} {signal_type}",
                 pair=pair,
                 current_price=current_price,
                 entry_price=details['price'],
@@ -222,7 +222,7 @@ def send_telegram_alert(signal_type, pair, current_price, entry_price=None,
         'SELL': '⚠️',
         'TAKE PROFIT': '✅',
         'STOP LOSS': '🛑',
-        'SELL - AUTO (Expired)': '⌛'
+        'EXPIRED': '⌛'
     }.get(signal_type.split()[0], 'ℹ️')
     
     message = f"{emoji} *{signal_type}*\n"
