@@ -13,7 +13,7 @@ ACTIVE_BUYS_FILE = 'active_buys.json'
 MAX_HOLD_HOURS = 24
 STOP_LOSS = -2  # -2%
 TAKE_PROFIT = 5  # +5%
-BUY_SCORE_THRESHOLD = 1
+BUY_SCORE_THRESHOLD = 4
 SELL_SCORE_THRESHOLD = 4
 
 # ==============================
@@ -252,6 +252,7 @@ def send_telegram_alert(signal_type, pair, current_price, entry_price=None,
                 'parse_mode': 'Markdown'
             }
         )
+    print(f"📢 Mengirim alert: {message}")
     except Exception as e:
         print(f"❌ Gagal mengirim alert: {str(e)}")
 
