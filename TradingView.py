@@ -126,7 +126,7 @@ def calculate_scores(data):
     price = data['price']
     
     buy_conditions = [
-        ("BUY" in candle_m5 if candle_m5 else False) or ("STRONG_BUY" in candle_m5 if candle_m5 else False),
+        (("BUY" in data['recommendation'] if data['recommendation'] else False) or ("STRONG_BUY" in data['recommendation'] if data['recommendation'] else False)),
         data['rsi'] < 60,
         data['macd'] > data['signal'],
         data['adx'] > 25,
@@ -136,7 +136,7 @@ def calculate_scores(data):
     ]
     
     sell_conditions = [
-        ("SELL" in candle_m5 if candle_m5 else False) or ("STRONG_SELL" in candle_m5 if candle_m5 else False),
+        (("SELL" in data['recommendation'] if data['recommendation'] else False) or ("STRONG_SELL" in data['recommendation'] if data['recommendation'] else False)),
         data['rsi'] > 65,
         data['macd'] < data['signal'],
         data['adx'] < 20,
@@ -192,7 +192,7 @@ def send_telegram_alert(signal_type, pair, current_price, data, buy_price=None):
     base_msg += f"📊 *Score:* Buy {buy_score}/9 | Sell {sell_score}/9\n"
 
     if signal_type == 'BUY':
-        message = f"{base_msg}🔍 RSI: {data['rsi_m5']:.2f}\n"
+        message = f"{base_msg}🔍 RSI: {data['rsi']:.2f}\n"
         ACTIVE_BUYS[pair] = {'price': current_price, 'time': datetime.now()}
 
     elif signal_type in ['TAKE PROFIT', 'STOP LOSS', 'SELL']:
