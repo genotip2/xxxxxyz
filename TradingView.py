@@ -13,8 +13,8 @@ ACTIVE_BUYS_FILE = 'active_buys.json'
 MAX_HOLD_HOURS = 24
 STOP_LOSS = -2  # -2%
 TAKE_PROFIT = 5  # +5%
-BUY_SCORE_THRESHOLD = 4
-SELL_SCORE_THRESHOLD = 4
+BUY_SCORE_THRESHOLD = 1
+SELL_SCORE_THRESHOLD = 6
 
 # ==============================
 # FUNGSI UTILITAS
@@ -52,8 +52,8 @@ def get_binance_top_pairs():
         response = requests.get(url, params=params)
         data = response.json()
         usdt_pairs = [t for t in data['tickers'] if t['target'] == 'USDT']
-        sorted_pairs = sorted(usdt_pairs, 
-                            key=lambda x: x['converted_volume']['usd'], 
+        sorted_pairs = sorted(usdt_pairs,
+                            key=lambda x: x['converted_volume']['usd'],
                             reverse=True)[:100]
         return [f"{p['base']}USDT" for p in sorted_pairs]
     except Exception as e:
@@ -102,7 +102,11 @@ def analyze_pair(symbol):
             'bb_upper_h1': analysis_h1.indicators.get('BB.upper'),
             'close_price_h1': analysis_h1.indicators.get('close'),
             'adx_h1': analysis_h1.indicators.get('ADX'),
-            'candle_h1': analysis_h1.summary['RECOMMENDATION']
+            'candle_h1': analysis_h1.summary['RECOMMENDATION'],
+
+            'stoch_rsi_m15': analysis_m15.indicators.get('Stoch.RSI'),
+            'williams_r_m15': analysis_m15.indicators.get('Williams %R'),
+            'awesome_oscillator_m15': analysis_m15.indicators.get('Awesome Oscillator')
         }
     except Exception as e:
         print(f"⚠️ Error analisis {symbol}: {str(e)}")
@@ -131,9 +135,12 @@ def calculate_scores(data):
         safe_compare(data['macd_m15'], data['macd_signal_m15'], '>'),
         price <= data['bb_lower_m15'],
         data['adx_h1'] > 25 if data['adx_h1'] else False,
-        any(x in data['candle_m15'] for x in ['BUY', 'STRONG_BUY'])
+        any(x in data['candle_m15'] for x in ['BUY', 'STRONG_BUY']),
+        data['stoch_rsi_m15'] < 20 if data['stoch_rsi_m15'] else False,
+        data['williams_r_m15'] < -80 if data['williams_r_m15'] else False,
+        data['awesome_oscillator_m15'] > 0 if data['awesome_oscillator_m15'] else False
     ]
-    
+
     sell_conditions = [
         safe_compare(data['ema10_m15'], data['ema20_m15'], '<'),
         safe_compare(data['ema10_h1'], data['ema20_h1'], '<'),
@@ -141,16 +148,19 @@ def calculate_scores(data):
         safe_compare(data['macd_h1'], data['macd_signal_h1'], '<'),
         price >= data['bb_upper_h1'],
         data['adx_h1'] > 25 if data['adx_h1'] else False,
-        any(x in data['candle_m15'] for x in ['SELL', 'STRONG_SELL'])
+        any(x in data['candle_m15'] for x in ['SELL', 'STRONG_SELL']),
+        data['stoch_rsi_m15'] > 80 if data['stoch_rsi_m15'] else False,
+        data['williams_r_m15'] > -20 if data['williams_r_m15'] else False,
+        data['awesome_oscillator_m15'] < 0 if data['awesome_oscillator_m15'] else False
     ]
-    
+
     return sum(buy_conditions), sum(sell_conditions)
 
 def generate_signal(pair, data):
     """Generate sinyal trading"""
     current_price = data['close_price_m15']
     buy_score, sell_score = calculate_scores(data)
-    
+
     buy_signal = buy_score >= BUY_SCORE_THRESHOLD and pair not in ACTIVE_BUYS
     sell_signal = sell_score >= SELL_SCORE_THRESHOLD and pair in ACTIVE_BUYS
 
@@ -160,60 +170,8 @@ def generate_signal(pair, data):
         return 'SELL', current_price
     return None, None
 
-def check_expired_buys(current_prices):
-    """Cek posisi yang melebihi waktu hold"""
-    now = datetime.now()
-    to_remove = []
-    
-    for pair, details in ACTIVE_BUYS.items():
-        if (now - details['time']) > timedelta(hours=MAX_HOLD_HOURS):
-            current_price = current_prices.get(pair, details['price'])
-            profit_pct = ((current_price - details['price'])/details['price'])*100
-            hold_duration = str(now - details['time']).split('.')[0]
-            
-            send_telegram_alert(
-                signal_type=f"{emoji} EXPIRED",
-                pair=pair,
-                current_price=current_price,
-                entry_price=details['price'],
-                profit_pct=profit_pct,
-                hold_duration=hold_duration
-            )
-            to_remove.append(pair)
-    
-    for pair in to_remove:
-        del ACTIVE_BUYS[pair]
-    if to_remove:
-        save_active_buys()
-
-def auto_remove_mechanism(current_prices):
-    """Mekanisme auto remove untuk TP/SL"""
-    to_remove = []
-    for pair, details in ACTIVE_BUYS.items():
-        current_price = current_prices.get(pair, details['price'])
-        profit_pct = ((current_price - details['price'])/details['price'])*100
-        hold_duration = str(datetime.now() - details['time']).split('.')[0]
-
-        if profit_pct >= TAKE_PROFIT or profit_pct <= STOP_LOSS:
-            signal_type = "TAKE PROFIT" if profit_pct >= TAKE_PROFIT else "STOP LOSS"
-            send_telegram_alert(
-                signal_type=f"{emoji} {signal_type}",
-                pair=pair,
-                current_price=current_price,
-                entry_price=details['price'],
-                profit_pct=profit_pct,
-                hold_duration=hold_duration
-            )
-            to_remove.append(pair)
-    
-    for pair in to_remove:
-        del ACTIVE_BUYS[pair]
-    if to_remove:
-        save_active_buys()
-    check_expired_buys(current_prices)
-
-def send_telegram_alert(signal_type, pair, current_price, entry_price=None, 
-                       profit_pct=None, hold_duration=None, data=None, 
+def send_telegram_alert(signal_type, pair, current_price, entry_price=None,
+                       profit_pct=None, hold_duration=None, data=None,
                        buy_score=None, sell_score=None):
     """Kirim notifikasi ke Telegram"""
     display_pair = f"{pair[:-4]}/USDT"
@@ -224,24 +182,29 @@ def send_telegram_alert(signal_type, pair, current_price, entry_price=None,
         'STOP LOSS': '🛑',
         'EXPIRED': '⌛'
     }.get(signal_type.split()[0], 'ℹ️')
-    
+
     message = f"{emoji} *{signal_type}*\n"
     message += f"💱 *Pair:* {display_pair}\n"
     message += f"💰 *Price:* ${current_price:.8f}\n"
-    
+
     if entry_price:
         message += f"🔹 *Entry Price:* ${entry_price:.8f}\n"
         message += f"📈 *{'Profit' if profit_pct > 0 else 'Loss'}:* {profit_pct:+.2f}%\n"
         message += f"⏳ *Hold Duration:* {hold_duration}\n"
-    
-    if buy_score is not None:
-        message += f"📊 *Buy Score:* {buy_score}/7\n"
-    if sell_score is not None:
-        message += f"📉 *Sell Score:* {sell_score}/7\n"
-    
+
+    if buy_score is not None and sell_score is not None:
+        message += f"📊 *Buy Score:* {buy_score}/10 📉 *Sell Score:* {sell_score}/10"
+    elif buy_score is not None:
+        message += f"📊 *Buy Score:* {buy_score}/10"
+    elif sell_score is not None:
+        message += f"📉 *Sell Score:* {sell_score}/10"
+
     if data and signal_type == 'BUY':
         message += f"📌 *RSI:*M15 = {data['rsi_m15']:.1f} | H1 = {data['rsi_h1']:.1f}\n"
         message += f"🎯 *MACD Cross:* {'Bullish' if data['macd_m15'] > data['macd_signal_m15'] else 'Bearish'}\n"
+        message += f"🔍 *Stoch RSI:* {data['stoch_rsi_m15']:.1f}\n"
+        message += f"🔍 *Williams %R:* {data['williams_r_m15']:.1f}\n"
+        message += f"🔍 *Awesome Oscillator:* {data['awesome_oscillator_m15']:.1f}\n"
 
     try:
         requests.post(
@@ -252,8 +215,15 @@ def send_telegram_alert(signal_type, pair, current_price, entry_price=None,
                 'parse_mode': 'Markdown'
             }
         )
-        
+
         print(f"📢 Mengirim alert: {signal_type} - {pair}")
+
+        # Handle removal of ACTIVE_BUYS based on signal type
+        if signal_type in ['SELL', 'STOP LOSS', 'EXPIRED']:
+            if pair in ACTIVE_BUYS:
+                del ACTIVE_BUYS[pair]
+                save_active_buys()
+
     except Exception as e:
         print(f"❌ Gagal mengirim alert: {str(e)}")
 
@@ -284,7 +254,7 @@ def main():
             current_prices[pair] = current_price
             buy_score, sell_score = calculate_scores(data)
 
-            print(f"\n📊 {pair[:-4]}/USDT - Price: {current_price:.8f} | Buy Score: {buy_score}/7 | Sell Score: {sell_score}/7")
+            print(f"\n📊 {pair[:-4]}/USDT - Price: {current_price:.8f} | Buy Score: {buy_score}/10 | Sell Score: {sell_score}/10")
             print(f"📌 RSI M15: {data['rsi_m15']:.1f} | RSI H1: {data['rsi_h1']:.1f}")
 
             signal, price = generate_signal(pair, data)
@@ -316,14 +286,44 @@ def main():
                     buy_score=buy_score,
                     sell_score=sell_score
                 )
-                del ACTIVE_BUYS[pair]
-                save_active_buys()
+
+            # Check for TAKE PROFIT, STOP LOSS, and EXPIRED conditions
+            if pair in ACTIVE_BUYS:
+                entry_price = ACTIVE_BUYS[pair]['price']
+                profit_pct = ((current_price - entry_price)/entry_price)*100
+                hold_duration = str(datetime.now() - ACTIVE_BUYS[pair]['time']).split('.')[0]
+
+                if profit_pct >= TAKE_PROFIT:
+                    send_telegram_alert(
+                        signal_type='TAKE PROFIT',
+                        pair=pair,
+                        current_price=current_price,
+                        entry_price=entry_price,
+                        profit_pct=profit_pct,
+                        hold_duration=hold_duration
+                    )
+                elif profit_pct <= STOP_LOSS:
+                    send_telegram_alert(
+                        signal_type='STOP LOSS',
+                        pair=pair,
+                        current_price=current_price,
+                        entry_price=entry_price,
+                        profit_pct=profit_pct,
+                        hold_duration=hold_duration
+                    )
+                elif (datetime.now() - ACTIVE_BUYS[pair]['time']) > timedelta(hours=MAX_HOLD_HOURS):
+                    send_telegram_alert(
+                        signal_type='EXPIRED',
+                        pair=pair,
+                        current_price=current_price,
+                        entry_price=entry_price,
+                        profit_pct=profit_pct,
+                        hold_duration=hold_duration
+                    )
 
         except Exception as e:
             print(f"⚠️ Error di {pair}: {str(e)}")
             continue
-
-    auto_remove_mechanism(current_prices)
 
 if __name__ == "__main__":
     main()
