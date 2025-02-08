@@ -13,7 +13,7 @@ ACTIVE_BUYS_FILE = 'active_buys.json'
 MAX_HOLD_HOURS = 24
 STOP_LOSS = -2  # -2%
 TAKE_PROFIT = 5  # +5%
-BUY_SCORE_THRESHOLD = 1
+BUY_SCORE_THRESHOLD = 6
 SELL_SCORE_THRESHOLD = 6
 
 # ==============================
@@ -185,7 +185,9 @@ def send_telegram_alert(signal_type, pair, current_price, entry_price=None,
 
     message = f"{emoji} *{signal_type}*\n"
     message += f"💱 *Pair:* {display_pair}\n"
-    message += f"💰 *Price:* ${current_price:.8f}\n"
+    
+    if current_price is not None:  
+        message += f"💰 *Price:* ${current_price:.8f}\n"  
 
     if entry_price:
         message += f"🔹 *Entry Price:* ${entry_price:.8f}\n"
