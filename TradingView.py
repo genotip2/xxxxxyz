@@ -126,7 +126,7 @@ def calculate_scores(data):
     price = data['price']
     
     buy_conditions = [
-        "BUY" in data['recommendation'],
+        ("BUY" in candle_m5 if candle_m5 else False) or ("STRONG_BUY" in candle_m5 if candle_m5 else False),
         data['rsi'] < 60,
         data['macd'] > data['signal'],
         data['adx'] > 25,
@@ -136,7 +136,7 @@ def calculate_scores(data):
     ]
     
     sell_conditions = [
-        "SELL" in data['recommendation'],
+        ("SELL" in candle_m5 if candle_m5 else False) or ("STRONG_SELL" in candle_m5 if candle_m5 else False),
         data['rsi'] > 65,
         data['macd'] < data['signal'],
         data['adx'] < 20,
@@ -186,15 +186,13 @@ def send_telegram_alert(signal_type, pair, current_price, data, buy_price=None):
         'STOP LOSS': '🛑'
     }.get(signal_type, 'ℹ️')
 
-    base_msg = f"{emoji} **{signal_type} {display_pair}**\n"
-    base_msg += f"▫️ Price: ${current_price:.8f}\n"
-    base_msg += f"📊 Score: BUY {buy_score}/7 | SELL {sell_score}/6\n"
+    base_msg = f"{emoji} **{signal_type}**\n"
+    base_msg += f"💱 *{display_pair}*\n"
+    base_msg += f"💲 *Price:* ${current_price:.8f}\n"
+    base_msg += f"📊 *Score:* Buy {buy_score}/9 | Sell {sell_score}/9\n"
 
     if signal_type == 'BUY':
-        message = f"{base_msg}▫️ Support: ${data['support']:.8f}\n"
-        message += f"▫️ Resistance: ${data['resistance']:.8f}\n"
-        message += f"🔍 RSI: {data['rsi']:.1f} | MACD: {data['macd']:.8f}\n"
-        message += f"📉 BB Lower: ${data['bb_lower']:.8f}"
+        message = f"{base_msg}🔍 RSI: {data['rsi_m5']:.2f}}\n"
         ACTIVE_BUYS[pair] = {'price': current_price, 'time': datetime.now()}
 
     elif signal_type in ['TAKE PROFIT', 'STOP LOSS', 'SELL']:
@@ -203,12 +201,9 @@ def send_telegram_alert(signal_type, pair, current_price, data, buy_price=None):
             profit = ((current_price - entry['price'])/entry['price'])*100
             duration = str(datetime.now() - entry['time']).split('.')[0]
             
-            message = f"{base_msg}▫️ Entry: ${entry['price']:.8f}\n"
-            message += f"▫️ P/L: {profit:+.2f}%\n"
-            message += f"📈 BB Upper: ${data['bb_upper']:.8f}\n"
-            message += f"🕒 Durasi: {duration}"
-
-            if signal_type in ['STOP LOSS', 'SELL']:
+            message = f"{base_msg}▫️ *Entry*: ${entry['price']:.8f}\n"
+            message += f"💰 *{'Profit' if profit > 0 else 'Loss'}*: {profit:+.2f}%\n"
+            message += f"🕒 *Durasi:* {duration}"
                 del ACTIVE_BUYS[pair]
 
     print(f"📢 Mengirim alert: {message}")
