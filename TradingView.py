@@ -77,7 +77,7 @@ def get_binance_top_pairs():
 # ==============================
 def analyze_pair(symbol):
     try:
-    	handler_m1 = TA_Handler(
+        handler_m1 = TA_Handler(
             symbol=symbol,
             exchange="BINANCE",
             screener="CRYPTO",
