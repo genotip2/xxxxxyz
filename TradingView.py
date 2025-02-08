@@ -88,11 +88,15 @@ def analyze_pair(symbol):
             symbol=symbol,
             exchange="BINANCE",
             screener="CRYPTO",
-            interval=Interval.INTERVAL_2_HOURS
+            interval=Interval.INTERVAL_4_HOURS
         )
         
         analysis = handler.get_analysis()
         indicators = analysis.indicators
+
+        # Bollinger Bands
+        bb_upper = indicators.get('BB.upper')
+        bb_lower = indicators.get('BB.lower')
 
         # Fibonacci Levels
         high = indicators.get('high')
@@ -109,8 +113,8 @@ def analyze_pair(symbol):
             'volume': indicators.get('volume'),
             'support': fib['level_61_8'],
             'resistance': fib['level_23_6'],
-            'bb_upper': indicators.get('BB.upper'),
-            'bb_lower': indicators.get('BB.lower')
+            'bb_upper': bb_upper,
+            'bb_lower': bb_lower
         }
         
     except Exception as e:
@@ -122,8 +126,8 @@ def calculate_scores(data):
     price = data['price']
     
     buy_conditions = [
-        ("BUY" in data['recommendation'] or "STRONG_BUY" in data['recommendation']),
-        data['rsi'] < 30,
+        "BUY" in data['recommendation'],
+        data['rsi'] < 60,
         data['macd'] > data['signal'],
         data['adx'] > 25,
         price > data['resistance'] * 0.99,
@@ -132,8 +136,8 @@ def calculate_scores(data):
     ]
     
     sell_conditions = [
-        ("SELL" in data['recommendation'] or "STRONG_SELL" in data['recommendation']),
-        data['rsi'] > 70,
+        "SELL" in data['recommendation'],
+        data['rsi'] > 65,
         data['macd'] < data['signal'],
         data['adx'] < 20,
         price < data['support'],
@@ -182,12 +186,15 @@ def send_telegram_alert(signal_type, pair, current_price, data, buy_price=None):
         'STOP LOSS': '🛑'
     }.get(signal_type, 'ℹ️')
 
-    base_msg = f"{emoji} **{signal_type}**\n"
-    base_msg += f"💱 {display_pair}\n"
-    base_msg += f"💲 Price: ${current_price:.8f}\n"
+    base_msg = f"{emoji} **{signal_type} {display_pair}**\n"
+    base_msg += f"▫️ Price: ${current_price:.8f}\n"
+    base_msg += f"📊 Score: BUY {buy_score}/7 | SELL {sell_score}/6\n"
 
     if signal_type == 'BUY':
-        message = f"🔍 RSI: {data['rsi']:.1f}"
+        message = f"{base_msg}▫️ Support: ${data['support']:.8f}\n"
+        message += f"▫️ Resistance: ${data['resistance']:.8f}\n"
+        message += f"🔍 RSI: {data['rsi']:.1f} | MACD: {data['macd']:.8f}\n"
+        message += f"📉 BB Lower: ${data['bb_lower']:.8f}"
         ACTIVE_BUYS[pair] = {'price': current_price, 'time': datetime.now()}
 
     elif signal_type in ['TAKE PROFIT', 'STOP LOSS', 'SELL']:
@@ -196,9 +203,10 @@ def send_telegram_alert(signal_type, pair, current_price, data, buy_price=None):
             profit = ((current_price - entry['price'])/entry['price'])*100
             duration = str(datetime.now() - entry['time']).split('.')[0]
             
-            message = f"{base_msg}💲 Entry: ${entry['price']:.8f}\n"
-            message += f"💰 {'Profit' if profit > 0 else 'Loss'}: {profit:+.2f}%\n"
-            message += f"🕒 Hold Duration: {duration}"
+            message = f"{base_msg}▫️ Entry: ${entry['price']:.8f}\n"
+            message += f"▫️ P/L: {profit:+.2f}%\n"
+            message += f"📈 BB Upper: ${data['bb_upper']:.8f}\n"
+            message += f"🕒 Durasi: {duration}"
 
             if signal_type in ['STOP LOSS', 'SELL']:
                 del ACTIVE_BUYS[pair]
