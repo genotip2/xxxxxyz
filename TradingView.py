@@ -186,13 +186,13 @@ def send_telegram_alert(signal_type, pair, current_price, data, buy_price=None):
         'STOP LOSS': '🛑'
     }.get(signal_type, 'ℹ️')
 
-    base_msg = f"{emoji} **{signal_type}**\n"
+    base_msg = f"{emoji} *{signal_type}*\n"
     base_msg += f"💱 *{display_pair}*\n"
     base_msg += f"💲 *Price:* ${current_price:.8f}\n"
     base_msg += f"📊 *Score:* Buy {buy_score}/9 | Sell {sell_score}/9\n"
 
     if signal_type == 'BUY':
-        message = f"{base_msg}🔍 RSI: {data['rsi']:.2f}\n"
+        message = f"{base_msg}🔍 *RSI:* {data['rsi']:.2f}\n"
         ACTIVE_BUYS[pair] = {'price': current_price, 'time': datetime.now()}
 
     elif signal_type in ['TAKE PROFIT', 'STOP LOSS', 'SELL']:
