@@ -11,14 +11,15 @@ TELEGRAM_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN')
 TELEGRAM_CHAT_ID = os.getenv('TELEGRAM_CHAT_ID')
 ACTIVE_BUYS = {}
 ACTIVE_BUYS_FILE = 'active_buys.json'
+TOP_PAIRS_FILE = 'top_pairs.json'  # File untuk menyimpan daftar pair top
+FILE_TO_ANALIZE = 100
 BUY_SCORE_THRESHOLD = 5
 SELL_SCORE_THRESHOLD = 4
 PROFIT_TARGET_PERCENTAGE = 5    # Target profit 5%
 STOP_LOSS_PERCENTAGE = 2        # Stop loss 2%
 MAX_HOLD_DURATION_HOUR = 24     # Durasi hold maksimum 24 jam
-PAIR_TO_ANALIZE = 100
 
-# Inisialisasi file JSON dengan handling datetime
+# Inisialisasi file active_buys.json dengan handling datetime
 if not os.path.exists(ACTIVE_BUYS_FILE):
     with open(ACTIVE_BUYS_FILE, 'w') as f:
         json.dump({}, f)
@@ -51,19 +52,100 @@ def save_active_buys_to_json():
     except Exception as e:
         print(f"❌ Gagal menyimpan: {str(e)}")
 
+def get_binance_usdt_pairs():
+    """
+    Ambil daftar pair yang tersedia di Binance dengan quote asset USDT.
+    Hanya pair dengan status "TRADING" yang akan diambil.
+    """
+    url = "https://api.binance.com/api/v3/exchangeInfo"
+    try:
+        response = requests.get(url)
+        response.raise_for_status()
+        data = response.json()
+        binance_symbols = {
+            s["symbol"] for s in data["symbols"]
+            if s["quoteAsset"] == "USDT" and s["status"] == "TRADING"
+        }
+        return binance_symbols
+    except Exception as e:
+        print(f"❌ Error fetching Binance exchange info: {e}")
+        return set()
+
 def get_binance_top_pairs():
-    """Ambil 50 pair teratas berdasarkan volume trading dari Binance melalui CoinGecko."""
-    url = "https://api.coingecko.com/api/v3/exchanges/binance/tickers"
-    params = {'include_exchange_logo': 'false', 'order': 'volume_desc'}
+    """
+    Ambil 50 coin dengan penurunan harga terbesar (24 jam) dari CoinGecko
+    menggunakan endpoint /coins/markets, lalu filter hanya coin yang tersedia di Binance.
+    Data diurutkan berdasarkan price_change_percentage_24h secara ascending 
+    (nilai paling negatif artinya penurunan terbesar).
+    """
+    url = "https://api.coingecko.com/api/v3/coins/markets"
+    params = {
+        "vs_currency": "usd",
+        "order": "market_cap_desc",  # Urutkan awal berdasarkan kapitalisasi pasar
+        "per_page": 250,
+        "page": 1,
+        "price_change_percentage": "24h"
+    }
     try:
         response = requests.get(url, params=params)
+        response.raise_for_status()  # Pastikan respons OK (status 200)
         data = response.json()
-        usdt_pairs = [t for t in data['tickers'] if t['target'] == 'USDT']
-        sorted_pairs = sorted(usdt_pairs, key=lambda x: x['converted_volume']['usd'], reverse=True)[:PAIR_TO_ANALIZE]
-        return [f"{p['base']}USDT" for p in sorted_pairs]
+        
+        # Filter coin yang memiliki informasi perubahan harga 24 jam
+        coins_with_change = [coin for coin in data if coin.get("price_change_percentage_24h") is not None]
+        if not coins_with_change:
+            print("Tidak ada coin dengan informasi perubahan harga 24 jam.")
+            return []
+        
+        # Urutkan coin berdasarkan price_change_percentage_24h secara ascending 
+        # (coin dengan penurunan terbesar memiliki nilai paling negatif)
+        sorted_coins = sorted(coins_with_change, key=lambda coin: coin["price_change_percentage_24h"])
+        
+        # Dapatkan daftar pair yang tersedia di Binance (misalnya: "BTCUSDT", "ETHUSDT", dll.)
+        binance_pairs = get_binance_usdt_pairs()
+        # Filter coin yang pair-nya tersedia di Binance
+        available_coins = [
+            coin for coin in sorted_coins
+            if f"{coin['symbol'].upper()}USDT" in binance_pairs
+        ]
+        # Ambil 50 coin teratas dari yang tersedia
+        top_dropped = available_coins[:FILE_TO_ANALIZE]
+        return [f"{coin['symbol'].upper()}USDT" for coin in top_dropped]
     except Exception as e:
         print(f"❌ Error fetching data: {e}")
         return []
+
+def load_top_pairs_from_file():
+    """
+    Muat daftar pair dari file JSON TOP_PAIRS_FILE.
+    Jika file tidak ada atau tanggal 'last_updated' tidak sama dengan hari UTC saat ini,
+    maka perbarui daftar pair dengan memanggil get_binance_top_pairs() dan simpan ke file.
+    """
+    today = datetime.utcnow().strftime("%Y-%m-%d")
+    if os.path.exists(TOP_PAIRS_FILE):
+        try:
+            with open(TOP_PAIRS_FILE, "r") as f:
+                data = json.load(f)
+            last_updated = data.get("last_updated")
+            pairs = data.get("pairs", [])
+            if last_updated == today and pairs:
+                print(f"🔄 Menggunakan daftar pair cached dari {last_updated}")
+                return pairs
+            else:
+                print("ℹ️ File top pairs sudah usang. Memperbarui daftar...")
+        except Exception as e:
+            print("❌ Error membaca file top pairs:", e)
+    
+    # Jika file tidak ada atau data sudah usang, ambil data baru dan simpan
+    pairs = get_binance_top_pairs()
+    data_to_save = {"last_updated": today, "pairs": pairs}
+    try:
+        with open(TOP_PAIRS_FILE, "w") as f:
+            json.dump(data_to_save, f, indent=4)
+        print(f"✅ Disimpan daftar pair untuk {today} ke {TOP_PAIRS_FILE}")
+    except Exception as e:
+        print("❌ Error menyimpan file top pairs:", e)
+    return pairs
 
 def analyze_pair(symbol):
     """Lakukan analisis teknikal pada pair dengan berbagai time frame."""
@@ -124,6 +206,8 @@ def analyze_pair(symbol):
             'adx_m15': analysis_m15.indicators.get('ADX'),
             'obv_m15': analysis_m15.indicators.get('OBV'),
             'candle_m15': analysis_m15.summary.get('RECOMMENDATION'),
+            'stoch_k_m15': analysis_m15.indicators.get('Stoch.K'),
+            'stoch_d_m15': analysis_m15.indicators.get('Stoch.D'),
 
             'ema10_h1': analysis_h1.indicators.get('EMA10'),
             'ema20_h1': analysis_h1.indicators.get('EMA20'),
@@ -179,6 +263,8 @@ def calculate_scores(data):
     adx_m15 = data['adx_m15']
     obv_m15 = data['obv_m15']
     candle_m15 = data['candle_m15']
+    stoch_k_m15 = data['stoch_k_m15']
+    stoch_d_m15 = data['stoch_d_m15']
 
     ema10_h1 = data['ema10_h1']
     ema20_h1 = data['ema20_h1']
@@ -191,41 +277,25 @@ def calculate_scores(data):
     obv_h1 = data['obv_h1']
     candle_h1 = data['candle_h1']
 
-    # Bobot untuk setiap indikator
-    weights = {
-        'ema': 2,
-        'rsi': 1,
-        'macd': 2,
-        'bb': 1,
-        'adx': 1,
-        'obv': 1,
-        'candle': 1,
-        'stoch': 1,
-        'ichimoku': 1.5
-    }
-
     buy_conditions = [
-        (safe_compare(ema10_m15, ema20_m15, '>'), weights['ema']),
-        ((rsi_m5 is not None and rsi_m5 < 35), weights['rsi']),
-        (safe_compare(macd_m15, macd_signal_m15, '>'), weights['macd']),
-        ((current_price <= bb_lower_m5 if bb_lower_m5 is not None else False), weights['bb']),
-        (("BUY" in candle_m5 or "STRONG_BUY" in candle_m5) if candle_m5 else False, weights['candle']),
-        ((stoch_k_m5 is not None and stoch_k_m5 < 20 and stoch_d_m5 is not None and stoch_d_m5 < 20), weights['stoch'])
+        safe_compare(ema10_m15, ema20_m15, '>'),
+        (rsi_m5 is not None and rsi_m5 < 35),
+        safe_compare(macd_m15, macd_signal_m15, '>'),
+        (current_price <= bb_lower_m5 if bb_lower_m5 is not None else False),
+        (("BUY" in candle_m5 or "STRONG_BUY" in candle_m5) if candle_m5 else False),
+        (stoch_k_m5 is not None and stoch_k_m5 < 20 and stoch_d_m5 is not None and stoch_d_m5 < 20)
     ]
 
     sell_conditions = [
-        (safe_compare(ema10_m15, ema20_m15, '<'), weights['ema']),
-        ((rsi_m5 is not None and rsi_m5 > 65), weights['rsi']),
-        (safe_compare(macd_m15, macd_signal_m15, '<'), weights['macd']),
-        ((current_price >= bb_upper_m5 if bb_upper_m5 is not None else False), weights['bb']),
-        (("SELL" in candle_m5 or "STRONG_SELL" in candle_m5) if candle_m5 else False, weights['candle']),
-        ((stoch_k_m5 is not None and stoch_k_m5 > 80 and stoch_d_m5 is not None and stoch_d_m5 > 80), weights['stoch'])
+        safe_compare(ema10_m15, ema20_m15, '<'),
+        (rsi_m5 is not None and rsi_m5 > 65),
+        safe_compare(macd_m15, macd_signal_m15, '<'),
+        (current_price >= bb_upper_m5 if bb_upper_m5 is not None else False),
+        (("SELL" in candle_m5 or "STRONG_SELL" in candle_m5) if candle_m5 else False),
+        (stoch_k_m5 is not None and stoch_k_m5 > 80 and stoch_d_m5 is not None and stoch_d_m5 > 80)
     ]
 
-    buy_score = sum(weight for condition, weight in buy_conditions if condition)
-    sell_score = sum(weight for condition, weight in sell_conditions if condition)
-    
-    return buy_score, sell_score
+    return sum(buy_conditions), sum(sell_conditions)
 
 # ==============================
 # FUNGSI TRADING
@@ -276,9 +346,8 @@ def send_telegram_alert(signal_type, pair, current_price, data, buy_price=None):
     base_msg += f"📊 *Score:* Buy {buy_score}/6 | Sell {sell_score}/6\n"
 
     if signal_type == 'BUY':
-        message = f"{base_msg}🔍 *RSI:* M5 = {data['rsi_m5']:.2f} | M15 = {data['rsi_m15']:.2f}\n"
-        message += f"*Stoch RSI:* {data['stoch_k_m5']:.2f}\n"
-        data['stoch_k_m5']
+        message = f"{base_msg}🔍 *RSI:* {data['rsi_m15']:.2f}\n"
+        message += f"*Stoch RSI:* {data['stoch_k_m15']:.2f}\n"
         ACTIVE_BUYS[pair] = {'price': current_price, 'time': datetime.now()}
 
     elif signal_type in ['TAKE PROFIT', 'STOP LOSS', 'SELL']:
@@ -324,7 +393,8 @@ def send_telegram_alert(signal_type, pair, current_price, data, buy_price=None):
 # ==============================
 def main():
     """Program utama"""
-    pairs = get_binance_top_pairs()
+    # Ambil daftar pair dari file (akan diperbarui jika hari UTC baru)
+    pairs = load_top_pairs_from_file()
     print(f"🔍 Memulai analisis {len(pairs)} pair - {datetime.now().strftime('%d/%m %H:%M')}")
 
     for pair in pairs:
@@ -340,7 +410,7 @@ def main():
             if signal:
                 send_telegram_alert(signal, pair, current_price, data, buy_price=current_price)
                 
-            # Auto close posisi hanya berdasarkan durasi hold maksimum
+            # Auto close posisi berdasarkan durasi hold maksimum
             if pair in ACTIVE_BUYS:
                 entry = ACTIVE_BUYS.get(pair)
                 duration = datetime.now() - entry['time']
