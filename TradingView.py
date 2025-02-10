@@ -12,6 +12,7 @@ TELEGRAM_CHAT_ID = os.getenv('TELEGRAM_CHAT_ID')
 ACTIVE_BUYS = {}
 ACTIVE_BUYS_FILE = 'active_buys.json'
 TOP_PAIRS_FILE = 'top_pairs.json'  # File untuk menyimpan daftar top pair
+TOP_PAIRS = 100
 BUY_SCORE_THRESHOLD = 5
 SELL_SCORE_THRESHOLD = 4
 PROFIT_TARGET_PERCENTAGE = 5    # Target profit 5%
@@ -112,8 +113,8 @@ def get_binance_top_pairs():
             available_coins = sorted_coins
         
         # Ambil 50 coin teratas dari yang tersedia
-        top_50_dropped = available_coins[:50]
-        return [f"{coin['symbol'].upper()}USDT" for coin in top_50_dropped]
+        top_dropped = available_coins[:TOP_PAIRS]
+        return [f"{coin['symbol'].upper()}USDT" for coin in top_dropped]
     except Exception as e:
         print(f"❌ Error fetching data dari CoinGecko: {e}")
         return []
