@@ -11,7 +11,7 @@ TELEGRAM_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN')
 TELEGRAM_CHAT_ID = os.getenv('TELEGRAM_CHAT_ID')
 ACTIVE_BUYS = {}
 ACTIVE_BUYS_FILE = 'active_buys.json'
-BUY_SCORE_THRESHOLD = 8
+BUY_SCORE_THRESHOLD = 6
 SELL_SCORE_THRESHOLD = 5
 PROFIT_TARGET_PERCENTAGE = 5    # Target profit 5%
 STOP_LOSS_PERCENTAGE = 2        # Stop loss 2%
@@ -29,7 +29,7 @@ else:
             pair: {
                 'price': data['price'],
                 'time': datetime.fromisoformat(data['time'])
-            }
+            } 
             for pair, data in loaded.items()
         }
 
@@ -98,11 +98,8 @@ def analyze_pair(symbol):
         analysis_m15 = handler_m15.get_analysis()
         analysis_h1 = handler_h1.get_analysis()
 
-        ichimoku_m5 = analysis_m5.indicators.get('Ichimoku')
-        ichimoku_m15 = analysis_m15.indicators.get('Ichimoku')
-        ichimoku_h1 = analysis_h1.indicators.get('Ichimoku')
-
         return {
+            # Gunakan key 'current_price' untuk harga saat ini (diambil dari analisis 5 menit)
             'current_price': analysis_m5.indicators.get('close'),
             'ema5_m5': analysis_m5.indicators.get('EMA5'),
             'ema10_m5': analysis_m5.indicators.get('EMA10'),
@@ -116,7 +113,6 @@ def analyze_pair(symbol):
             'candle_m5': analysis_m5.summary.get('RECOMMENDATION'),
             'stoch_k_m5': analysis_m5.indicators.get('Stoch.K'),
             'stoch_d_m5': analysis_m5.indicators.get('Stoch.D'),
-            'ichimoku_m5': ichimoku_m5,
 
             'ema10_m15': analysis_m15.indicators.get('EMA10'),
             'ema20_m15': analysis_m15.indicators.get('EMA20'),
@@ -128,7 +124,6 @@ def analyze_pair(symbol):
             'adx_m15': analysis_m15.indicators.get('ADX'),
             'obv_m15': analysis_m15.indicators.get('OBV'),
             'candle_m15': analysis_m15.summary.get('RECOMMENDATION'),
-            'ichimoku_m15': ichimoku_m15,
 
             'ema10_h1': analysis_h1.indicators.get('EMA10'),
             'ema20_h1': analysis_h1.indicators.get('EMA20'),
@@ -139,8 +134,7 @@ def analyze_pair(symbol):
             'bb_upper_h1': analysis_h1.indicators.get('BB.upper'),
             'adx_h1': analysis_h1.indicators.get('ADX'),
             'obv_h1': analysis_h1.indicators.get('OBV'),
-            'candle_h1': analysis_h1.summary.get('RECOMMENDATION'),
-            'ichimoku_h1': ichimoku_h1
+            'candle_h1': analysis_h1.summary.get('RECOMMENDATION')
         }
     except Exception as e:
         print(f"⚠️ Error analisis {symbol}: {str(e)}")
@@ -157,7 +151,7 @@ def safe_compare(val1, val2, operator='>'):
 
 def calculate_scores(data):
     """
-    Hitung skor beli dan jual berdasarkan indikator teknikal dengan bobot.
+    Hitung skor beli dan jual berdasarkan indikator teknikal.
     Gunakan variabel current_price untuk harga saat ini, sedangkan posisi beli yang disimpan
     di ACTIVE_BUYS tetap menggunakan key 'price'.
     """
@@ -174,7 +168,6 @@ def calculate_scores(data):
     candle_m5 = data['candle_m5']
     stoch_k_m5 = data['stoch_k_m5']
     stoch_d_m5 = data['stoch_d_m5']
-    ichimoku_m5 = data['ichimoku_m5']
 
     ema10_m15 = data['ema10_m15']
     ema20_m15 = data['ema20_m15']
@@ -186,7 +179,6 @@ def calculate_scores(data):
     adx_m15 = data['adx_m15']
     obv_m15 = data['obv_m15']
     candle_m15 = data['candle_m15']
-    ichimoku_m15 = data['ichimoku_m15']
 
     ema10_h1 = data['ema10_h1']
     ema20_h1 = data['ema20_h1']
@@ -198,12 +190,11 @@ def calculate_scores(data):
     adx_h1 = data['adx_h1']
     obv_h1 = data['obv_h1']
     candle_h1 = data['candle_h1']
-    ichimoku_h1 = data['ichimoku_h1']
 
     # Bobot untuk setiap indikator
     weights = {
-        'ema': 1,
-        'rsi': 2,
+        'ema': 2,
+        'rsi': 1,
         'macd': 2,
         'bb': 1,
         'adx': 1,
@@ -214,34 +205,26 @@ def calculate_scores(data):
     }
 
     buy_conditions = [
-        (safe_compare(ema5_m5, ema10_m5, '>'), weights['ema']),
         (safe_compare(ema10_m15, ema20_m15, '>'), weights['ema']),
-        (safe_compare(ema10_h1, ema20_h1, '>'), weights['ema']),
-        ((rsi_m5 is not None and rsi_m5 < 30), weights['rsi']),
-        (safe_compare(macd_m5, macd_signal_m5, '>'), weights['macd']),
+        ((rsi_m5 is not None and rsi_m5 < 35), weights['rsi']),
+        (safe_compare(macd_m15, macd_signal_m15, '>'), weights['macd']),
         ((current_price <= bb_lower_m5 if bb_lower_m5 is not None else False), weights['bb']),
-        ((adx_m5 is not None and adx_m5 > 25), weights['adx']),
         (("BUY" in candle_m5 or "STRONG_BUY" in candle_m5) if candle_m5 else False, weights['candle']),
-        ((stoch_k_m5 is not None and stoch_k_m5 < 20 and stoch_d_m5 is not None and stoch_d_m5 < 20), weights['stoch']),
-        ((ichimoku_m5 is not None and current_price < ichimoku_m5['conversion_line'] and current_price > ichimoku_m5['base_line']), weights['ichimoku'])
+        ((stoch_k_m5 is not None and stoch_k_m5 < 20 and stoch_d_m5 is not None and stoch_d_m5 < 20), weights['stoch'])
     ]
 
     sell_conditions = [
-        (safe_compare(ema5_m5, ema10_m5, '<'), weights['ema']),
         (safe_compare(ema10_m15, ema20_m15, '<'), weights['ema']),
-        (safe_compare(ema10_h1, ema20_h1, '<'), weights['ema']),
-        ((rsi_m5 is not None and rsi_m5 > 70), weights['rsi']),
-        (safe_compare(macd_m5, macd_signal_m5, '<'), weights['macd']),
+        ((rsi_m5 is not None and rsi_m5 > 65), weights['rsi']),
+        (safe_compare(macd_m15, macd_signal_m15, '<'), weights['macd']),
         ((current_price >= bb_upper_m5 if bb_upper_m5 is not None else False), weights['bb']),
-        ((adx_m5 is not None and adx_m5 > 25), weights['adx']),
         (("SELL" in candle_m5 or "STRONG_SELL" in candle_m5) if candle_m5 else False, weights['candle']),
-        ((stoch_k_m5 is not None and stoch_k_m5 > 80 and stoch_d_m5 is not None and stoch_d_m5 > 80), weights['stoch']),
-        ((ichimoku_m5 is not None and current_price > ichimoku_m5['conversion_line'] and current_price < ichimoku_m5['base_line']), weights['ichimoku'])
+        ((stoch_k_m5 is not None and stoch_k_m5 > 80 and stoch_d_m5 is not None and stoch_d_m5 > 80), weights['stoch'])
     ]
 
     buy_score = sum(weight for condition, weight in buy_conditions if condition)
     sell_score = sum(weight for condition, weight in sell_conditions if condition)
-
+    
     return buy_score, sell_score
 
 # ==============================
@@ -253,7 +236,7 @@ def generate_signal(pair, data):
     buy_score, sell_score = calculate_scores(data)
     display_pair = f"{pair[:-4]}/USDT"
 
-    print(f"{display_pair} - Price: {current_price:.8f} | Buy: {buy_score}/10 | Sell: {sell_score}/10")
+    print(f"{display_pair} - Price: {current_price:.8f} | Buy: {buy_score}/6 | Sell: {sell_score}/6")
 
     buy_signal = buy_score >= BUY_SCORE_THRESHOLD and pair not in ACTIVE_BUYS
     sell_signal = sell_score >= SELL_SCORE_THRESHOLD and pair in ACTIVE_BUYS
@@ -278,11 +261,11 @@ def send_telegram_alert(signal_type, pair, current_price, data, buy_price=None):
     display_pair = f"{pair[:-4]}/USDT"
     message = ""
     buy_score, sell_score = calculate_scores(data)
-
+    
     emoji = {
-        'BUY': '🚀',
-        'SELL': '⚠️',
-        'TAKE PROFIT': '✅',
+        'BUY': '🚀', 
+        'SELL': '⚠️', 
+        'TAKE PROFIT': '✅', 
         'STOP LOSS': '🛑',
         'EXPIRED': '⌛'
     }.get(signal_type, 'ℹ️')
@@ -290,7 +273,7 @@ def send_telegram_alert(signal_type, pair, current_price, data, buy_price=None):
     base_msg = f"{emoji} *{signal_type}*\n"
     base_msg += f"💱 *{display_pair}*\n"
     base_msg += f"💲 *Price:* ${current_price:.8f}\n"
-    base_msg += f"📊 *Score:* Buy {buy_score}/10 | Sell {sell_score}/10\n"
+    base_msg += f"📊 *Score:* Buy {buy_score}/6 | Sell {sell_score}/6\n"
 
     if signal_type == 'BUY':
         message = f"{base_msg}🔍 *RSI:* M5 = {data['rsi_m5']:.2f} | M15 = {data['rsi_m15']:.2f}\n"
@@ -303,11 +286,11 @@ def send_telegram_alert(signal_type, pair, current_price, data, buy_price=None):
         if entry:
             profit = ((current_price - entry['price']) / entry['price']) * 100
             duration = str(datetime.now() - entry['time']).split('.')[0]
-
+            
             message = f"{base_msg}▫️ *Entry:* ${entry['price']:.8f}\n"
             message += f"💰 *{'Profit' if profit > 0 else 'Loss'}:* {profit:+.2f}%\n"
             message += f"🕒 *Durasi:* {duration}"
-
+            
             if pair in ACTIVE_BUYS:
                 del ACTIVE_BUYS[pair]
 
@@ -316,14 +299,14 @@ def send_telegram_alert(signal_type, pair, current_price, data, buy_price=None):
         if entry:
             profit = ((current_price - entry['price']) / entry['price']) * 100
             duration = str(datetime.now() - entry['time']).split('.')[0]
-
+            
             message = f"{base_msg}▫️ *Entry:* ${entry['price']:.8f}\n"
             message += f"⌛ *Order Expired After:* {duration}\n"
             message += f"💰 *{'Profit' if profit > 0 else 'Loss'}:* {profit:+.2f}%"
-
+            
             if pair in ACTIVE_BUYS:
                 del ACTIVE_BUYS[pair]
-
+    
     print(f"📢 Mengirim alert: {message}")
 
     try:
@@ -355,15 +338,15 @@ def main():
 
             signal, current_price = generate_signal(pair, data)
             if signal:
-                send_telegram_alert(signal_type, pair, current_price, data, buy_price=current_price)
-
+                send_telegram_alert(signal, pair, current_price, data, buy_price=current_price)
+                
             # Auto close posisi hanya berdasarkan durasi hold maksimum
             if pair in ACTIVE_BUYS:
                 entry = ACTIVE_BUYS.get(pair)
                 duration = datetime.now() - entry['time']
                 if duration > timedelta(hours=MAX_HOLD_DURATION_HOUR):
                     send_telegram_alert('EXPIRED', pair, data['current_price'], data, entry['price'])
-
+                    
         except Exception as e:
             print(f"⚠️ Error di {pair}: {str(e)}")
             continue
