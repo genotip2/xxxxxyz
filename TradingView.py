@@ -277,7 +277,7 @@ def send_telegram_alert(signal_type, pair, current_price, data, buy_price=None):
 
     if signal_type == 'BUY':
         message = f"{base_msg}🔍 *RSI:* M5 = {data['rsi_m5']:.2f} | M15 = {data['rsi_m15']:.2f}\n"
-        message += f"{base_msg}🔍 *Stoch RSI:* {data['stoch_k_m5']:.2f}\n"
+        message += f"*Stoch RSI:* {data['stoch_k_m5']:.2f}\n"
         data['stoch_k_m5']
         ACTIVE_BUYS[pair] = {'price': current_price, 'time': datetime.now()}
 
