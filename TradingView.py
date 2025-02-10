@@ -11,8 +11,7 @@ TELEGRAM_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN')
 TELEGRAM_CHAT_ID = os.getenv('TELEGRAM_CHAT_ID')
 ACTIVE_BUYS = {}
 ACTIVE_BUYS_FILE = 'active_buys.json'
-TOP_PAIRS_FILE = 'top_pairs.json'  # File untuk menyimpan daftar pair top
-FILE_TO_ANALIZE = 100
+TOP_PAIRS_FILE = 'top_pairs.json'  # File untuk menyimpan daftar top pair
 BUY_SCORE_THRESHOLD = 5
 SELL_SCORE_THRESHOLD = 4
 PROFIT_TARGET_PERCENTAGE = 5    # Target profit 5%
@@ -54,8 +53,8 @@ def save_active_buys_to_json():
 
 def get_binance_usdt_pairs():
     """
-    Ambil daftar pair yang tersedia di Binance dengan quote asset USDT.
-    Hanya pair dengan status "TRADING" yang akan diambil.
+    Ambil daftar pair dari Binance dengan quote asset USDT dan status TRADING.
+    Jika terjadi error (misalnya karena IP terblokir), kembalikan None sehingga proses filtering diabaikan.
     """
     url = "https://api.binance.com/api/v3/exchangeInfo"
     try:
@@ -69,14 +68,15 @@ def get_binance_usdt_pairs():
         return binance_symbols
     except Exception as e:
         print(f"❌ Error fetching Binance exchange info: {e}")
-        return set()
+        return None
 
 def get_binance_top_pairs():
     """
     Ambil 50 coin dengan penurunan harga terbesar (24 jam) dari CoinGecko
-    menggunakan endpoint /coins/markets, lalu filter hanya coin yang tersedia di Binance.
-    Data diurutkan berdasarkan price_change_percentage_24h secara ascending 
-    (nilai paling negatif artinya penurunan terbesar).
+    menggunakan endpoint /coins/markets.
+    Jika memungkinkan, filter hanya coin yang tersedia di Binance (berdasarkan pair misalnya 'BTCUSDT').
+    Apabila pemanggilan API Binance gagal, gunakan seluruh coin dari CoinGecko.
+    Data diurutkan berdasarkan price_change_percentage_24h secara ascending (nilai paling negatif artinya penurunan terbesar).
     """
     url = "https://api.coingecko.com/api/v3/coins/markets"
     params = {
@@ -98,26 +98,29 @@ def get_binance_top_pairs():
             return []
         
         # Urutkan coin berdasarkan price_change_percentage_24h secara ascending 
-        # (coin dengan penurunan terbesar memiliki nilai paling negatif)
         sorted_coins = sorted(coins_with_change, key=lambda coin: coin["price_change_percentage_24h"])
         
-        # Dapatkan daftar pair yang tersedia di Binance (misalnya: "BTCUSDT", "ETHUSDT", dll.)
+        # Ambil daftar pair yang tersedia di Binance (jika API Binance berhasil)
         binance_pairs = get_binance_usdt_pairs()
-        # Filter coin yang pair-nya tersedia di Binance
-        available_coins = [
-            coin for coin in sorted_coins
-            if f"{coin['symbol'].upper()}USDT" in binance_pairs
-        ]
+        if binance_pairs:
+            available_coins = [
+                coin for coin in sorted_coins
+                if f"{coin['symbol'].upper()}USDT" in binance_pairs
+            ]
+        else:
+            # Jika gagal mendapatkan daftar pair dari Binance, gunakan semua coin dari CoinGecko
+            available_coins = sorted_coins
+        
         # Ambil 50 coin teratas dari yang tersedia
-        top_dropped = available_coins[:FILE_TO_ANALIZE]
-        return [f"{coin['symbol'].upper()}USDT" for coin in top_dropped]
+        top_50_dropped = available_coins[:50]
+        return [f"{coin['symbol'].upper()}USDT" for coin in top_50_dropped]
     except Exception as e:
-        print(f"❌ Error fetching data: {e}")
+        print(f"❌ Error fetching data dari CoinGecko: {e}")
         return []
 
 def load_top_pairs_from_file():
     """
-    Muat daftar pair dari file JSON TOP_PAIRS_FILE.
+    Muat daftar pair dari file TOP_PAIRS_FILE.
     Jika file tidak ada atau tanggal 'last_updated' tidak sama dengan hari UTC saat ini,
     maka perbarui daftar pair dengan memanggil get_binance_top_pairs() dan simpan ke file.
     """
@@ -132,7 +135,7 @@ def load_top_pairs_from_file():
                 print(f"🔄 Menggunakan daftar pair cached dari {last_updated}")
                 return pairs
             else:
-                print("ℹ️ File top pairs sudah usang. Memperbarui daftar...")
+                print("ℹ️ Data top pairs sudah usang. Memperbarui daftar...")
         except Exception as e:
             print("❌ Error membaca file top pairs:", e)
     
@@ -148,7 +151,9 @@ def load_top_pairs_from_file():
     return pairs
 
 def analyze_pair(symbol):
-    """Lakukan analisis teknikal pada pair dengan berbagai time frame."""
+    """Lakukan analisis teknikal pada pair dengan berbagai time frame.
+       Jika terjadi error (misalnya pair tidak tersedia di Binance), kembalikan None.
+    """
     try:
         handler_m1 = TA_Handler(
             symbol=symbol,
@@ -181,7 +186,6 @@ def analyze_pair(symbol):
         analysis_h1 = handler_h1.get_analysis()
 
         return {
-            # Gunakan key 'current_price' untuk harga saat ini (diambil dari analisis 5 menit)
             'current_price': analysis_m5.indicators.get('close'),
             'ema5_m5': analysis_m5.indicators.get('EMA5'),
             'ema10_m5': analysis_m5.indicators.get('EMA10'),
@@ -236,8 +240,7 @@ def safe_compare(val1, val2, operator='>'):
 def calculate_scores(data):
     """
     Hitung skor beli dan jual berdasarkan indikator teknikal.
-    Gunakan variabel current_price untuk harga saat ini, sedangkan posisi beli yang disimpan
-    di ACTIVE_BUYS tetap menggunakan key 'price'.
+    Gunakan current_price untuk harga saat ini, sedangkan entry harga tersimpan di ACTIVE_BUYS.
     """
     current_price = data['current_price']
     ema5_m5 = data['ema5_m5']
@@ -297,9 +300,6 @@ def calculate_scores(data):
 
     return sum(buy_conditions), sum(sell_conditions)
 
-# ==============================
-# FUNGSI TRADING
-# ==============================
 def generate_signal(pair, data):
     """Generate trading signal berdasarkan skor dan posisi aktif."""
     current_price = data['current_price']
@@ -311,7 +311,7 @@ def generate_signal(pair, data):
     buy_signal = buy_score >= BUY_SCORE_THRESHOLD and pair not in ACTIVE_BUYS
     sell_signal = sell_score >= SELL_SCORE_THRESHOLD and pair in ACTIVE_BUYS
 
-    # Gunakan konfigurasi untuk perhitungan take profit dan stop loss
+    # Perhitungan take profit dan stop loss
     take_profit = pair in ACTIVE_BUYS and current_price > ACTIVE_BUYS[pair]['price'] * (1 + PROFIT_TARGET_PERCENTAGE / 100)
     stop_loss = pair in ACTIVE_BUYS and current_price < ACTIVE_BUYS[pair]['price'] * (1 - STOP_LOSS_PERCENTAGE / 100)
 
@@ -355,11 +355,9 @@ def send_telegram_alert(signal_type, pair, current_price, data, buy_price=None):
         if entry:
             profit = ((current_price - entry['price']) / entry['price']) * 100
             duration = str(datetime.now() - entry['time']).split('.')[0]
-            
             message = f"{base_msg}▫️ *Entry:* ${entry['price']:.8f}\n"
             message += f"💰 *{'Profit' if profit > 0 else 'Loss'}:* {profit:+.2f}%\n"
             message += f"🕒 *Durasi:* {duration}"
-            
             if pair in ACTIVE_BUYS:
                 del ACTIVE_BUYS[pair]
 
@@ -368,11 +366,9 @@ def send_telegram_alert(signal_type, pair, current_price, data, buy_price=None):
         if entry:
             profit = ((current_price - entry['price']) / entry['price']) * 100
             duration = str(datetime.now() - entry['time']).split('.')[0]
-            
             message = f"{base_msg}▫️ *Entry:* ${entry['price']:.8f}\n"
             message += f"⌛ *Order Expired After:* {duration}\n"
             message += f"💰 *{'Profit' if profit > 0 else 'Loss'}:* {profit:+.2f}%"
-            
             if pair in ACTIVE_BUYS:
                 del ACTIVE_BUYS[pair]
     
@@ -388,12 +384,9 @@ def send_telegram_alert(signal_type, pair, current_price, data, buy_price=None):
         json={'chat_id': TELEGRAM_CHAT_ID, 'text': message, 'parse_mode': 'Markdown'}
     )
 
-# ==============================
-# FUNGSI UTAMA
-# ==============================
 def main():
     """Program utama"""
-    # Ambil daftar pair dari file (akan diperbarui jika hari UTC baru)
+    # Ambil daftar pair dari file top_pairs.json (cached selama 24 jam, diupdate setelah jam 00 UTC)
     pairs = load_top_pairs_from_file()
     print(f"🔍 Memulai analisis {len(pairs)} pair - {datetime.now().strftime('%d/%m %H:%M')}")
 
@@ -410,7 +403,7 @@ def main():
             if signal:
                 send_telegram_alert(signal, pair, current_price, data, buy_price=current_price)
                 
-            # Auto close posisi berdasarkan durasi hold maksimum
+            # Auto-close posisi berdasarkan durasi hold maksimum
             if pair in ACTIVE_BUYS:
                 entry = ACTIVE_BUYS.get(pair)
                 duration = datetime.now() - entry['time']
