@@ -18,7 +18,7 @@ jobs:
         python-version: '3.9'
 
     - name: Install Dependencies
-      run: pip install --upgrade tradingview-ta requests
+      run: pip install --upgrade tradingview-ta requests python-dotenv ta
 
     - name: Run Bot
       env:
