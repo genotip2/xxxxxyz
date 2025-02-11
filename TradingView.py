@@ -25,6 +25,7 @@ MIN_VOLUME_MA = 1000000  # $1 juta
 # Setup Logging
 logging.basicConfig(
     filename='trading_bot.log',
+    filemode='w'
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s'
 )
