@@ -18,8 +18,9 @@ RISK_REWARD_RATIO = 3.0
 ATR_MULTIPLIER = 1.5
 MAX_HOLD_DURATION_HOURS = 48
 PAIR_TO_ANALYZE = 100
-RSI_LIMIT = 55
-MIN_VOLUME_MA = 1000000  # $1 juta
+RSI_LIMIT = 60
+# Jika data volume dari TradingView tidak sesuai (misal, format berbeda), Anda bisa menonaktifkan cek volume
+MIN_VOLUME = 0  
 
 # ==============================
 # FUNGSI UTILITAS
@@ -75,7 +76,7 @@ def get_binance_top_pairs():
         
         usdt_pairs = [
             t for t in data.get('tickers', [])
-            if t.get('target') == 'USDT' and t.get('converted_volume', {}).get('usd', 0) > MIN_VOLUME_MA
+            if t.get('target') == 'USDT'
         ]
         
         sorted_pairs = sorted(
@@ -91,7 +92,10 @@ def get_binance_top_pairs():
         return []
 
 def analyze_pair(pair, interval):
-    """Analisis teknikal dengan multiple indikator"""
+    """
+    Mengambil data analisis dari TradingView menggunakan tradingview_ta.
+    Fungsi ini mengembalikan dictionary dengan key sesuai dengan format data contoh.
+    """
     try:
         handler = TA_Handler(
             symbol=pair,
@@ -104,26 +108,27 @@ def analyze_pair(pair, interval):
             print(f"Tidak ada data analisis untuk {pair}")
             return None
 
+        # Pastikan key sesuai dengan format data contoh (misalnya, 'RECOMMENDATION' dengan huruf besar)
         return {
-            'recommendation': analysis.summary.get('RECOMMENDATION'),
+            'RECOMMENDATION': analysis.summary.get('RECOMMENDATION'),
             'close': analysis.indicators.get('close'),
-            'rsi': analysis.indicators.get('RSI'),
-            'rsi_prev': analysis.indicators.get('RSI[1]'),
-            'macd': analysis.indicators.get('MACD.macd'),
-            'signal': analysis.indicators.get('MACD.signal'),
-            'atr': analysis.indicators.get('ATR'),
-            'volume': analysis.indicators.get('volume'),
-            'volume_ma': analysis.indicators.get('volume_ma')
+            'RSI': analysis.indicators.get('RSI'),
+            'MACD.macd': analysis.indicators.get('MACD.macd'),
+            'MACD.signal': analysis.indicators.get('MACD.signal'),
+            'ATR': analysis.indicators.get('ATR'),
+            'volume': analysis.indicators.get('volume')
         }
     except Exception as e:
         print(f"Analysis error for {pair}: {e}")
         return None
 
 # ==============================
-# LOGIKA TRADING
+# FUNGSI RISK MANAGEMENT
 # ==============================
 def calculate_risk(current_price, atr):
-    """Menghitung parameter risiko dinamis"""
+    """Menghitung parameter risiko dinamis.
+       Jika ATR tidak tersedia, gunakan fallback 2% dari harga saat ini.
+    """
     if atr is None or atr <= 0:
         atr = 0.02 * current_price  # Fallback 2% jika ATR tidak tersedia
     stop_loss = current_price - (atr * ATR_MULTIPLIER)
@@ -136,21 +141,31 @@ def calculate_risk(current_price, atr):
         'atr': atr
     }
 
+# ==============================
+# LOGIKA TRADING
+# ==============================
 def generate_signal(pair):
-    """Generasi sinyal dengan manajemen risiko dinamis"""
+    """
+    Menghasilkan sinyal trading berdasarkan data 1H (trend) dan 15M (entry).
+    Modifikasi: tidak lagi bergantung pada 'volume_ma' karena data contoh tidak memilikinya.
+    """
+    # Analisis trend dari data 1H
     trend = analyze_pair(pair, Interval.INTERVAL_1_HOUR)
     if not trend or trend.get('close') is None:
         return None
-    
-    if trend.get('volume_ma') is None or trend['volume_ma'] < MIN_VOLUME_MA:
+
+    # Opsional: cek volume (jika diperlukan)
+    if trend.get('volume') is None or trend['volume'] < MIN_VOLUME:
         return None
     
+    # Analisis entry dari data 15M
     entry = analyze_pair(pair, Interval.INTERVAL_15_MINUTES)
     if not entry or entry.get('close') is None:
         return None
-    
+
     current_price = entry['close']
-    
+
+    # Jika sudah ada posisi aktif untuk pair ini
     if pair in ACTIVE_BUYS:
         position = ACTIVE_BUYS[pair]
         position['highest_price'] = max(position['highest_price'], current_price)
@@ -163,29 +178,30 @@ def generate_signal(pair):
             return 'STOP_LOSS', current_price
         if (datetime.now() - position['entry_time']).total_seconds() > MAX_HOLD_DURATION_HOURS * 3600:
             return 'HOLD_EXPIRED', current_price
-        if trend.get('recommendation') in ['SELL', 'STRONG_SELL']:
+        if trend.get('RECOMMENDATION') in ['SELL', 'STRONG_SELL']:
             return 'TREND_REVERSAL', current_price
     else:
-        if (trend.get('recommendation') in ['BUY', 'STRONG_BUY'] and
-            entry.get('rsi') is not None and entry.get('rsi_prev') is not None and
-            entry['rsi'] < RSI_LIMIT and entry['rsi'] > entry['rsi_prev'] and
-            entry.get('macd') is not None and entry.get('signal') is not None and
-            entry['macd'] > entry['signal'] and
-            entry.get('volume') is not None and entry.get('volume_ma') is not None and
-            entry['volume'] > entry['volume_ma'] * 0.8):
+        # Syarat untuk sinyal BUY:
+        # - Rekomendasi 1H: BUY/STRONG_BUY
+        # - RSI pada data 15M kurang dari RSI_LIMIT
+        # - MACD pada data 15M: MACD.macd > MACD.signal
+        if (trend.get('RECOMMENDATION') in ['BUY', 'STRONG_BUY'] and
+            entry.get('RSI') is not None and entry['RSI'] < RSI_LIMIT and
+            entry.get('MACD.macd') is not None and entry.get('MACD.signal') is not None and
+            entry['MACD.macd'] > entry['MACD.signal']):
             
-            risk_data = calculate_risk(current_price, entry.get('atr'))
+            risk_data = calculate_risk(current_price, entry.get('ATR'))
             if risk_data['risk'] > 5:  # Batasi risiko maksimal 5%
                 return None
             return 'BUY', current_price, risk_data
-    
+
     return None
 
 # ==============================
 # NOTIFIKASI & EKSEKUSI
 # ==============================
 def send_telegram_alert(signal, pair, price, details=None):
-    """Mengirim notifikasi lengkap ke Telegram"""
+    """Mengirim notifikasi ke Telegram"""
     emoji_map = {
         'BUY': '🚀',
         'TAKE_PROFIT': '✅',
@@ -259,10 +275,7 @@ def main():
                 if pair in ACTIVE_BUYS:
                     del ACTIVE_BUYS[pair]
     
-    # Jika tidak ada sinyal, hanya tampilkan pesan di console (tidak mengirim notifikasi ke Telegram)
-    if not any_signal:
-        print("No signals triggered for any pair")
-    
+    # Hapus posisi jika sudah melewati batas durasi
     for pair in list(ACTIVE_BUYS.keys()):
         pos = ACTIVE_BUYS[pair]
         if (datetime.now() - pos['entry_time']).total_seconds() > MAX_HOLD_DURATION_HOURS * 3600:
