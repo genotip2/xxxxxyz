@@ -1,7 +1,6 @@
 import os
 import requests
 import json
-import logging
 from datetime import datetime, timedelta
 from tradingview_ta import TA_Handler, Interval
 
@@ -18,17 +17,9 @@ ACTIVE_BUYS = {}
 RISK_REWARD_RATIO = 3.0
 ATR_MULTIPLIER = 1.5
 MAX_HOLD_DURATION_HOURS = 48
-PAIR_TO_ANALYZE = 100
+PAIR_TO_ANALYZE = 30
 RSI_LIMIT = 40
 MIN_VOLUME_MA = 1000000  # $1 juta
-
-# Setup Logging
-logging.basicConfig(
-    filename='trading_bot.log',
-    filemode='w'
-    level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)s'
-)
 
 # ==============================
 # FUNGSI UTILITAS
@@ -50,9 +41,9 @@ def load_active_buys():
                 }
                 for pair, d in data.items()
             }
-            logging.info("Loaded active positions")
+            print("Active positions loaded.")
     except Exception as e:
-        logging.error(f"Error loading active buys: {e}")
+        print(f"Error loading active buys: {e}")
 
 def save_active_buys():
     try:
@@ -68,9 +59,9 @@ def save_active_buys():
             }
         with open(ACTIVE_BUYS_FILE, 'w') as f:
             json.dump(data, f, indent=2)
-        logging.info("Saved active positions")
+        print("Active positions saved.")
     except Exception as e:
-        logging.error(f"Error saving active buys: {e}")
+        print(f"Error saving active buys: {e}")
 
 # ==============================
 # FUNGSI ANALISIS PASAR
@@ -87,18 +78,16 @@ def get_binance_top_pairs():
             if t.get('target') == 'USDT' and t.get('converted_volume', {}).get('usd', 0) > MIN_VOLUME_MA
         ]
         
-        # Urutkan berdasarkan converted_volume secara menurun
         sorted_pairs = sorted(
             usdt_pairs,
             key=lambda p: p.get('converted_volume', {}).get('usd', 0),
             reverse=True
         )[:PAIR_TO_ANALYZE]
         
-        # Ubah ke format string misalnya "BTCUSDT"
         return [f"{p.get('base')}USDT" for p in sorted_pairs]
         
     except Exception as e:
-        logging.error(f"Error fetching pairs: {e}")
+        print(f"Error fetching pairs: {e}")
         return []
 
 def analyze_pair(pair, interval):
@@ -111,9 +100,8 @@ def analyze_pair(pair, interval):
             interval=interval
         )
         analysis = handler.get_analysis()
-        # Pastikan data analisis tersedia dan memiliki atribut summary
         if analysis is None or not hasattr(analysis, 'summary'):
-            logging.error(f"Tidak ada data analisis untuk {pair}")
+            print(f"Tidak ada data analisis untuk {pair}")
             return None
 
         return {
@@ -128,7 +116,7 @@ def analyze_pair(pair, interval):
             'volume_ma': analysis.indicators.get('volume_ma')
         }
     except Exception as e:
-        logging.error(f"Analysis error for {pair}: {e}")
+        print(f"Analysis error for {pair}: {e}")
         return None
 
 # ==============================
@@ -150,23 +138,19 @@ def calculate_risk(current_price, atr):
 
 def generate_signal(pair):
     """Generasi sinyal dengan manajemen risiko dinamis"""
-    # Analisis trend 1-jam
     trend = analyze_pair(pair, Interval.INTERVAL_1_HOUR)
     if not trend or trend.get('close') is None:
         return None
     
-    # Filter volume: pastikan volume_ma tersedia dan memenuhi syarat
     if trend.get('volume_ma') is None or trend['volume_ma'] < MIN_VOLUME_MA:
         return None
     
-    # Analisis entry 15-menit
     entry = analyze_pair(pair, Interval.INTERVAL_15_MINUTES)
     if not entry or entry.get('close') is None:
         return None
     
     current_price = entry['close']
     
-    # Jika posisi sudah aktif, cek kondisi exit dan update trailing stop
     if pair in ACTIVE_BUYS:
         position = ACTIVE_BUYS[pair]
         position['highest_price'] = max(position['highest_price'], current_price)
@@ -182,7 +166,6 @@ def generate_signal(pair):
         if trend.get('recommendation') in ['SELL', 'STRONG_SELL']:
             return 'TREND_REVERSAL', current_price
     else:
-        # Kondisi entry: cek indikator dan validasi kondisi teknikal
         if (trend.get('recommendation') in ['BUY', 'STRONG_BUY'] and
             entry.get('rsi') is not None and entry.get('rsi_prev') is not None and
             entry['rsi'] < RSI_LIMIT and entry['rsi'] > entry['rsi_prev'] and
@@ -212,7 +195,6 @@ def send_telegram_alert(signal, pair, price, details=None):
         'NO_SIGNAL': 'ℹ️'
     }
     
-    # Jika sinyal adalah NO_SIGNAL, buat pesan tersendiri
     if signal == 'NO_SIGNAL':
         message = f"{emoji_map.get(signal)} **No Signal**\nTidak ada sinyal trading untuk saat ini."
     else:
@@ -239,10 +221,9 @@ def send_telegram_alert(signal, pair, price, details=None):
                 json={'chat_id': TELEGRAM_CHAT_ID, 'text': message, 'parse_mode': 'Markdown'}
             )
         else:
-            logging.warning("Telegram configuration is missing.")
-        logging.info(f"Sent alert: {signal} for {pair}")
+            print("Telegram configuration is missing.")
     except Exception as e:
-        logging.error(f"Telegram error: {e}")
+        print(f"Telegram error: {e}")
 
 # ==============================
 # MAIN LOGIC
@@ -252,20 +233,16 @@ def main():
     pairs = get_binance_top_pairs()
     
     if not pairs:
-        logging.info("No pairs fetched.")
         print("No pairs fetched.")
         return
     
     any_signal = False
     for pair in pairs:
-        # Tampilkan pair yang sedang dicek di console dan log
         print(f"Checking pair: {pair}")
-        logging.info(f"Checking pair: {pair}")
         
         result = generate_signal(pair)
         if not result:
             print(f"No signal for {pair}")
-            logging.info(f"No signal for {pair}")
             continue
         else:
             any_signal = True
@@ -286,12 +263,10 @@ def main():
                 if pair in ACTIVE_BUYS:
                     del ACTIVE_BUYS[pair]
     
-    # Jika tidak ada sinyal sama sekali, kirim notifikasi NO_SIGNAL
     if not any_signal:
         send_telegram_alert("NO_SIGNAL", "ALL", 0)
-        logging.info("No signals triggered for any pair")
+        print("No signals triggered for any pair")
     
-    # Cleanup posisi yang sudah melewati batas waktu
     for pair in list(ACTIVE_BUYS.keys()):
         pos = ACTIVE_BUYS[pair]
         if (datetime.now() - pos['entry_time']).total_seconds() > MAX_HOLD_DURATION_HOURS * 3600:
