@@ -17,7 +17,7 @@ ACTIVE_BUYS = {}
 RISK_REWARD_RATIO = 3.0
 ATR_MULTIPLIER = 1.5
 MAX_HOLD_DURATION_HOURS = 48
-PAIR_TO_ANALYZE = 30
+PAIR_TO_ANALYZE = 100
 RSI_LIMIT = 40
 MIN_VOLUME_MA = 1000000  # $1 juta
 
@@ -182,7 +182,7 @@ def generate_signal(pair):
     return None
 
 # ==============================
-# NOTIFIKASI & EXECUTION
+# NOTIFIKASI & EKSEKUSI
 # ==============================
 def send_telegram_alert(signal, pair, price, details=None):
     """Mengirim notifikasi lengkap ke Telegram"""
@@ -191,28 +191,24 @@ def send_telegram_alert(signal, pair, price, details=None):
         'TAKE_PROFIT': '✅',
         'STOP_LOSS': '🛑',
         'HOLD_EXPIRED': '⌛',
-        'TREND_REVERSAL': '🔄',
-        'NO_SIGNAL': 'ℹ️'
+        'TREND_REVERSAL': '🔄'
     }
     
-    if signal == 'NO_SIGNAL':
-        message = f"{emoji_map.get(signal)} **No Signal**\nTidak ada sinyal trading untuk saat ini."
-    else:
-        message = f"{emoji_map.get(signal, 'ℹ️')} **{signal.replace('_', ' ')}**\n"
-        message += f"• Pair: `{pair}`\n"
-        message += f"• Price: ${price:.4f}\n"
-        if signal == 'BUY' and details:
-            message += f"• Stop Loss: ${details['stop_loss']:.4f}\n"
-            message += f"• Take Profit: ${details['take_profit']:.4f}\n"
-            message += f"• Risk: {details['risk']:.2f}%\n"
-            message += f"• ATR: ${details['atr']:.4f}\n"
-        elif pair in ACTIVE_BUYS:
-            pos = ACTIVE_BUYS[pair]
-            profit = ((price - pos['entry_price']) / pos['entry_price']) * 100
-            duration = datetime.now() - pos['entry_time']
-            message += f"• Entry Price: ${pos['entry_price']:.4f}\n"
-            message += f"• Profit: {profit:.2f}%\n"
-            message += f"• Duration: {str(duration).split('.')[0]}\n"
+    message = f"{emoji_map.get(signal, 'ℹ️')} **{signal.replace('_', ' ')}**\n"
+    message += f"• Pair: `{pair}`\n"
+    message += f"• Price: ${price:.4f}\n"
+    if signal == 'BUY' and details:
+        message += f"• Stop Loss: ${details['stop_loss']:.4f}\n"
+        message += f"• Take Profit: ${details['take_profit']:.4f}\n"
+        message += f"• Risk: {details['risk']:.2f}%\n"
+        message += f"• ATR: ${details['atr']:.4f}\n"
+    elif pair in ACTIVE_BUYS:
+        pos = ACTIVE_BUYS[pair]
+        profit = ((price - pos['entry_price']) / pos['entry_price']) * 100
+        duration = datetime.now() - pos['entry_time']
+        message += f"• Entry Price: ${pos['entry_price']:.4f}\n"
+        message += f"• Profit: {profit:.2f}%\n"
+        message += f"• Duration: {str(duration).split('.')[0]}\n"
     
     try:
         if TELEGRAM_TOKEN and TELEGRAM_CHAT_ID:
@@ -263,8 +259,8 @@ def main():
                 if pair in ACTIVE_BUYS:
                     del ACTIVE_BUYS[pair]
     
+    # Jika tidak ada sinyal, hanya tampilkan pesan di console (tidak mengirim notifikasi ke Telegram)
     if not any_signal:
-        send_telegram_alert("NO_SIGNAL", "ALL", 0)
         print("No signals triggered for any pair")
     
     for pair in list(ACTIVE_BUYS.keys()):
