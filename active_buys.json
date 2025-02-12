@@ -1,1 +1,42 @@
-{}
+{
+  "AIXBTUSDT": {
+    "entry_price": 0.2559,
+    "stop_loss": 0.24822300000000003,
+    "take_profit": 0.27893100000000004,
+    "highest_price": 0.2559,
+    "entry_time": "2025-02-12T23:35:22.274131",
+    "atr": 0.005118
+  },
+  "RAYUSDT": {
+    "entry_price": 5.235,
+    "stop_loss": 5.07795,
+    "take_profit": 5.70615,
+    "highest_price": 5.235,
+    "entry_time": "2025-02-12T23:35:24.821004",
+    "atr": 0.10470000000000002
+  },
+  "MEUSDT": {
+    "entry_price": 2.047,
+    "stop_loss": 1.9855900000000002,
+    "take_profit": 2.23123,
+    "highest_price": 2.047,
+    "entry_time": "2025-02-12T23:35:26.599581",
+    "atr": 0.040940000000000004
+  },
+  "SYNUSDT": {
+    "entry_price": 0.459,
+    "stop_loss": 0.44523,
+    "take_profit": 0.50031,
+    "highest_price": 0.459,
+    "entry_time": "2025-02-12T23:35:31.156188",
+    "atr": 0.00918
+  },
+  "SCRUSDT": {
+    "entry_price": 0.648,
+    "stop_loss": 0.62856,
+    "take_profit": 0.7063200000000001,
+    "highest_price": 0.648,
+    "entry_time": "2025-02-12T23:35:32.975866",
+    "atr": 0.012960000000000001
+  }
+}
