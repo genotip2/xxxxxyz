@@ -9,9 +9,9 @@
   },
   "RAYUSDT": {
     "entry_price": 5.235,
-    "stop_loss": 5.07795,
+    "stop_loss": 5.1339500000000005,
     "take_profit": 5.70615,
-    "highest_price": 5.235,
+    "highest_price": 5.291,
     "entry_time": "2025-02-12T23:35:24.821004",
     "atr": 0.10470000000000002
   },
@@ -38,5 +38,77 @@
     "highest_price": 0.648,
     "entry_time": "2025-02-12T23:35:32.975866",
     "atr": 0.012960000000000001
+  },
+  "PEPEUSDT": {
+    "entry_price": 1.005e-05,
+    "stop_loss": 9.7485e-06,
+    "take_profit": 1.09545e-05,
+    "highest_price": 1.005e-05,
+    "entry_time": "2025-02-12T23:49:04.520592",
+    "atr": 2.01e-07
+  },
+  "LINKUSDT": {
+    "entry_price": 19.09,
+    "stop_loss": 18.5173,
+    "take_profit": 20.8081,
+    "highest_price": 19.09,
+    "entry_time": "2025-02-12T23:49:05.534255",
+    "atr": 0.38180000000000003
+  },
+  "APTUSDT": {
+    "entry_price": 6.15,
+    "stop_loss": 5.9655000000000005,
+    "take_profit": 6.7035,
+    "highest_price": 6.15,
+    "entry_time": "2025-02-12T23:49:06.965600",
+    "atr": 0.12300000000000001
+  },
+  "BONKUSDT": {
+    "entry_price": 1.819e-05,
+    "stop_loss": 1.76443e-05,
+    "take_profit": 1.98271e-05,
+    "highest_price": 1.819e-05,
+    "entry_time": "2025-02-12T23:49:09.393874",
+    "atr": 3.638e-07
+  },
+  "ALGOUSDT": {
+    "entry_price": 0.3023,
+    "stop_loss": 0.293231,
+    "take_profit": 0.329507,
+    "highest_price": 0.3023,
+    "entry_time": "2025-02-12T23:49:10.040556",
+    "atr": 0.006046
+  },
+  "QTUMUSDT": {
+    "entry_price": 3.359,
+    "stop_loss": 3.25823,
+    "take_profit": 3.66131,
+    "highest_price": 3.359,
+    "entry_time": "2025-02-12T23:49:11.085666",
+    "atr": 0.06718
+  },
+  "OPUSDT": {
+    "entry_price": 1.121,
+    "stop_loss": 1.08737,
+    "take_profit": 1.22189,
+    "highest_price": 1.121,
+    "entry_time": "2025-02-12T23:49:11.646954",
+    "atr": 0.02242
+  },
+  "INJUSDT": {
+    "entry_price": 14.82,
+    "stop_loss": 14.3754,
+    "take_profit": 16.1538,
+    "highest_price": 14.82,
+    "entry_time": "2025-02-12T23:49:13.209234",
+    "atr": 0.2964
+  },
+  "ARUSDT": {
+    "entry_price": 9.61,
+    "stop_loss": 9.3217,
+    "take_profit": 10.4749,
+    "highest_price": 9.61,
+    "entry_time": "2025-02-12T23:49:14.852392",
+    "atr": 0.19219999999999998
   }
 }
