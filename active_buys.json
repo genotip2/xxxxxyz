@@ -89,12 +89,6 @@
         "tp1_hit": false,
         "tp1_price": null
     },
-    "SUIUSDT": {
-        "price": 3.4931,
-        "time": "2025-02-13T20:27:08.394946",
-        "tp1_hit": false,
-        "tp1_price": null
-    },
     "DOGEUSDT": {
         "price": 0.258,
         "time": "2025-02-13T20:27:09.238392",
@@ -104,12 +98,6 @@
     "BNXUSDT": {
         "price": 0.8969,
         "time": "2025-02-13T20:27:10.566026",
-        "tp1_hit": false,
-        "tp1_price": null
-    },
-    "WIFUSDT": {
-        "price": 0.6,
-        "time": "2025-02-13T20:27:12.926507",
         "tp1_hit": false,
         "tp1_price": null
     },
@@ -125,21 +113,9 @@
         "tp1_hit": false,
         "tp1_price": null
     },
-    "FETUSDT": {
-        "price": 0.779,
-        "time": "2025-02-13T20:35:36.850427",
-        "tp1_hit": false,
-        "tp1_price": null
-    },
     "EIGENUSDT": {
         "price": 1.692,
         "time": "2025-02-13T20:35:37.600094",
-        "tp1_hit": false,
-        "tp1_price": null
-    },
-    "BSWUSDT": {
-        "price": 0.0555,
-        "time": "2025-02-13T20:35:38.234018",
         "tp1_hit": false,
         "tp1_price": null
     },
@@ -176,6 +152,24 @@
     "INJUSDT": {
         "price": 15.06,
         "time": "2025-02-13T20:35:47.016401",
+        "tp1_hit": false,
+        "tp1_price": null
+    },
+    "THEUSDT": {
+        "price": 0.7176,
+        "time": "2025-02-13T20:46:21.308032",
+        "tp1_hit": false,
+        "tp1_price": null
+    },
+    "UNIUSDT": {
+        "price": 9.629,
+        "time": "2025-02-13T20:46:30.172450",
+        "tp1_hit": false,
+        "tp1_price": null
+    },
+    "OPUSDT": {
+        "price": 1.118,
+        "time": "2025-02-13T20:46:31.062199",
         "tp1_hit": false,
         "tp1_price": null
     }
