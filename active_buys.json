@@ -35,18 +35,6 @@
         "tp1_hit": false,
         "tp1_price": null
     },
-    "GALAUSDT": {
-        "price": 0.02327,
-        "time": "2025-02-13T19:06:44.289635",
-        "tp1_hit": false,
-        "tp1_price": null
-    },
-    "SEIUSDT": {
-        "price": 0.2352,
-        "time": "2025-02-13T19:06:45.551934",
-        "tp1_hit": false,
-        "tp1_price": null
-    },
     "XRPUSDT": {
         "price": 2.4597,
         "time": "2025-02-13T19:21:04.742971",
@@ -128,6 +116,66 @@
     "APTUSDT": {
         "price": 6.11,
         "time": "2025-02-13T20:27:14.413030",
+        "tp1_hit": false,
+        "tp1_price": null
+    },
+    "RUNEUSDT": {
+        "price": 1.465,
+        "time": "2025-02-13T20:35:34.548595",
+        "tp1_hit": false,
+        "tp1_price": null
+    },
+    "FETUSDT": {
+        "price": 0.779,
+        "time": "2025-02-13T20:35:36.850427",
+        "tp1_hit": false,
+        "tp1_price": null
+    },
+    "EIGENUSDT": {
+        "price": 1.692,
+        "time": "2025-02-13T20:35:37.600094",
+        "tp1_hit": false,
+        "tp1_price": null
+    },
+    "BSWUSDT": {
+        "price": 0.0555,
+        "time": "2025-02-13T20:35:38.234018",
+        "tp1_hit": false,
+        "tp1_price": null
+    },
+    "ACTUSDT": {
+        "price": 0.1925,
+        "time": "2025-02-13T20:35:38.968597",
+        "tp1_hit": false,
+        "tp1_price": null
+    },
+    "XLMUSDT": {
+        "price": 0.3305,
+        "time": "2025-02-13T20:35:39.703420",
+        "tp1_hit": false,
+        "tp1_price": null
+    },
+    "IOUSDT": {
+        "price": 1.415,
+        "time": "2025-02-13T20:35:41.926737",
+        "tp1_hit": false,
+        "tp1_price": null
+    },
+    "FILUSDT": {
+        "price": 3.406,
+        "time": "2025-02-13T20:35:42.624119",
+        "tp1_hit": false,
+        "tp1_price": null
+    },
+    "RENDERUSDT": {
+        "price": 4.489,
+        "time": "2025-02-13T20:35:43.234450",
+        "tp1_hit": false,
+        "tp1_price": null
+    },
+    "INJUSDT": {
+        "price": 15.06,
+        "time": "2025-02-13T20:35:47.016401",
         "tp1_hit": false,
         "tp1_price": null
     }
