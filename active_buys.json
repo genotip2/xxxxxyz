@@ -1,10 +1,4 @@
 {
-    "SUSDT": {
-        "price": 0.551,
-        "time": "2025-02-13T10:09:06.847696",
-        "tp1_hit": true,
-        "tp1_price": 0.5857
-    },
     "1000CATUSDT": {
         "price": 0.01582,
         "time": "2025-02-13T10:09:09.708866",
@@ -20,12 +14,6 @@
     "XLMUSDT": {
         "price": 0.329,
         "time": "2025-02-13T10:31:37.721838",
-        "tp1_hit": false,
-        "tp1_price": null
-    },
-    "EIGENUSDT": {
-        "price": 1.708,
-        "time": "2025-02-13T10:31:38.356151",
         "tp1_hit": false,
         "tp1_price": null
     },
@@ -50,12 +38,6 @@
     "ZENUSDT": {
         "price": 15.1,
         "time": "2025-02-13T11:07:04.910166",
-        "tp1_hit": false,
-        "tp1_price": null
-    },
-    "ADAUSDT": {
-        "price": 0.7836,
-        "time": "2025-02-13T11:21:50.309478",
         "tp1_hit": false,
         "tp1_price": null
     }
