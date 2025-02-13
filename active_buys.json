@@ -1,7 +1,13 @@
 {
-    "SOLUSDT": {
-        "price": 197.83,
-        "time": "2025-02-13T03:47:44.912085",
+    "XRPUSDT": {
+        "price": 2.4813,
+        "time": "2025-02-13T04:16:18.167854",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "TSTUSDT": {
+        "price": 0.1892,
+        "time": "2025-02-13T04:16:19.418022",
         "trailing_stop_active": false,
         "highest_price": null
     }
