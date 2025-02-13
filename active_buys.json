@@ -125,12 +125,6 @@
         "tp1_hit": false,
         "tp1_price": null
     },
-    "USDCUSDT": {
-        "price": 1,
-        "time": "2025-02-13T22:28:25.145105",
-        "tp1_hit": false,
-        "tp1_price": null
-    },
     "SHIBUSDT": {
         "price": 1.633e-05,
         "time": "2025-02-13T22:28:29.988768",
@@ -146,6 +140,18 @@
     "GALAUSDT": {
         "price": 0.02329,
         "time": "2025-02-13T23:25:06.527300",
+        "tp1_hit": false,
+        "tp1_price": null
+    },
+    "THEUSDT": {
+        "price": 0.7142,
+        "time": "2025-02-13T23:46:15.454282",
+        "tp1_hit": false,
+        "tp1_price": null
+    },
+    "FLOKIUSDT": {
+        "price": 9.697e-05,
+        "time": "2025-02-13T23:46:19.230815",
         "tp1_hit": false,
         "tp1_price": null
     }
