@@ -7,94 +7,98 @@ from tradingview_ta import TA_Handler, Interval
 # ==============================
 # KONFIGURASI
 # ==============================
+
 TELEGRAM_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN')
 TELEGRAM_CHAT_ID = os.getenv('TELEGRAM_CHAT_ID')
 
 ACTIVE_BUYS_FILE = 'active_buys.json'
 ACTIVE_BUYS = {}
 
-# Parameter Trading
-RISK_REWARD_RATIO = 3.0
-ATR_MULTIPLIER = 1.5
-MAX_HOLD_DURATION_HOURS = 48
-PAIR_TO_ANALYZE = 100
-RSI_LIMIT = 60
-# Jika data volume dari TradingView tidak sesuai (misal, format berbeda), Anda bisa menonaktifkan cek volume
-MIN_VOLUME = 0  
+# Parameter trading
+PROFIT_TARGET_PERCENTAGE_1 = 5    # Target profit TP1 5% (dihitung dari harga entry)
+PROFIT_TARGET_PERCENTAGE_2 = 8    # Target profit TP2 8% (dihitung dari harga entry)
+STOP_LOSS_PERCENTAGE = 2          # Stop loss 2% (dihitung dari harga entry)
+EXIT_TRADE_TARGET = 2             # Exit Trade target 2% (dihitung dari harga TP1, digunakan setelah TP1 tercapai)
+TRAILING_STOP_PERCENTAGE = 2      # Trailing stop 2% (dari harga tertinggi setelah TP2 tercapai)
+MAX_HOLD_DURATION_HOUR = 24       # Durasi hold maksimum 24 jam
+PAIR_TO_ANALYZE = 50              # Jumlah pair yang akan dianalisis
+RSI_LIMIT = 60                    # Batas atas RSI untuk entry
 
 # ==============================
-# FUNGSI UTILITAS
+# FUNGSI UTITAS: LOAD & SAVE POSITION
 # ==============================
+
 def load_active_buys():
+    """Muat posisi aktif dari file JSON."""
     global ACTIVE_BUYS
-    try:
-        if os.path.exists(ACTIVE_BUYS_FILE):
+    if os.path.exists(ACTIVE_BUYS_FILE):
+        try:
             with open(ACTIVE_BUYS_FILE, 'r') as f:
                 data = json.load(f)
             ACTIVE_BUYS = {
                 pair: {
-                    'entry_price': float(d['entry_price']),
-                    'stop_loss': float(d['stop_loss']),
-                    'take_profit': float(d['take_profit']),
-                    'highest_price': float(d['highest_price']),
-                    'entry_time': datetime.fromisoformat(d['entry_time']),
-                    'atr': float(d['atr'])
+                    'price': d['price'],
+                    'time': datetime.fromisoformat(d['time']),
+                    'tp1_hit': d.get('tp1_hit', False),
+                    'tp1_price': d.get('tp1_price', None),
+                    'trailing_stop_active': d.get('trailing_stop_active', False),
+                    'highest_price': d.get('highest_price', None)
                 }
                 for pair, d in data.items()
             }
-            print("Active positions loaded.")
-    except Exception as e:
-        print(f"Error loading active buys: {e}")
+            print("✅ Posisi aktif dimuat.")
+        except Exception as e:
+            print(f"❌ Gagal memuat posisi aktif: {e}")
+    else:
+        ACTIVE_BUYS = {}
 
 def save_active_buys():
+    """Simpan posisi aktif ke file JSON."""
     try:
         data = {}
-        for pair, pos in ACTIVE_BUYS.items():
+        for pair, d in ACTIVE_BUYS.items():
             data[pair] = {
-                'entry_price': pos['entry_price'],
-                'stop_loss': pos['stop_loss'],
-                'take_profit': pos['take_profit'],
-                'highest_price': pos['highest_price'],
-                'entry_time': pos['entry_time'].isoformat(),
-                'atr': pos['atr']
+                'price': d['price'],
+                'time': d['time'].isoformat(),
+                'tp1_hit': d.get('tp1_hit', False),
+                'tp1_price': d.get('tp1_price', None),
+                'trailing_stop_active': d.get('trailing_stop_active', False),
+                'highest_price': d.get('highest_price', None)
             }
         with open(ACTIVE_BUYS_FILE, 'w') as f:
-            json.dump(data, f, indent=2)
-        print("Active positions saved.")
+            json.dump(data, f, indent=4)
+        print("✅ Posisi aktif disimpan.")
     except Exception as e:
-        print(f"Error saving active buys: {e}")
+        print(f"❌ Gagal menyimpan posisi aktif: {e}")
 
 # ==============================
-# FUNGSI ANALISIS PASAR
+# FUNGSI MENDAPATKAN PAIR TERATAS
 # ==============================
+
 def get_binance_top_pairs():
-    """Mengambil pair dengan volume tinggi dan likuiditas baik"""
+    """
+    Ambil pasangan (pair) teratas berdasarkan volume trading dari Binance melalui CoinGecko.
+    Hanya pair dengan target USDT yang diambil.
+    """
+    url = "https://api.coingecko.com/api/v3/exchanges/binance/tickers"
+    params = {'include_exchange_logo': 'false', 'order': 'volume_desc'}
     try:
-        url = "https://api.coingecko.com/api/v3/exchanges/binance/tickers"
-        response = requests.get(url, params={'order': 'volume_desc'})
+        response = requests.get(url, params=params)
         data = response.json()
-        
-        usdt_pairs = [
-            t for t in data.get('tickers', [])
-            if t.get('target') == 'USDT'
-        ]
-        
-        sorted_pairs = sorted(
-            usdt_pairs,
-            key=lambda p: p.get('converted_volume', {}).get('usd', 0),
-            reverse=True
-        )[:PAIR_TO_ANALYZE]
-        
-        return [f"{p.get('base')}USDT" for p in sorted_pairs]
-        
+        usdt_pairs = [t for t in data['tickers'] if t['target'] == 'USDT']
+        sorted_pairs = sorted(usdt_pairs, key=lambda x: x['converted_volume']['usd'], reverse=True)[:PAIR_TO_ANALYZE]
+        return [f"{p['base']}USDT" for p in sorted_pairs]
     except Exception as e:
-        print(f"Error fetching pairs: {e}")
+        print(f"❌ Gagal mengambil pair: {e}")
         return []
 
-def analyze_pair(pair, interval):
+# ==============================
+# FUNGSI ANALISIS: MULTI-TIMEFRAME (1H & 15M)
+# ==============================
+
+def analyze_pair_interval(pair, interval):
     """
-    Mengambil data analisis dari TradingView menggunakan tradingview_ta.
-    Fungsi ini mengembalikan dictionary dengan key sesuai dengan format data contoh.
+    Lakukan analisis teknikal untuk pair pada timeframe tertentu menggunakan tradingview_ta.
     """
     try:
         handler = TA_Handler(
@@ -104,184 +108,200 @@ def analyze_pair(pair, interval):
             interval=interval
         )
         analysis = handler.get_analysis()
-        if analysis is None or not hasattr(analysis, 'summary'):
-            print(f"Tidak ada data analisis untuk {pair}")
-            return None
-
-        # Pastikan key sesuai dengan format data contoh (misalnya, 'RECOMMENDATION' dengan huruf besar)
-        return {
-            'RECOMMENDATION': analysis.summary.get('RECOMMENDATION'),
-            'close': analysis.indicators.get('close'),
-            'RSI': analysis.indicators.get('RSI'),
-            'MACD.macd': analysis.indicators.get('MACD.macd'),
-            'MACD.signal': analysis.indicators.get('MACD.signal'),
-            'ATR': analysis.indicators.get('ATR'),
-            'volume': analysis.indicators.get('volume')
-        }
+        return analysis
     except Exception as e:
-        print(f"Analysis error for {pair}: {e}")
+        print(f"⚠️ Gagal menganalisis {pair} pada interval {interval}: {e}")
         return None
 
 # ==============================
-# FUNGSI RISK MANAGEMENT
+# GENERATE SINYAL TRADING
 # ==============================
-def calculate_risk(current_price, atr):
-    """Menghitung parameter risiko dinamis.
-       Jika ATR tidak tersedia, gunakan fallback 2% dari harga saat ini.
-    """
-    if atr is None or atr <= 0:
-        atr = 0.02 * current_price  # Fallback 2% jika ATR tidak tersedia
-    stop_loss = current_price - (atr * ATR_MULTIPLIER)
-    take_profit = current_price + (atr * ATR_MULTIPLIER * RISK_REWARD_RATIO)
-    risk_percentage = ((current_price - stop_loss) / current_price) * 100
-    return {
-        'stop_loss': stop_loss,
-        'take_profit': take_profit,
-        'risk': risk_percentage,
-        'atr': atr
-    }
 
-# ==============================
-# LOGIKA TRADING
-# ==============================
 def generate_signal(pair):
     """
-    Menghasilkan sinyal trading berdasarkan data 1H (trend) dan 15M (entry).
-    Modifikasi: tidak lagi bergantung pada 'volume_ma' karena data contoh tidak memilikinya.
+    Hasilkan sinyal trading dengan logika:
+      - BUY: Jika tren 1H bullish (RECOMMENDATION 'BUY' atau 'STRONG_BUY')
+             dan terjadi pullback pada RSI < RSI_LIMIT, EMA 10 > EMA 20 dan MACD > Signal)
+             serta posisi belum aktif.
+      - EXIT (SELL/TAKE PROFIT/STOP LOSS/EXIT TRADE/EXPIRED/TRAILING STOP):
+            Jika posisi aktif dan salah satu kondisi exit terpenuhi:
+              * Stop Loss: jika profit (dari entry) turun mencapai -STOP_LOSS_PERCENTAGE.
+              * TAKE PROFIT 1: Jika profit mencapai PROFIT_TARGET_PERCENTAGE_1, maka posisi diberi tanda TP1.
+              * Trailing Stop: Setelah TP2 tercapai, trailing stop diaktifkan dan posisi akan keluar jika harga turun
+                dari harga tertinggi sebesar TRAILING_STOP_PERCENTAGE.
+              * TAKE PROFIT 2: Jika profit mencapai PROFIT_TARGET_PERCENTAGE_2 dan trailing stop belum aktif, aktifkan trailing stop.
+              * EXIT TRADE: Setelah TP1 tercapai, jika harga turun dari TP1 sebesar EXIT_TRADE_TARGET, maka sinyal EXIT TRADE.
+              * SELL: Jika tren 1H sudah tidak bullish.
+              * EXPIRED: Jika durasi hold melebihi MAX_HOLD_DURATION_HOUR.
     """
-    # Analisis trend dari data 1H
-    trend = analyze_pair(pair, Interval.INTERVAL_1_HOUR)
-    if not trend or trend.get('close') is None:
-        return None
+    # Analisis pada timeframe 1H (sebagai acuan tren utama)
+    trend_analysis = analyze_pair_interval(pair, Interval.INTERVAL_1_HOUR)
+    if trend_analysis is None:
+        return None, None, "Analisis 1H gagal."
+    trend_rec = trend_analysis.summary.get('RECOMMENDATION')
+    trend_bullish = trend_rec in ['BUY', 'STRONG_BUY']
 
-    # Opsional: cek volume (jika diperlukan)
-    if trend.get('volume') is None or trend['volume'] < MIN_VOLUME:
-        return None
+    # Analisis pada timeframe 15M untuk entry/pullback
+    entry_analysis = analyze_pair_interval(pair, Interval.INTERVAL_15_MINUTES)
+    if entry_analysis is None:
+        return None, None, "Analisis 15M gagal."
+    entry_close = entry_analysis.indicators.get('close')
+    entry_rsi = entry_analysis.indicators.get('RSI')
+    entry_ema10 = entry_analysis.indicators.get('EMA10')
+    entry_ema20 = entry_analysis.indicators.get('EMA20')
+    entry_macd = entry_analysis.indicators.get('MACD.macd')
+    entry_signal_line = entry_analysis.indicators.get('MACD.signal')
     
-    # Analisis entry dari data 15M
-    entry = analyze_pair(pair, Interval.INTERVAL_15_MINUTES)
-    if not entry or entry.get('close') is None:
-        return None
+    if entry_close is None:
+        return None, None, "Harga close 15M tidak tersedia."
 
-    current_price = entry['close']
+    # Kondisi pullback pada RSI < RSI_LIMIT, EMA 10 > EMA 20, dan MACD > Signal
+    pullback_entry = (entry_rsi is not None and entry_rsi < RSI_LIMIT) and \
+                     (entry_ema10 is not None and entry_ema20 is not None and entry_ema10 > entry_ema20) and \
+                     (entry_macd is not None and entry_signal_line is not None and entry_macd > entry_signal_line)
+    
+    # Jika posisi belum aktif dan kondisi entry terpenuhi, berikan sinyal BUY
+    if pair not in ACTIVE_BUYS and trend_bullish and pullback_entry:
+        details = f"1H: {trend_rec}, EMA 10 & EMA 20 Cross, MACD: Bullish, RSI M15: {entry_rsi:.2f}"
+        return "BUY", entry_close, details
 
-    # Jika sudah ada posisi aktif untuk pair ini
+    # Jika posisi sudah aktif, periksa kondisi exit dan target profit
     if pair in ACTIVE_BUYS:
-        position = ACTIVE_BUYS[pair]
-        position['highest_price'] = max(position['highest_price'], current_price)
-        new_stop = position['highest_price'] - (position['atr'] * ATR_MULTIPLIER)
-        position['stop_loss'] = max(position['stop_loss'], new_stop)
+        data = ACTIVE_BUYS[pair]
+        holding_duration = datetime.now() - data['time']
+        if holding_duration > timedelta(hours=MAX_HOLD_DURATION_HOUR):
+            return "EXPIRED", entry_close, "Durasi hold maksimal tercapai."
         
-        if current_price >= position['take_profit']:
-            return 'TAKE_PROFIT', current_price
-        if current_price <= position['stop_loss']:
-            return 'STOP_LOSS', current_price
-        if (datetime.now() - position['entry_time']).total_seconds() > MAX_HOLD_DURATION_HOURS * 3600:
-            return 'HOLD_EXPIRED', current_price
-        if trend.get('RECOMMENDATION') in ['SELL', 'STRONG_SELL']:
-            return 'TREND_REVERSAL', current_price
-    else:
-        # Syarat untuk sinyal BUY:
-        # - Rekomendasi 1H: BUY/STRONG_BUY
-        # - RSI pada data 15M kurang dari RSI_LIMIT
-        # - MACD pada data 15M: MACD.macd > MACD.signal
-        if (trend.get('RECOMMENDATION') in ['BUY', 'STRONG_BUY'] and
-            entry.get('RSI') is not None and entry['RSI'] < RSI_LIMIT and
-            entry.get('MACD.macd') is not None and entry.get('MACD.signal') is not None and
-            entry['MACD.macd'] > entry['MACD.signal']):
-            
-            risk_data = calculate_risk(current_price, entry.get('ATR'))
-            if risk_data['risk'] > 5:  # Batasi risiko maksimal 5%
-                return None
-            return 'BUY', current_price, risk_data
+        entry_price = data['price']
+        profit_from_entry = (entry_close - entry_price) / entry_price * 100
 
-    return None
+        # Cek stop loss berdasarkan harga entry (untuk antisipasi penurunan mendadak)
+        if profit_from_entry <= -STOP_LOSS_PERCENTAGE:
+            return "STOP LOSS", entry_close, "Limit stop loss tercapai."
+        
+        # Jika profit mencapai TP2 dan trailing stop belum aktif, aktifkan trailing stop
+        if profit_from_entry >= PROFIT_TARGET_PERCENTAGE_2 and not data.get('trailing_stop_active', False):
+            ACTIVE_BUYS[pair]['trailing_stop_active'] = True
+            ACTIVE_BUYS[pair]['highest_price'] = entry_close
+            return "TAKE PROFIT 2", entry_close, "Target TP2 tercapai, trailing stop diaktifkan."
+
+        # Jika trailing stop aktif, perbarui harga tertinggi dan cek kondisi trailing stop
+        if data.get('trailing_stop_active', False):
+            if entry_close > data.get('highest_price', entry_close):
+                ACTIVE_BUYS[pair]['highest_price'] = entry_close
+            trailing_stop_price = ACTIVE_BUYS[pair]['highest_price'] * (1 - TRAILING_STOP_PERCENTAGE / 100)
+            if entry_close < trailing_stop_price:
+                return "TRAILING STOP", entry_close, f"Harga turun ke trailing stop: {trailing_stop_price:.8f}"
+        
+        # Jika TP1 belum tercapai dan profit mencapai TP1, beri sinyal TAKE PROFIT 1
+        if not data.get('tp1_hit', False) and profit_from_entry >= PROFIT_TARGET_PERCENTAGE_1:
+            ACTIVE_BUYS[pair]['tp1_hit'] = True
+            ACTIVE_BUYS[pair]['tp1_price'] = entry_close
+            return "TAKE PROFIT 1", entry_close, "Target TP1 tercapai."
+        
+        # Jika TP1 sudah tercapai, hitung exit trade (berdasarkan penurunan dari TP1)
+        if data.get('tp1_hit', False):
+            tp1_price = data.get('tp1_price')
+            exit_trade_profit = (entry_close - tp1_price) / tp1_price * 100
+            if exit_trade_profit <= -EXIT_TRADE_TARGET:
+                details = f"Exit Trade: Harga turun {exit_trade_profit:.2f}% dari TP1 (TP1: {tp1_price:.8f})"
+                return "EXIT TRADE", entry_close, details
+        
+        # Jika tren 1H sudah tidak bullish, keluarkan sinyal SELL
+        if not trend_bullish:
+            return "SELL", entry_close, f"Trend 1H Bearish ({trend_rec})"
+    
+    return None, entry_close, "Tidak ada sinyal."
 
 # ==============================
-# NOTIFIKASI & EKSEKUSI
+# KIRIM ALERT TELEGRAM
 # ==============================
-def send_telegram_alert(signal, pair, price, details=None):
-    """Mengirim notifikasi ke Telegram"""
-    emoji_map = {
+
+def send_telegram_alert(signal_type, pair, current_price, details=""):
+    """
+    Mengirim notifikasi ke Telegram.
+    Untuk sinyal BUY, posisi disimpan ke ACTIVE_BUYS.
+    Untuk sinyal exit (EXIT TRADE, TAKE PROFIT 2, SELL, STOP LOSS, EXPIRED, TRAILING STOP), posisi dihapus.
+    """
+    display_pair = f"{pair[:-4]}/USDT"
+    emoji = {
         'BUY': '🚀',
-        'TAKE_PROFIT': '✅',
-        'STOP_LOSS': '🛑',
-        'HOLD_EXPIRED': '⌛',
-        'TREND_REVERSAL': '🔄'
-    }
-    
-    message = f"{emoji_map.get(signal, 'ℹ️')} **{signal.replace('_', ' ')}**\n"
-    message += f"• Pair: `{pair}`\n"
-    message += f"• Price: ${price:.4f}\n"
-    if signal == 'BUY' and details:
-        message += f"• Stop Loss: ${details['stop_loss']:.4f}\n"
-        message += f"• Take Profit: ${details['take_profit']:.4f}\n"
-        message += f"• Risk: {details['risk']:.2f}%\n"
-        message += f"• ATR: ${details['atr']:.4f}\n"
-    elif pair in ACTIVE_BUYS:
-        pos = ACTIVE_BUYS[pair]
-        profit = ((price - pos['entry_price']) / pos['entry_price']) * 100
-        duration = datetime.now() - pos['entry_time']
-        message += f"• Entry Price: ${pos['entry_price']:.4f}\n"
-        message += f"• Profit: {profit:.2f}%\n"
-        message += f"• Duration: {str(duration).split('.')[0]}\n"
-    
+        'SELL': '⚠️',
+        'TAKE PROFIT 1': '✅',
+        'TAKE PROFIT 2': '🎉',
+        'EXIT TRADE': '🚪',
+        'STOP LOSS': '🛑',
+        'EXPIRED': '⌛',
+        'TRAILING STOP': '📉'
+    }.get(signal_type, 'ℹ️')
+
+    message = f"{emoji} *{signal_type}*\n"
+    message += f"💱 *Pair:* {display_pair}\n"
+    message += f"💲 *Price:* ${current_price:.8f}\n"
+    if details:
+        message += f"📝 *Kondisi:* {details}\n"
+
+    # Jika BUY, simpan entry baru
+    if signal_type == "BUY":
+        ACTIVE_BUYS[pair] = {
+            'price': current_price,
+            'time': datetime.now(),
+            'tp1_hit': False,
+            'tp1_price': None,
+            'trailing_stop_active': False,
+            'highest_price': None
+        }
+    # Untuk sinyal exit, tampilkan detail entry dan hapus posisi
+    else:
+        if pair in ACTIVE_BUYS:
+            entry_price = ACTIVE_BUYS[pair]['price']
+            profit = (current_price - entry_price) / entry_price * 100
+            duration = datetime.now() - ACTIVE_BUYS[pair]['time']
+            message += f"▫️ *Entry Price:* ${entry_price:.8f}\n"
+            message += f"💰 *{'Profit' if profit > 0 else 'Loss'}:* {profit:+.2f}%\n"
+            message += f"🕒 *Duration:* {str(duration).split('.')[0]}\n"
+            del ACTIVE_BUYS[pair]
+
+    print(f"📢 Mengirim alert:\n{message}")
     try:
-        if TELEGRAM_TOKEN and TELEGRAM_CHAT_ID:
-            requests.post(
-                f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage",
-                json={'chat_id': TELEGRAM_CHAT_ID, 'text': message, 'parse_mode': 'Markdown'}
-            )
-        else:
-            print("Telegram configuration is missing.")
+        requests.post(
+            f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage",
+            json={'chat_id': TELEGRAM_CHAT_ID, 'text': message, 'parse_mode': 'Markdown'}
+        )
     except Exception as e:
-        print(f"Telegram error: {e}")
+        print(f"❌ Gagal mengirim alert Telegram: {e}")
 
 # ==============================
-# MAIN LOGIC
+# PROGRAM UTAMA
 # ==============================
+
 def main():
     load_active_buys()
     pairs = get_binance_top_pairs()
+    print(f"🔍 Memulai analisis {len(pairs)} pair pada {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     
-    if not pairs:
-        print("No pairs fetched.")
-        return
-    
-    any_signal = False
     for pair in pairs:
-        print(f"Checking pair: {pair}")
-        
-        result = generate_signal(pair)
-        if not result:
-            print(f"No signal for {pair}")
-            continue
-        else:
-            any_signal = True
-            if result[0] == 'BUY':
-                signal, price, risk_data = result
-                ACTIVE_BUYS[pair] = {
-                    'entry_price': price,
-                    'stop_loss': risk_data['stop_loss'],
-                    'take_profit': risk_data['take_profit'],
-                    'highest_price': price,
-                    'entry_time': datetime.now(),
-                    'atr': risk_data['atr']
-                }
-                send_telegram_alert(signal, pair, price, risk_data)
+        print(f"\n🔎 Sedang menganalisis pair: {pair}")
+        try:
+            signal, current_price, details = generate_signal(pair)
+            if signal:
+                print(f"💡 Sinyal: {signal}, Harga: {current_price:.8f}")
+                print(f"📝 Details: {details}")
+                send_telegram_alert(signal, pair, current_price, details)
             else:
-                signal, price = result
-                send_telegram_alert(signal, pair, price)
-                if pair in ACTIVE_BUYS:
-                    del ACTIVE_BUYS[pair]
-    
-    # Hapus posisi jika sudah melewati batas durasi
+                print("ℹ️ Tidak ada sinyal untuk pair ini.")
+        except Exception as e:
+            print(f"⚠️ Error di {pair}: {e}")
+            continue
+
+    # Auto-close posisi jika durasi hold melebihi batas (cek ulang posisi aktif)
     for pair in list(ACTIVE_BUYS.keys()):
-        pos = ACTIVE_BUYS[pair]
-        if (datetime.now() - pos['entry_time']).total_seconds() > MAX_HOLD_DURATION_HOURS * 3600:
-            send_telegram_alert('HOLD_EXPIRED', pair, pos['entry_price'])
-            del ACTIVE_BUYS[pair]
-    
+        holding_duration = datetime.now() - ACTIVE_BUYS[pair]['time']
+        if holding_duration > timedelta(hours=MAX_HOLD_DURATION_HOUR):
+            entry_analysis = analyze_pair_interval(pair, Interval.INTERVAL_15_MINUTES)
+            current_price = entry_analysis.indicators.get('close') if entry_analysis else 0
+            send_telegram_alert("EXPIRED", pair, current_price, f"Durasi hold: {str(holding_duration).split('.')[0]}")
+
     save_active_buys()
 
 if __name__ == "__main__":
