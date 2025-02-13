@@ -29,12 +29,6 @@
         "tp1_hit": false,
         "tp1_price": null
     },
-    "USUALUSDT": {
-        "price": 0.2502,
-        "time": "2025-02-13T19:06:43.406252",
-        "tp1_hit": false,
-        "tp1_price": null
-    },
     "XRPUSDT": {
         "price": 2.4597,
         "time": "2025-02-13T19:21:04.742971",
@@ -62,12 +56,6 @@
     "APTUSDT": {
         "price": 6.11,
         "time": "2025-02-13T20:27:14.413030",
-        "tp1_hit": false,
-        "tp1_price": null
-    },
-    "ACTUSDT": {
-        "price": 0.1925,
-        "time": "2025-02-13T20:35:38.968597",
         "tp1_hit": false,
         "tp1_price": null
     },
@@ -143,12 +131,6 @@
         "tp1_hit": false,
         "tp1_price": null
     },
-    "SOLUSDT": {
-        "price": 194.66,
-        "time": "2025-02-13T22:28:26.233870",
-        "tp1_hit": false,
-        "tp1_price": null
-    },
     "SHIBUSDT": {
         "price": 1.633e-05,
         "time": "2025-02-13T22:28:29.988768",
@@ -158,6 +140,18 @@
     "THEUSDT": {
         "price": 0.7158,
         "time": "2025-02-13T22:46:29.148283",
+        "tp1_hit": false,
+        "tp1_price": null
+    },
+    "EIGENUSDT": {
+        "price": 1.705,
+        "time": "2025-02-13T23:25:03.582407",
+        "tp1_hit": false,
+        "tp1_price": null
+    },
+    "GALAUSDT": {
+        "price": 0.02329,
+        "time": "2025-02-13T23:25:06.527300",
         "tp1_hit": false,
         "tp1_price": null
     }
