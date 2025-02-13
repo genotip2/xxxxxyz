@@ -1,10 +1,4 @@
 {
-    "ZENUSDT": {
-        "price": 15,
-        "time": "2025-02-13T12:51:30.982842",
-        "tp1_hit": false,
-        "tp1_price": null
-    },
     "LISTAUSDT": {
         "price": 0.3134,
         "time": "2025-02-13T13:16:07.570151",
@@ -20,12 +14,6 @@
     "GMTUSDT": {
         "price": 0.0709,
         "time": "2025-02-13T13:46:21.359625",
-        "tp1_hit": false,
-        "tp1_price": null
-    },
-    "BNBUSDT": {
-        "price": 709.85,
-        "time": "2025-02-13T14:08:16.922361",
         "tp1_hit": false,
         "tp1_price": null
     },
