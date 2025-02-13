@@ -5,15 +5,21 @@
         "tp1_hit": false,
         "tp1_price": null
     },
-    "NEARUSDT": {
-        "price": 3.322,
-        "time": "2025-02-13T17:32:03.106472",
-        "tp1_hit": false,
-        "tp1_price": null
-    },
     "ALGOUSDT": {
         "price": 0.2931,
         "time": "2025-02-13T17:46:09.376475",
+        "tp1_hit": false,
+        "tp1_price": null
+    },
+    "ADAUSDT": {
+        "price": 0.7856,
+        "time": "2025-02-13T18:11:29.897562",
+        "tp1_hit": false,
+        "tp1_price": null
+    },
+    "NOTUSDT": {
+        "price": 0.003442,
+        "time": "2025-02-13T18:11:30.796136",
         "tp1_hit": false,
         "tp1_price": null
     }
