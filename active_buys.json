@@ -23,27 +23,9 @@
         "tp1_hit": false,
         "tp1_price": null
     },
-    "NEARUSDT": {
-        "price": 3.324,
-        "time": "2025-02-13T18:35:27.605575",
-        "tp1_hit": false,
-        "tp1_price": null
-    },
     "JUPUSDT": {
         "price": 0.8376,
         "time": "2025-02-13T18:48:59.141860",
-        "tp1_hit": false,
-        "tp1_price": null
-    },
-    "SUIUSDT": {
-        "price": 3.5183,
-        "time": "2025-02-13T19:06:34.247613",
-        "tp1_hit": false,
-        "tp1_price": null
-    },
-    "APTUSDT": {
-        "price": 6.12,
-        "time": "2025-02-13T19:06:37.018009",
         "tp1_hit": false,
         "tp1_price": null
     },
@@ -56,12 +38,6 @@
     "ETHFIUSDT": {
         "price": 1.162,
         "time": "2025-02-13T19:06:40.225747",
-        "tp1_hit": false,
-        "tp1_price": null
-    },
-    "UNIUSDT": {
-        "price": 9.702,
-        "time": "2025-02-13T19:06:41.835946",
         "tp1_hit": false,
         "tp1_price": null
     },
@@ -89,12 +65,6 @@
         "tp1_hit": false,
         "tp1_price": null
     },
-    "DOGEUSDT": {
-        "price": 0.25823,
-        "time": "2025-02-13T19:21:05.689220",
-        "tp1_hit": false,
-        "tp1_price": null
-    },
     "LDOUSDT": {
         "price": 1.716,
         "time": "2025-02-13T19:21:07.214925",
@@ -107,9 +77,15 @@
         "tp1_hit": false,
         "tp1_price": null
     },
-    "DOTUSDT": {
-        "price": 5.168,
-        "time": "2025-02-13T19:21:08.836675",
+    "USDCUSDT": {
+        "price": 0.9999,
+        "time": "2025-02-13T19:31:26.378076",
+        "tp1_hit": false,
+        "tp1_price": null
+    },
+    "PENGUUSDT": {
+        "price": 0.010251,
+        "time": "2025-02-13T19:31:30.554959",
         "tp1_hit": false,
         "tp1_price": null
     }
