@@ -137,12 +137,6 @@
         "tp1_hit": false,
         "tp1_price": null
     },
-    "THEUSDT": {
-        "price": 0.7158,
-        "time": "2025-02-13T22:46:29.148283",
-        "tp1_hit": false,
-        "tp1_price": null
-    },
     "EIGENUSDT": {
         "price": 1.705,
         "time": "2025-02-13T23:25:03.582407",
