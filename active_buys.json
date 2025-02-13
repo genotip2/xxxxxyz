@@ -125,12 +125,6 @@
         "tp1_hit": false,
         "tp1_price": null
     },
-    "THEUSDT": {
-        "price": 0.7176,
-        "time": "2025-02-13T20:46:21.308032",
-        "tp1_hit": false,
-        "tp1_price": null
-    },
     "UNIUSDT": {
         "price": 9.629,
         "time": "2025-02-13T20:46:30.172450",
@@ -176,12 +170,6 @@
     "FLOKIUSDT": {
         "price": 9.676e-05,
         "time": "2025-02-13T21:46:27.059493",
-        "tp1_hit": false,
-        "tp1_price": null
-    },
-    "FETUSDT": {
-        "price": 0.782,
-        "time": "2025-02-13T21:46:28.589636",
         "tp1_hit": false,
         "tp1_price": null
     },
