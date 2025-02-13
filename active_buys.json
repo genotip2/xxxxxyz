@@ -1,0 +1,26 @@
+{
+    "ENAUSDT": {
+        "price": 0.4588,
+        "time": "2025-02-13T10:09:06.116248",
+        "tp1_hit": false,
+        "tp1_price": null
+    },
+    "SUSDT": {
+        "price": 0.551,
+        "time": "2025-02-13T10:09:06.847696",
+        "tp1_hit": false,
+        "tp1_price": null
+    },
+    "LDOUSDT": {
+        "price": 1.773,
+        "time": "2025-02-13T10:09:08.070648",
+        "tp1_hit": false,
+        "tp1_price": null
+    },
+    "1000CATUSDT": {
+        "price": 0.01582,
+        "time": "2025-02-13T10:09:09.708866",
+        "tp1_hit": false,
+        "tp1_price": null
+    }
+}
