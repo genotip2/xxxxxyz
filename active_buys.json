@@ -1,0 +1,26 @@
+{
+    "PEPEUSDT": {
+        "price": 1.006e-05,
+        "time": "2025-02-13T00:44:33.372543",
+        "tp1_hit": false,
+        "tp1_price": null,
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "TSTUSDT": {
+        "price": 0.188,
+        "time": "2025-02-13T00:44:34.246303",
+        "tp1_hit": false,
+        "tp1_price": null,
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "LDOUSDT": {
+        "price": 1.726,
+        "time": "2025-02-13T00:44:36.359755",
+        "tp1_hit": false,
+        "tp1_price": null,
+        "trailing_stop_active": false,
+        "highest_price": null
+    }
+}
