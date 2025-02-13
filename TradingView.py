@@ -184,11 +184,16 @@ def generate_signal(pair):
             ACTIVE_BUYS[pair]['trailing_stop_active'] = True
             ACTIVE_BUYS[pair]['highest_price'] = entry_close
             return "TAKE PROFIT 2", entry_close, "Target TP2 tercapai, trailing stop diaktifkan."
-
+        
         # Jika trailing stop aktif, perbarui harga tertinggi dan cek kondisi trailing stop
         if data.get('trailing_stop_active', False):
-            if entry_close > data.get('highest_price', entry_close):
+            prev_high = data.get('highest_price')
+            # Jika belum ada harga tertinggi atau entry_close lebih tinggi dari prev_high,
+            # perbarui highest_price dan kirim notifikasi "NEW HIGH"
+            if prev_high is None or entry_close > prev_high:
                 ACTIVE_BUYS[pair]['highest_price'] = entry_close
+                if prev_high is not None:  # Jangan kirim notifikasi saat pertama kali diaktifkan
+                    send_telegram_alert("NEW HIGH", pair, entry_close, f"New highest price updated: {entry_close:.8f} (sebelumnya: {prev_high:.8f})")
             trailing_stop_price = ACTIVE_BUYS[pair]['highest_price'] * (1 - TRAILING_STOP_PERCENTAGE / 100)
             if entry_close < trailing_stop_price:
                 return "TRAILING STOP", entry_close, f"Harga turun ke trailing stop: {trailing_stop_price:.8f}"
@@ -222,6 +227,7 @@ def send_telegram_alert(signal_type, pair, current_price, details=""):
     Mengirim notifikasi ke Telegram.
     Untuk sinyal BUY, posisi disimpan ke ACTIVE_BUYS.
     Untuk sinyal exit (EXIT TRADE, TAKE PROFIT 2, SELL, STOP LOSS, EXPIRED, TRAILING STOP), posisi dihapus.
+    Untuk sinyal "NEW HIGH", posisi tidak dihapus.
     """
     display_pair = f"{pair[:-4]}/USDT"
     emoji = {
@@ -232,7 +238,8 @@ def send_telegram_alert(signal_type, pair, current_price, details=""):
         'EXIT TRADE': '🚪',
         'STOP LOSS': '🛑',
         'EXPIRED': '⌛',
-        'TRAILING STOP': '📉'
+        'TRAILING STOP': '📉',
+        'NEW HIGH': '📈'
     }.get(signal_type, 'ℹ️')
 
     message = f"{emoji} *{signal_type}*\n"
@@ -251,8 +258,8 @@ def send_telegram_alert(signal_type, pair, current_price, details=""):
             'trailing_stop_active': False,
             'highest_price': None
         }
-    # Untuk sinyal exit, tampilkan detail entry dan hapus posisi
-    else:
+    # Untuk sinyal exit (selain "NEW HIGH"), tampilkan detail entry dan hapus posisi
+    elif signal_type not in ["NEW HIGH"]:
         if pair in ACTIVE_BUYS:
             entry_price = ACTIVE_BUYS[pair]['price']
             profit = (current_price - entry_price) / entry_price * 100
