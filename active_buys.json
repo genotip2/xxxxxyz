@@ -34,5 +34,53 @@
         "time": "2025-02-13T18:48:59.141860",
         "tp1_hit": false,
         "tp1_price": null
+    },
+    "SUIUSDT": {
+        "price": 3.5183,
+        "time": "2025-02-13T19:06:34.247613",
+        "tp1_hit": false,
+        "tp1_price": null
+    },
+    "APTUSDT": {
+        "price": 6.12,
+        "time": "2025-02-13T19:06:37.018009",
+        "tp1_hit": false,
+        "tp1_price": null
+    },
+    "AAVEUSDT": {
+        "price": 253.2,
+        "time": "2025-02-13T19:06:38.297960",
+        "tp1_hit": false,
+        "tp1_price": null
+    },
+    "ETHFIUSDT": {
+        "price": 1.162,
+        "time": "2025-02-13T19:06:40.225747",
+        "tp1_hit": false,
+        "tp1_price": null
+    },
+    "UNIUSDT": {
+        "price": 9.702,
+        "time": "2025-02-13T19:06:41.835946",
+        "tp1_hit": false,
+        "tp1_price": null
+    },
+    "USUALUSDT": {
+        "price": 0.2502,
+        "time": "2025-02-13T19:06:43.406252",
+        "tp1_hit": false,
+        "tp1_price": null
+    },
+    "GALAUSDT": {
+        "price": 0.02327,
+        "time": "2025-02-13T19:06:44.289635",
+        "tp1_hit": false,
+        "tp1_price": null
+    },
+    "SEIUSDT": {
+        "price": 0.2352,
+        "time": "2025-02-13T19:06:45.551934",
+        "tp1_hit": false,
+        "tp1_price": null
     }
 }
