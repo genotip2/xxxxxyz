@@ -185,33 +185,21 @@
         "tp1_hit": false,
         "tp1_price": null
     },
-    "ENAUSDT": {
-        "price": 0.4505,
-        "time": "2025-02-13T21:31:33.985429",
-        "tp1_hit": false,
-        "tp1_price": null
-    },
-    "SHIBUSDT": {
-        "price": 1.631e-05,
-        "time": "2025-02-13T21:46:25.693401",
-        "tp1_hit": false,
-        "tp1_price": null
-    },
     "FLOKIUSDT": {
         "price": 9.676e-05,
         "time": "2025-02-13T21:46:27.059493",
         "tp1_hit": false,
         "tp1_price": null
     },
-    "CRVUSDT": {
-        "price": 0.5306,
-        "time": "2025-02-13T21:46:27.881494",
-        "tp1_hit": false,
-        "tp1_price": null
-    },
     "FETUSDT": {
         "price": 0.782,
         "time": "2025-02-13T21:46:28.589636",
+        "tp1_hit": false,
+        "tp1_price": null
+    },
+    "RAYUSDT": {
+        "price": 5.183,
+        "time": "2025-02-13T22:07:54.313425",
         "tp1_hit": false,
         "tp1_price": null
     }
