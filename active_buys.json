@@ -82,5 +82,17 @@
         "time": "2025-02-13T19:46:25.020333",
         "tp1_hit": false,
         "tp1_price": null
+    },
+    "NEARUSDT": {
+        "price": 3.343,
+        "time": "2025-02-13T20:09:11.337748",
+        "tp1_hit": false,
+        "tp1_price": null
+    },
+    "JUPUSDT": {
+        "price": 0.8484,
+        "time": "2025-02-13T20:09:12.220839",
+        "tp1_hit": false,
+        "tp1_price": null
     }
 }
