@@ -53,18 +53,6 @@
         "tp1_hit": false,
         "tp1_price": null
     },
-    "TRUMPUSDT": {
-        "price": 16.48,
-        "time": "2025-02-13T19:46:16.337934",
-        "tp1_hit": false,
-        "tp1_price": null
-    },
-    "DOTUSDT": {
-        "price": 5.147,
-        "time": "2025-02-13T19:46:25.020333",
-        "tp1_hit": false,
-        "tp1_price": null
-    },
     "NEARUSDT": {
         "price": 3.343,
         "time": "2025-02-13T20:09:11.337748",
@@ -200,6 +188,30 @@
     "RAYUSDT": {
         "price": 5.183,
         "time": "2025-02-13T22:07:54.313425",
+        "tp1_hit": false,
+        "tp1_price": null
+    },
+    "USDCUSDT": {
+        "price": 1,
+        "time": "2025-02-13T22:28:25.145105",
+        "tp1_hit": false,
+        "tp1_price": null
+    },
+    "SOLUSDT": {
+        "price": 194.66,
+        "time": "2025-02-13T22:28:26.233870",
+        "tp1_hit": false,
+        "tp1_price": null
+    },
+    "FDUSDUSDT": {
+        "price": 0.9991,
+        "time": "2025-02-13T22:28:26.993459",
+        "tp1_hit": false,
+        "tp1_price": null
+    },
+    "SHIBUSDT": {
+        "price": 1.633e-05,
+        "time": "2025-02-13T22:28:29.988768",
         "tp1_hit": false,
         "tp1_price": null
     }
