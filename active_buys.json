@@ -5,12 +5,6 @@
         "tp1_hit": false,
         "tp1_price": null
     },
-    "XLMUSDT": {
-        "price": 0.329,
-        "time": "2025-02-13T10:31:37.721838",
-        "tp1_hit": false,
-        "tp1_price": null
-    },
     "DOTUSDT": {
         "price": 5.164,
         "time": "2025-02-13T10:46:17.144781",
@@ -35,15 +29,21 @@
         "tp1_hit": false,
         "tp1_price": null
     },
-    "XVSUSDT": {
-        "price": 8.32,
-        "time": "2025-02-13T13:46:19.728095",
-        "tp1_hit": false,
-        "tp1_price": null
-    },
     "GMTUSDT": {
         "price": 0.0709,
         "time": "2025-02-13T13:46:21.359625",
+        "tp1_hit": false,
+        "tp1_price": null
+    },
+    "BNBUSDT": {
+        "price": 709.85,
+        "time": "2025-02-13T14:08:16.922361",
+        "tp1_hit": false,
+        "tp1_price": null
+    },
+    "CAKEUSDT": {
+        "price": 2.991,
+        "time": "2025-02-13T14:08:18.362430",
         "tp1_hit": false,
         "tp1_price": null
     }
