@@ -1,10 +1,4 @@
 {
-    "ENAUSDT": {
-        "price": 0.4588,
-        "time": "2025-02-13T10:09:06.116248",
-        "tp1_hit": false,
-        "tp1_price": null
-    },
     "SUSDT": {
         "price": 0.551,
         "time": "2025-02-13T10:09:06.847696",
@@ -56,6 +50,12 @@
     "ZENUSDT": {
         "price": 15.1,
         "time": "2025-02-13T11:07:04.910166",
+        "tp1_hit": false,
+        "tp1_price": null
+    },
+    "ADAUSDT": {
+        "price": 0.7836,
+        "time": "2025-02-13T11:21:50.309478",
         "tp1_hit": false,
         "tp1_price": null
     }
