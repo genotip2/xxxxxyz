@@ -1,0 +1,10 @@
+{
+    "TSTUSDT": {
+        "price": 0.1882,
+        "time": "2025-02-13T00:39:59.337300",
+        "tp1_hit": false,
+        "tp1_price": null,
+        "trailing_stop_active": false,
+        "highest_price": null
+    }
+}
