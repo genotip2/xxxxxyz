@@ -5,12 +5,6 @@
         "tp1_hit": false,
         "tp1_price": null
     },
-    "APTUSDT": {
-        "price": 6.2,
-        "time": "2025-02-13T10:31:35.987659",
-        "tp1_hit": false,
-        "tp1_price": null
-    },
     "XLMUSDT": {
         "price": 0.329,
         "time": "2025-02-13T10:31:37.721838",
@@ -20,12 +14,6 @@
     "DOTUSDT": {
         "price": 5.164,
         "time": "2025-02-13T10:46:17.144781",
-        "tp1_hit": false,
-        "tp1_price": null
-    },
-    "XRPUSDT": {
-        "price": 2.4565,
-        "time": "2025-02-13T12:15:14.594173",
         "tp1_hit": false,
         "tp1_price": null
     },
@@ -41,9 +29,21 @@
         "tp1_hit": false,
         "tp1_price": null
     },
-    "ADAUSDT": {
-        "price": 0.7869,
-        "time": "2025-02-13T13:36:39.264879",
+    "THEUSDT": {
+        "price": 0.7776,
+        "time": "2025-02-13T13:46:15.925716",
+        "tp1_hit": false,
+        "tp1_price": null
+    },
+    "XVSUSDT": {
+        "price": 8.32,
+        "time": "2025-02-13T13:46:19.728095",
+        "tp1_hit": false,
+        "tp1_price": null
+    },
+    "GMTUSDT": {
+        "price": 0.0709,
+        "time": "2025-02-13T13:46:21.359625",
         "tp1_hit": false,
         "tp1_price": null
     }
