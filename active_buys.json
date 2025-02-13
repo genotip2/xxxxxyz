@@ -40,5 +40,11 @@
         "time": "2025-02-13T13:16:07.570151",
         "tp1_hit": false,
         "tp1_price": null
+    },
+    "ADAUSDT": {
+        "price": 0.7869,
+        "time": "2025-02-13T13:36:39.264879",
+        "tp1_hit": false,
+        "tp1_price": null
     }
 }
