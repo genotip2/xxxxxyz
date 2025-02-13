@@ -47,12 +47,6 @@
         "tp1_hit": false,
         "tp1_price": null
     },
-    "PENGUUSDT": {
-        "price": 0.010251,
-        "time": "2025-02-13T19:31:30.554959",
-        "tp1_hit": false,
-        "tp1_price": null
-    },
     "NEARUSDT": {
         "price": 3.343,
         "time": "2025-02-13T20:09:11.337748",
@@ -191,15 +185,15 @@
         "tp1_hit": false,
         "tp1_price": null
     },
-    "FDUSDUSDT": {
-        "price": 0.9991,
-        "time": "2025-02-13T22:28:26.993459",
-        "tp1_hit": false,
-        "tp1_price": null
-    },
     "SHIBUSDT": {
         "price": 1.633e-05,
         "time": "2025-02-13T22:28:29.988768",
+        "tp1_hit": false,
+        "tp1_price": null
+    },
+    "THEUSDT": {
+        "price": 0.7158,
+        "time": "2025-02-13T22:46:29.148283",
         "tp1_hit": false,
         "tp1_price": null
     }
