@@ -22,5 +22,11 @@
         "time": "2025-02-13T18:11:30.796136",
         "tp1_hit": false,
         "tp1_price": null
+    },
+    "NEARUSDT": {
+        "price": 3.324,
+        "time": "2025-02-13T18:35:27.605575",
+        "tp1_hit": false,
+        "tp1_price": null
     }
 }
