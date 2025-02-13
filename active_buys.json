@@ -5,15 +5,27 @@
         "tp1_hit": false,
         "tp1_price": null
     },
-    "ALPACAUSDT": {
-        "price": 0.1643,
-        "time": "2025-02-13T14:29:12.853798",
-        "tp1_hit": false,
-        "tp1_price": null
-    },
     "USDCUSDT": {
         "price": 0.9999,
         "time": "2025-02-13T14:46:22.549329",
+        "tp1_hit": false,
+        "tp1_price": null
+    },
+    "TRUMPUSDT": {
+        "price": 16.69,
+        "time": "2025-02-13T15:35:46.760524",
+        "tp1_hit": false,
+        "tp1_price": null
+    },
+    "ADAUSDT": {
+        "price": 0.7835,
+        "time": "2025-02-13T15:35:49.274594",
+        "tp1_hit": false,
+        "tp1_price": null
+    },
+    "ENAUSDT": {
+        "price": 0.4606,
+        "time": "2025-02-13T15:35:50.101252",
         "tp1_hit": false,
         "tp1_price": null
     }
