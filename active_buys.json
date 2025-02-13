@@ -190,5 +190,17 @@
         "time": "2025-02-13T21:07:46.669966",
         "tp1_hit": false,
         "tp1_price": null
+    },
+    "ETHUSDT": {
+        "price": 2662.27,
+        "time": "2025-02-13T21:24:05.730947",
+        "tp1_hit": false,
+        "tp1_price": null
+    },
+    "SUIUSDT": {
+        "price": 3.492,
+        "time": "2025-02-13T21:24:07.037951",
+        "tp1_hit": false,
+        "tp1_price": null
     }
 }
