@@ -17,27 +17,21 @@
         "tp1_hit": false,
         "tp1_price": null
     },
-    "BNBUSDT": {
-        "price": 708.73,
-        "time": "2025-02-13T10:46:14.985597",
-        "tp1_hit": false,
-        "tp1_price": null
-    },
     "DOTUSDT": {
         "price": 5.164,
         "time": "2025-02-13T10:46:17.144781",
         "tp1_hit": false,
         "tp1_price": null
     },
-    "CAKEUSDT": {
-        "price": 3.011,
-        "time": "2025-02-13T11:46:12.904947",
-        "tp1_hit": false,
-        "tp1_price": null
-    },
     "XRPUSDT": {
         "price": 2.4565,
         "time": "2025-02-13T12:15:14.594173",
+        "tp1_hit": false,
+        "tp1_price": null
+    },
+    "ZENUSDT": {
+        "price": 15,
+        "time": "2025-02-13T12:51:30.982842",
         "tp1_hit": false,
         "tp1_price": null
     }
