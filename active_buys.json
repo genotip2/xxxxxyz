@@ -1,16 +1,4 @@
 {
-    "1000CATUSDT": {
-        "price": 0.01582,
-        "time": "2025-02-13T10:09:09.708866",
-        "tp1_hit": false,
-        "tp1_price": null
-    },
-    "DOTUSDT": {
-        "price": 5.164,
-        "time": "2025-02-13T10:46:17.144781",
-        "tp1_hit": false,
-        "tp1_price": null
-    },
     "ZENUSDT": {
         "price": 15,
         "time": "2025-02-13T12:51:30.982842",
@@ -44,6 +32,12 @@
     "CAKEUSDT": {
         "price": 2.991,
         "time": "2025-02-13T14:08:18.362430",
+        "tp1_hit": false,
+        "tp1_price": null
+    },
+    "ALPACAUSDT": {
+        "price": 0.1643,
+        "time": "2025-02-13T14:29:12.853798",
         "tp1_hit": false,
         "tp1_price": null
     }
