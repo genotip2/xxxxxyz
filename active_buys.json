@@ -1,10 +1,4 @@
 {
-    "USDCUSDT": {
-        "price": 0.9999,
-        "time": "2025-02-13T14:46:22.549329",
-        "tp1_hit": false,
-        "tp1_price": null
-    },
     "USUALUSDT": {
         "price": 0.2494,
         "time": "2025-02-13T16:33:57.089780",
@@ -14,6 +8,12 @@
     "LTCUSDT": {
         "price": 121.57,
         "time": "2025-02-13T16:49:57.602087",
+        "tp1_hit": false,
+        "tp1_price": null
+    },
+    "NEARUSDT": {
+        "price": 3.322,
+        "time": "2025-02-13T17:32:03.106472",
         "tp1_hit": false,
         "tp1_price": null
     }
