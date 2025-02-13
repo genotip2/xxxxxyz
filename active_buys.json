@@ -40,5 +40,17 @@
         "time": "2025-02-13T10:31:38.356151",
         "tp1_hit": false,
         "tp1_price": null
+    },
+    "BNBUSDT": {
+        "price": 708.73,
+        "time": "2025-02-13T10:46:14.985597",
+        "tp1_hit": false,
+        "tp1_price": null
+    },
+    "DOTUSDT": {
+        "price": 5.164,
+        "time": "2025-02-13T10:46:17.144781",
+        "tp1_hit": false,
+        "tp1_price": null
     }
 }
