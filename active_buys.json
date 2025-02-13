@@ -94,5 +94,41 @@
         "time": "2025-02-13T20:09:12.220839",
         "tp1_hit": false,
         "tp1_price": null
+    },
+    "USDCUSDT": {
+        "price": 0.9999,
+        "time": "2025-02-13T20:27:06.531691",
+        "tp1_hit": false,
+        "tp1_price": null
+    },
+    "SUIUSDT": {
+        "price": 3.4931,
+        "time": "2025-02-13T20:27:08.394946",
+        "tp1_hit": false,
+        "tp1_price": null
+    },
+    "DOGEUSDT": {
+        "price": 0.258,
+        "time": "2025-02-13T20:27:09.238392",
+        "tp1_hit": false,
+        "tp1_price": null
+    },
+    "BNXUSDT": {
+        "price": 0.8969,
+        "time": "2025-02-13T20:27:10.566026",
+        "tp1_hit": false,
+        "tp1_price": null
+    },
+    "WIFUSDT": {
+        "price": 0.6,
+        "time": "2025-02-13T20:27:12.926507",
+        "tp1_hit": false,
+        "tp1_price": null
+    },
+    "APTUSDT": {
+        "price": 6.11,
+        "time": "2025-02-13T20:27:14.413030",
+        "tp1_hit": false,
+        "tp1_price": null
     }
 }
