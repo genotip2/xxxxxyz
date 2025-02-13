@@ -40,5 +40,11 @@
         "time": "2025-02-13T11:07:04.910166",
         "tp1_hit": false,
         "tp1_price": null
+    },
+    "CAKEUSDT": {
+        "price": 3.011,
+        "time": "2025-02-13T11:46:12.904947",
+        "tp1_hit": false,
+        "tp1_price": null
     }
 }
