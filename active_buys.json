@@ -5,27 +5,21 @@
         "tp1_hit": false,
         "tp1_price": null
     },
-    "THEUSDT": {
-        "price": 0.7776,
-        "time": "2025-02-13T13:46:15.925716",
-        "tp1_hit": false,
-        "tp1_price": null
-    },
     "GMTUSDT": {
         "price": 0.0709,
         "time": "2025-02-13T13:46:21.359625",
         "tp1_hit": false,
         "tp1_price": null
     },
-    "CAKEUSDT": {
-        "price": 2.991,
-        "time": "2025-02-13T14:08:18.362430",
-        "tp1_hit": false,
-        "tp1_price": null
-    },
     "ALPACAUSDT": {
         "price": 0.1643,
         "time": "2025-02-13T14:29:12.853798",
+        "tp1_hit": false,
+        "tp1_price": null
+    },
+    "USDCUSDT": {
+        "price": 0.9999,
+        "time": "2025-02-13T14:46:22.549329",
         "tp1_hit": false,
         "tp1_price": null
     }
