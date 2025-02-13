@@ -107,12 +107,6 @@
         "tp1_hit": false,
         "tp1_price": null
     },
-    "RUNEUSDT": {
-        "price": 1.465,
-        "time": "2025-02-13T20:35:34.548595",
-        "tp1_hit": false,
-        "tp1_price": null
-    },
     "EIGENUSDT": {
         "price": 1.692,
         "time": "2025-02-13T20:35:37.600094",
@@ -170,6 +164,30 @@
     "OPUSDT": {
         "price": 1.118,
         "time": "2025-02-13T20:46:31.062199",
+        "tp1_hit": false,
+        "tp1_price": null
+    },
+    "BTCUSDT": {
+        "price": 96359.15,
+        "time": "2025-02-13T21:07:41.116720",
+        "tp1_hit": false,
+        "tp1_price": null
+    },
+    "SHIBUSDT": {
+        "price": 1.626e-05,
+        "time": "2025-02-13T21:07:43.868891",
+        "tp1_hit": false,
+        "tp1_price": null
+    },
+    "ARBUSDT": {
+        "price": 0.4855,
+        "time": "2025-02-13T21:07:44.989010",
+        "tp1_hit": false,
+        "tp1_price": null
+    },
+    "BIOUSDT": {
+        "price": 0.1593,
+        "time": "2025-02-13T21:07:46.669966",
         "tp1_hit": false,
         "tp1_price": null
     }
