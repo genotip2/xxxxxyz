@@ -8,14 +8,8 @@
     "SUSDT": {
         "price": 0.551,
         "time": "2025-02-13T10:09:06.847696",
-        "tp1_hit": false,
-        "tp1_price": null
-    },
-    "LDOUSDT": {
-        "price": 1.773,
-        "time": "2025-02-13T10:09:08.070648",
-        "tp1_hit": false,
-        "tp1_price": null
+        "tp1_hit": true,
+        "tp1_price": 0.5857
     },
     "1000CATUSDT": {
         "price": 0.01582,
@@ -50,6 +44,18 @@
     "DOTUSDT": {
         "price": 5.164,
         "time": "2025-02-13T10:46:17.144781",
+        "tp1_hit": false,
+        "tp1_price": null
+    },
+    "AAVEUSDT": {
+        "price": 253.39,
+        "time": "2025-02-13T11:07:04.165511",
+        "tp1_hit": false,
+        "tp1_price": null
+    },
+    "ZENUSDT": {
+        "price": 15.1,
+        "time": "2025-02-13T11:07:04.910166",
         "tp1_hit": false,
         "tp1_price": null
     }
