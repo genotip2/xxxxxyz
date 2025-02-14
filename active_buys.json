@@ -155,12 +155,6 @@
         "tp1_hit": false,
         "tp1_price": null
     },
-    "WIFUSDT": {
-        "price": 0.599,
-        "time": "2025-02-14T02:53:53.164349",
-        "tp1_hit": false,
-        "tp1_price": null
-    },
     "PENGUUSDT": {
         "price": 0.010356,
         "time": "2025-02-14T02:53:54.237822",
@@ -182,12 +176,6 @@
     "LINKUSDT": {
         "price": 18.73,
         "time": "2025-02-14T03:12:41.300708",
-        "tp1_hit": false,
-        "tp1_price": null
-    },
-    "SUIUSDT": {
-        "price": 3.4868,
-        "time": "2025-02-14T03:31:20.604770",
         "tp1_hit": false,
         "tp1_price": null
     },
@@ -239,21 +227,15 @@
         "tp1_hit": false,
         "tp1_price": null
     },
-    "FDUSDUSDT": {
-        "price": 0.9991,
-        "time": "2025-02-14T05:08:25.389127",
-        "tp1_hit": false,
-        "tp1_price": null
-    },
-    "BNBUSDT": {
-        "price": 682.19,
-        "time": "2025-02-14T05:28:39.785929",
-        "tp1_hit": false,
-        "tp1_price": null
-    },
     "BNXUSDT": {
         "price": 0.9537,
         "time": "2025-02-14T05:28:41.562049",
+        "tp1_hit": false,
+        "tp1_price": null
+    },
+    "USDCUSDT": {
+        "price": 0.9999,
+        "time": "2025-02-14T05:37:31.919277",
         "tp1_hit": false,
         "tp1_price": null
     }
