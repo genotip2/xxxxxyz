@@ -1,1 +1,92 @@
-{}
+{
+    "DOGEUSDT": {
+        "price": 0.27887,
+        "time": "2025-02-14T19:11:08.588323",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "PEPEUSDT": {
+        "price": 1.058e-05,
+        "time": "2025-02-14T19:11:10.197390",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "JUPUSDT": {
+        "price": 0.983,
+        "time": "2025-02-14T19:11:12.019156",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "XLMUSDT": {
+        "price": 0.3552,
+        "time": "2025-02-14T19:11:13.440918",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "JUVUSDT": {
+        "price": 2.095,
+        "time": "2025-02-14T19:11:14.715149",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "NEARUSDT": {
+        "price": 3.6,
+        "time": "2025-02-14T19:11:16.315601",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "BONKUSDT": {
+        "price": 1.93e-05,
+        "time": "2025-02-14T19:11:18.248953",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "AAVEUSDT": {
+        "price": 267.07,
+        "time": "2025-02-14T19:11:19.064018",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "LDOUSDT": {
+        "price": 1.879,
+        "time": "2025-02-14T19:11:19.837645",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "UNIUSDT": {
+        "price": 10.189,
+        "time": "2025-02-14T19:11:22.359925",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "MOVEUSDT": {
+        "price": 0.6113,
+        "time": "2025-02-14T19:11:23.197830",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "RAYUSDT": {
+        "price": 5.796,
+        "time": "2025-02-14T19:11:24.120665",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "ARBUSDT": {
+        "price": 0.5061,
+        "time": "2025-02-14T19:11:25.020071",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "JTOUSDT": {
+        "price": 3.279,
+        "time": "2025-02-14T19:11:25.832864",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "OPUSDT": {
+        "price": 1.176,
+        "time": "2025-02-14T19:11:26.620814",
+        "trailing_stop_active": false,
+        "highest_price": null
+    }
+}
