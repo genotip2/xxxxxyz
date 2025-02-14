@@ -106,5 +106,17 @@
         "time": "2025-02-14T19:21:53.141943",
         "trailing_stop_active": false,
         "highest_price": null
+    },
+    "TRUMPUSDT": {
+        "price": 22.38,
+        "time": "2025-02-14T19:31:24.137622",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "NEIROUSDT": {
+        "price": 0.00039279,
+        "time": "2025-02-14T19:31:33.212168",
+        "trailing_stop_active": false,
+        "highest_price": null
     }
 }
