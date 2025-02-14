@@ -251,21 +251,27 @@
         "tp1_hit": false,
         "tp1_price": null
     },
-    "FDUSDUSDT": {
-        "price": 0.9991,
-        "time": "2025-02-14T04:10:25.507016",
+    "SEIUSDT": {
+        "price": 0.2381,
+        "time": "2025-02-14T04:30:16.768586",
         "tp1_hit": false,
         "tp1_price": null
     },
-    "ENAUSDT": {
-        "price": 0.4531,
-        "time": "2025-02-14T04:10:28.958565",
+    "FETUSDT": {
+        "price": 0.788,
+        "time": "2025-02-14T04:30:18.257318",
         "tp1_hit": false,
         "tp1_price": null
     },
-    "CRVUSDT": {
-        "price": 0.5329,
-        "time": "2025-02-14T04:10:35.390764",
+    "USUALUSDT": {
+        "price": 0.2495,
+        "time": "2025-02-14T04:30:19.159103",
+        "tp1_hit": false,
+        "tp1_price": null
+    },
+    "BOMEUSDT": {
+        "price": 0.002221,
+        "time": "2025-02-14T04:30:20.336303",
         "tp1_hit": false,
         "tp1_price": null
     }
