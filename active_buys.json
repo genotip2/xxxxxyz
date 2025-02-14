@@ -112,5 +112,17 @@
         "time": "2025-02-14T20:09:02.541751",
         "trailing_stop_active": false,
         "highest_price": null
+    },
+    "RAYUSDT": {
+        "price": 5.633,
+        "time": "2025-02-14T20:26:58.475502",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "MOVEUSDT": {
+        "price": 0.5894,
+        "time": "2025-02-14T20:27:00.745787",
+        "trailing_stop_active": false,
+        "highest_price": null
     }
 }
