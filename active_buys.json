@@ -23,12 +23,6 @@
         "trailing_stop_active": false,
         "highest_price": null
     },
-    "JUVUSDT": {
-        "price": 2.095,
-        "time": "2025-02-14T19:11:14.715149",
-        "trailing_stop_active": false,
-        "highest_price": null
-    },
     "NEARUSDT": {
         "price": 3.6,
         "time": "2025-02-14T19:11:16.315601",
@@ -152,6 +146,24 @@
     "PNUTUSDT": {
         "price": 0.1881,
         "time": "2025-02-14T22:07:33.013901",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "PYTHUSDT": {
+        "price": 0.2227,
+        "time": "2025-02-14T22:27:56.990171",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "ACMUSDT": {
+        "price": 1.184,
+        "time": "2025-02-14T22:27:59.518835",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "JASMYUSDT": {
+        "price": 0.02314,
+        "time": "2025-02-14T22:28:00.462658",
         "trailing_stop_active": false,
         "highest_price": null
     }
