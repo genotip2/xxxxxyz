@@ -32,8 +32,8 @@
     "JUPUSDT": {
         "price": 0.8484,
         "time": "2025-02-13T20:09:12.220839",
-        "tp1_hit": false,
-        "tp1_price": null
+        "tp1_hit": true,
+        "tp1_price": 0.8961
     },
     "DOGEUSDT": {
         "price": 0.258,
@@ -242,6 +242,18 @@
     "FDUSDUSDT": {
         "price": 0.9991,
         "time": "2025-02-14T05:08:25.389127",
+        "tp1_hit": false,
+        "tp1_price": null
+    },
+    "BNBUSDT": {
+        "price": 682.19,
+        "time": "2025-02-14T05:28:39.785929",
+        "tp1_hit": false,
+        "tp1_price": null
+    },
+    "BNXUSDT": {
+        "price": 0.9537,
+        "time": "2025-02-14T05:28:41.562049",
         "tp1_hit": false,
         "tp1_price": null
     }
