@@ -7,7 +7,6 @@ from tradingview_ta import TA_Handler, Interval
 # ==============================
 # KONFIGURASI
 # ==============================
-
 TELEGRAM_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN')
 TELEGRAM_CHAT_ID = os.getenv('TELEGRAM_CHAT_ID')
 
@@ -15,25 +14,27 @@ ACTIVE_BUYS_FILE = 'active_buys.json'
 ACTIVE_BUYS = {}
 
 # Parameter trading
-TAKE_PROFIT_PERCENTAGE = 5    # Target take profit 5% (dihitung dari harga entry)
-STOP_LOSS_PERCENTAGE = 2      # Stop loss 2% (dihitung dari harga entry)
-TRAILING_STOP_PERCENTAGE = 2  # Trailing stop 2% (dari harga tertinggi setelah take profit tercapai)
+TAKE_PROFIT_PERCENTAGE = 6    # Target take profit 5% (dihitung dari harga entry)
+STOP_LOSS_PERCENTAGE = 3      # Stop loss 2% (dihitung dari harga entry)
+TRAILING_STOP_PERCENTAGE = 3  # Trailing stop 2% (dari harga tertinggi setelah take profit tercapai)
 MAX_HOLD_DURATION_HOUR = 24   # Durasi hold maksimum 24 jam
-PAIR_TO_ANALYZE = 50          # Jumlah pair yang akan dianalisis
-RSI_LIMIT = 60                # Batas atas RSI untuk entry
+PAIR_TO_ANALYZE = 100          # Jumlah pair yang akan dianalisis
 
-# Konfigurasi untuk Recommend.MA
-BULLISH_RECOMMEND_MA_THRESHOLD = 0.7   # Sinyal BUY hanya muncul jika Recommend.MA >= 0.7
-BEARISH_RECOMMEND_MA_THRESHOLD = 0.3    # Sinyal SELL akan dipicu jika Recommend.MA < 0.3
+# (Konfigurasi Recommend.MA masih disertakan meskipun tidak digunakan pada logika scoring baru)
+BULLISH_RECOMMEND_MA_THRESHOLD = 0.7
+BEARISH_RECOMMEND_MA_THRESHOLD = 0.3
 
 # Konfigurasi Timeframe
-TIMEFRAME_TREND = Interval.INTERVAL_1_DAY       # Timeframe untuk analisis tren utama
-TIMEFRAME_ENTRY = Interval.INTERVAL_4_HOURS     # Timeframe untuk analisis entry/pullback
+TIMEFRAME_TREND = Interval.INTERVAL_4_HOURS       # Timeframe untuk analisis tren utama
+TIMEFRAME_ENTRY = Interval.INTERVAL_1_HOUR     # Timeframe untuk analisis entry/pullback
+
+# Konfigurasi Score Threshold
+BUY_SCORE_THRESHOLD = 6
+SELL_SCORE_THRESHOLD = 5
 
 # ==============================
 # FUNGSI UTITAS: LOAD & SAVE POSITION
 # ==============================
-
 def load_active_buys():
     """Muat posisi aktif dari file JSON."""
     global ACTIVE_BUYS
@@ -76,7 +77,6 @@ def save_active_buys():
 # ==============================
 # FUNGSI MENDAPATKAN PAIR TERATAS
 # ==============================
-
 def get_binance_top_pairs():
     """
     Ambil pasangan (pair) teratas berdasarkan volume trading dari Binance melalui CoinGecko.
@@ -97,7 +97,6 @@ def get_binance_top_pairs():
 # ==============================
 # FUNGSI ANALISIS: MULTI-TIMEFRAME
 # ==============================
-
 def analyze_pair_interval(pair, interval):
     """
     Lakukan analisis teknikal untuk pair pada timeframe tertentu menggunakan tradingview_ta.
@@ -116,111 +115,187 @@ def analyze_pair_interval(pair, interval):
         return None
 
 # ==============================
-# GENERATE SINYAL TRADING
+# FUNGSI PEMBANTU UNTUK SCORING
 # ==============================
+def safe_compare(a, b, op):
+    """Bandingkan dua nilai secara aman; kembalikan False jika salah satunya bernilai None."""
+    if a is None or b is None:
+        return False
+    if op == '>':
+        return a > b
+    elif op == '<':
+        return a < b
+    else:
+        raise ValueError("Operator tidak didukung.")
 
+def calculate_scores(data):
+    """
+    Hitung skor beli dan jual berdasarkan indikator teknikal dan kembalikan juga
+    daftar indikator yang terpenuhi untuk masing-masing kondisi.
+    Pastikan data sudah menyertakan 'current_price' dari timeframe entry.
+    """
+    current_price = data.get('current_price')
+
+    # Data timeframe entry (M15)
+    ema10_entry = data.get('ema10_entry')  
+    ema20_entry = data.get('ema20_entry')  
+    rsi_entry = data.get('rsi_entry')  
+    macd_entry = data.get('macd_entry')  
+    macd_signal_entry = data.get('macd_signal_entry')  
+    bb_lower_entry = data.get('bb_lower_entry')  
+    bb_upper_entry = data.get('bb_upper_entry')  
+    adx_entry = data.get('adx_entry')  
+    obv_entry = data.get('obv_entry')  
+    candle_entry = data.get('candle_entry')  
+    stoch_k_entry = data.get('stoch_k_entry')
+    stoch_d_entry = data.get('stoch_d_entry')
+
+    # Data timeframe tren (H1)
+    ema10_trend = data.get('ema10_trend')  
+    ema20_trend = data.get('ema20_trend')  
+    rsi_trend = data.get('rsi_trend')  
+    macd_trend = data.get('macd_trend')  
+    macd_signal_trend = data.get('macd_signal_trend')  
+    bb_lower_trend = data.get('bb_lower_trend')  
+    bb_upper_trend = data.get('bb_upper_trend')  
+    adx_trend = data.get('adx_trend')  
+    obv_trend = data.get('obv_trend')  
+    candle_trend = data.get('candle_trend')  
+
+    # Kondisi beli: tiap tuple berisi (kondisi_boolean, deskripsi indikator)
+    buy_conditions = [
+        (safe_compare(ema10_entry, ema20_entry, '>'), "EMA10 entry > EMA20 entry"),
+        (safe_compare(ema10_trend, ema20_trend, '>'), "EMA10 trend > EMA20 trend"),
+        ((rsi_entry is not None and rsi_entry < 75), "RSI < 75"),
+        (safe_compare(macd_entry, macd_signal_entry, '>'), "MACD > Signal"),
+        ((bb_lower_entry is not None and current_price is not None and current_price <= bb_lower_entry), "Price <= BB Lower"),
+        ((adx_entry is not None and adx_entry > 35), "ADX > 35"),
+        ((candle_entry is not None and ("BUY" in candle_entry or "STRONG_BUY" in candle_entry)), "Rekomendasi BUY"),
+        ((stoch_k_entry is not None and stoch_k_entry < 20 and stoch_d_entry is not None and stoch_d_entry < 20), "Stoch RSI < 20")
+    ]
+
+    # Kondisi jual
+    sell_conditions = [
+        (safe_compare(ema10_entry, ema20_entry, '<'), "EMA10 entry < EMA20 entry"),
+        (safe_compare(ema10_trend, ema20_trend, '<'), "EMA10 trend < EMA20 trend "),
+        ((rsi_entry is not None and rsi_entry > 85), "RSI > 70"),
+        (safe_compare(macd_entry, macd_signal_entry, '<'), "MACD < Signal "),
+        ((bb_upper_entry is not None and current_price is not None and current_price >= bb_upper_entry), "Price >= BB Upper"),
+        ((adx_entry is not None and adx_entry < 45), "ADX < 45"),
+        ((candle_entry is not None and ("SELL" in candle_entry or "STRONG_SELL" in candle_entry)), "Rekomendasi SELL"),
+        ((stoch_k_entry is not None and stoch_k_entry > 80 and stoch_d_entry is not None and stoch_d_entry > 80), "Stoch RSI  > 80")
+    ]
+
+    buy_score = sum(1 for cond, _ in buy_conditions if cond)
+    sell_score = sum(1 for cond, _ in sell_conditions if cond)
+    buy_met = [desc for cond, desc in buy_conditions if cond]
+    sell_met = [desc for cond, desc in sell_conditions if cond]
+
+    return buy_score, sell_score, buy_met, sell_met
+
+# ==============================
+# GENERATE SINYAL TRADING DENGAN SCORING
+# ==============================
 def generate_signal(pair):
     """
-    Hasilkan sinyal trading dengan logika:
-    - BUY: Jika kondisi pada timeframe tren (TIMEFRAME_TREND) terpenuhi:
-      * Recommend.MA >= BULLISH_RECOMMEND_MA_THRESHOLD, dan
-      * Rekomendasi TradingView adalah 'BUY' atau 'STRONG_BUY'
-      serta terjadi pullback pada timeframe entry (TIMEFRAME_ENTRY) (RSI < RSI_LIMIT, EMA10 > EMA20, dan MACD > Signal)
-      dan posisi belum aktif.
-    - EXIT (SELL/TAKE PROFIT/STOP LOSS/EXPIRED/TRAILING STOP):
-      Jika posisi aktif dan salah satu kondisi exit terpenuhi:
-      * Stop Loss: jika profit turun mencapai -STOP_LOSS_PERCENTAGE.
-      * TAKE PROFIT: Jika profit mencapai TAKE_PROFIT_PERCENTAGE, aktifkan trailing stop.
-      * TRAILING STOP: Jika trailing stop aktif dan harga turun dari highest_price melebihi TRAILING_STOP_PERCENTAGE.
-      * SELL: Jika salah satu dari kondisi berikut terpenuhi:
-         - Rekomendasi TradingView berubah menjadi bearish (tidak 'BUY'/'STRONG_BUY'), atau
-         - Meskipun rekomendasi bullish, tetapi Recommend.MA < BEARISH_RECOMMEND_MA_THRESHOLD.
-      * EXPIRED: Jika durasi hold melebihi MAX_HOLD_DURATION_HOUR.
+    Hasilkan sinyal trading berdasarkan skor indikator.
+    - Jika posisi belum aktif: sinyal BUY dihasilkan apabila buy_score minimal BUY_SCORE_THRESHOLD dan lebih tinggi dari sell_score.
+    - Jika posisi sudah aktif: cek exit berdasarkan stop loss, take profit, trailing stop, durasi hold,
+      atau jika sell_score minimal SELL_SCORE_THRESHOLD dan melebihi buy_score.
     """
-    # Analisis timeframe tren utama
+    # Analisis timeframe tren (H1)
     trend_analysis = analyze_pair_interval(pair, TIMEFRAME_TREND)
     if trend_analysis is None:
         return None, None, "Analisis tren gagal."
 
-    trend_rec = trend_analysis.summary.get('RECOMMENDATION')
-    trend_recommend_ma = trend_analysis.indicators.get('Recommend.MA')
-    if trend_recommend_ma is None:
-        return None, None, "Data Recommend.MA tidak tersedia pada analisis tren."
-
-    # Sinyal BUY hanya muncul jika kedua syarat terpenuhi:
-    # 1. Recommend.MA >= BULLISH_RECOMMEND_MA_THRESHOLD
-    # 2. Rekomendasi TradingView adalah 'BUY' atau 'STRONG_BUY'
-    bullish_condition = (trend_recommend_ma >= BULLISH_RECOMMEND_MA_THRESHOLD) and (trend_rec in ['BUY', 'STRONG_BUY'])
-
-    # Analisis timeframe entry untuk pullback
+    # Analisis timeframe entry (M15)
     entry_analysis = analyze_pair_interval(pair, TIMEFRAME_ENTRY)
     if entry_analysis is None:
         return None, None, "Analisis entry gagal."
-    entry_close = entry_analysis.indicators.get('close')
-    entry_rsi = entry_analysis.indicators.get('RSI')
-    entry_ema10 = entry_analysis.indicators.get('EMA10')
-    entry_ema20 = entry_analysis.indicators.get('EMA20')
-    entry_macd = entry_analysis.indicators.get('MACD.macd')
-    entry_signal_line = entry_analysis.indicators.get('MACD.signal')
 
-    if entry_close is None:
-        return None, None, "Harga close pada timeframe entry tidak tersedia."
+    current_price = entry_analysis.indicators.get('close')
+    if current_price is None:
+        return None, None, "Harga close tidak tersedia pada timeframe entry."
 
-    # Kondisi pullback pada timeframe entry: RSI < RSI_LIMIT, EMA10 > EMA20, dan MACD > Signal
-    pullback_entry = (entry_rsi is not None and entry_rsi < RSI_LIMIT) and \
-                     (entry_ema10 is not None and entry_ema20 is not None and entry_ema10 > entry_ema20) and \
-                     (entry_macd is not None and entry_signal_line is not None and entry_macd > entry_signal_line)
+    # Bangun dictionary data untuk perhitungan skor
+    data = {
+        'current_price': current_price,
+        'ema10_entry': entry_analysis.indicators.get('EMA10'),
+        'ema20_entry': entry_analysis.indicators.get('EMA20'),
+        'rsi_entry': entry_analysis.indicators.get('RSI'),
+        'macd_entry': entry_analysis.indicators.get('MACD.macd'),
+        'macd_signal_entry': entry_analysis.indicators.get('MACD.signal'),
+        'bb_lower_entry': entry_analysis.indicators.get('BB.lower'),
+        'bb_upper_entry': entry_analysis.indicators.get('BB.upper'),
+        'adx_entry': entry_analysis.indicators.get('ADX'),
+        'obv_entry': entry_analysis.indicators.get('OBV'),
+        'candle_entry': entry_analysis.summary.get('RECOMMENDATION'),
+        'stoch_k_entry': entry_analysis.indicators.get('Stoch.K'),
+        'stoch_d_entry': entry_analysis.indicators.get('Stoch.D'),
 
-    # Jika posisi belum aktif dan kondisi entry terpenuhi, berikan sinyal BUY
-    if pair not in ACTIVE_BUYS and bullish_condition and pullback_entry:
-        details = (f"Tren {trend_rec}, Recommend.MA: {trend_recommend_ma:.2f}, "
-                   f"EMA10 & EMA20 Cross, MACD: Bullish, RSI ({TIMEFRAME_ENTRY}): {entry_rsi:.2f}")
-        return "BUY", entry_close, details
+        'ema10_trend': trend_analysis.indicators.get('EMA10'),
+        'ema20_trend': trend_analysis.indicators.get('EMA20'),
+        'rsi_trend': trend_analysis.indicators.get('RSI'),
+        'macd_trend': trend_analysis.indicators.get('MACD.macd'),
+        'macd_signal_trend': trend_analysis.indicators.get('MACD.signal'),
+        'bb_lower_trend': trend_analysis.indicators.get('BB.lower'),
+        'bb_upper_trend': trend_analysis.indicators.get('BB.upper'),
+        'adx_trend': trend_analysis.indicators.get('ADX'),
+        'obv_trend': trend_analysis.indicators.get('OBV'),
+        'candle_trend': trend_analysis.summary.get('RECOMMENDATION')
+    }
 
-    # Jika posisi sudah aktif, periksa kondisi exit dan target profit
-    if pair in ACTIVE_BUYS:
-        data = ACTIVE_BUYS[pair]
-        holding_duration = datetime.now() - data['time']
+    # Hitung skor beli dan jual
+    buy_score, sell_score, buy_met, sell_met = calculate_scores(data)
+
+    # Jika belum ada posisi aktif, evaluasi entry BUY
+    if pair not in ACTIVE_BUYS:
+        if buy_score >= BUY_SCORE_THRESHOLD and buy_score > sell_score:
+            details = f"{', '.join(buy_met)}"
+            return "BUY", current_price, details
+
+    # Jika posisi sudah aktif, cek kondisi exit/management posisi
+    else:
+        data_active = ACTIVE_BUYS[pair]
+        holding_duration = datetime.now() - data_active['time']
         if holding_duration > timedelta(hours=MAX_HOLD_DURATION_HOUR):
-            return "EXPIRED", entry_close, "Durasi hold maksimal tercapai."
+            return "EXPIRED", current_price, f"Durasi hold: {str(holding_duration).split('.')[0]}"
 
-        entry_price = data['price']
-        profit_from_entry = (entry_close - entry_price) / entry_price * 100
+        entry_price = data_active['price']
+        profit_from_entry = (current_price - entry_price) / entry_price * 100
 
-        # Cek stop loss berdasarkan harga entry
         if profit_from_entry <= -STOP_LOSS_PERCENTAGE:
-            return "STOP LOSS", entry_close, "Limit stop loss tercapai."
+            return "STOP LOSS", current_price, "Stop loss tercapai."
 
-        # Jika take profit tercapai dan trailing stop belum aktif, aktifkan trailing stop
-        if not data.get('trailing_stop_active', False) and profit_from_entry >= TAKE_PROFIT_PERCENTAGE:
+        if not data_active.get('trailing_stop_active', False) and profit_from_entry >= TAKE_PROFIT_PERCENTAGE:
             ACTIVE_BUYS[pair]['trailing_stop_active'] = True
-            ACTIVE_BUYS[pair]['highest_price'] = entry_close
-            return "TAKE PROFIT", entry_close, "Target take profit tercapai, trailing stop diaktifkan."
+            ACTIVE_BUYS[pair]['highest_price'] = current_price
+            return "TAKE PROFIT", current_price, "Target take profit tercapai, trailing stop diaktifkan."
 
-        # Jika trailing stop aktif, perbarui harga tertinggi dan cek kondisi trailing stop
-        if data.get('trailing_stop_active', False):
-            prev_high = data.get('highest_price')
-            if prev_high is None or entry_close > prev_high:
-                ACTIVE_BUYS[pair]['highest_price'] = entry_close
-                if prev_high is not None:
-                    send_telegram_alert("NEW HIGH", pair, entry_close, f"New highest price (sebelumnya: {prev_high:.8f})")
+        if data_active.get('trailing_stop_active', False):
+            prev_high = data_active.get('highest_price')
+            if prev_high is None or current_price > prev_high:
+                ACTIVE_BUYS[pair]['highest_price'] = current_price
+                send_telegram_alert(
+                    "NEW HIGH",
+                    pair,
+                    current_price,
+                    f"New highest price (sebelumnya: {prev_high:.8f})" if prev_high else "New highest price set."
+                )
             trailing_stop_price = ACTIVE_BUYS[pair]['highest_price'] * (1 - TRAILING_STOP_PERCENTAGE / 100)
-            if entry_close < trailing_stop_price:
-                return "TRAILING STOP", entry_close, f"Harga turun ke trailing stop: {trailing_stop_price:.8f}"
+            if current_price < trailing_stop_price:
+                return "TRAILING STOP", current_price, f"Harga turun ke trailing stop: {trailing_stop_price:.8f}"
 
-        # Logika SELL:
-        # Sinyal SELL dipicu jika salah satu kondisi terpenuhi:
-        # 1. Rekomendasi TradingView tidak bullish (bukan 'BUY' atau 'STRONG_BUY')
-        # 2. Atau, meskipun rekomendasi bullish, Recommend.MA < BEARISH_RECOMMEND_MA_THRESHOLD
-        if (trend_rec not in ['BUY', 'STRONG_BUY']) or (trend_recommend_ma < BEARISH_RECOMMEND_MA_THRESHOLD):
-            return "SELL", entry_close, f"Tren berubah bearish ({trend_rec}, Recommend.MA: {trend_recommend_ma:.2f})"
+        # Evaluasi exit berdasarkan sinyal SELL dari skor
+        if sell_score >= SELL_SCORE_THRESHOLD and sell_score > buy_score:
+            details = f"{', '.join(sell_met)}"
+            return "SELL", current_price, details
 
-    return None, entry_close, "Tidak ada sinyal."
+    return None, current_price, "Tidak ada sinyal."
 
 # ==============================
 # KIRIM ALERT TELEGRAM
 # ==============================
-
 def send_telegram_alert(signal_type, pair, current_price, details=""):
     """
     Mengirim notifikasi ke Telegram.
@@ -228,6 +303,8 @@ def send_telegram_alert(signal_type, pair, current_price, details=""):
     Untuk sinyal exit seperti SELL, STOP LOSS, EXPIRED, atau TRAILING STOP, posisi dihapus.
     Sementara untuk sinyal TAKE PROFIT, hanya mengaktifkan trailing stop tanpa menghapus posisi.
     Untuk sinyal "NEW HIGH", posisi tidak dihapus.
+    
+    Informasi tambahan mengenai Entry Price, Profit/Loss, dan Duration akan ditambahkan untuk semua jenis sinyal kecuali BUY.
     """
     display_pair = f"{pair[:-4]}/USDT"
     emoji = {
@@ -243,10 +320,11 @@ def send_telegram_alert(signal_type, pair, current_price, details=""):
     message = f"{emoji} *{signal_type}*\n"
     message += f"💱 *Pair:* {display_pair}\n"
     message += f"💲 *Price:* ${current_price:.8f}\n"
+    message += f"📊 *Score:* Buy {buy_score}/8 | Sell {sell_score}/8\n"
     if details:
         message += f"📝 *Kondisi:* {details}\n"
 
-    # Jika BUY, simpan entry baru
+    # Jika sinyal BUY, simpan entry baru tanpa menambahkan info tambahan
     if signal_type == "BUY":
         ACTIVE_BUYS[pair] = {
             'price': current_price,
@@ -254,11 +332,8 @@ def send_telegram_alert(signal_type, pair, current_price, details=""):
             'trailing_stop_active': False,
             'highest_price': None
         }
-    # Untuk sinyal TAKE PROFIT, hanya mengirim alert (posisi tetap aktif dengan trailing stop)
-    elif signal_type == "TAKE PROFIT":
-        pass
-    # Untuk sinyal exit (SELL, STOP LOSS, EXPIRED, TRAILING STOP), tampilkan detail entry dan hapus posisi
-    elif signal_type in ["SELL", "STOP LOSS", "EXPIRED", "TRAILING STOP"]:
+    else:
+        # Tambahkan info tambahan untuk semua jenis sinyal kecuali BUY
         if pair in ACTIVE_BUYS:
             entry_price = ACTIVE_BUYS[pair]['price']
             profit = (current_price - entry_price) / entry_price * 100
@@ -266,7 +341,10 @@ def send_telegram_alert(signal_type, pair, current_price, details=""):
             message += f"▫️ *Entry Price:* ${entry_price:.8f}\n"
             message += f"💰 *{'Profit' if profit > 0 else 'Loss'}:* {profit:+.2f}%\n"
             message += f"🕒 *Duration:* {str(duration).split('.')[0]}\n"
-            del ACTIVE_BUYS[pair]
+        # Untuk sinyal exit, hapus posisi setelah menambahkan info
+        if signal_type in ["SELL", "STOP LOSS", "EXPIRED", "TRAILING STOP"]:
+            if pair in ACTIVE_BUYS:
+                del ACTIVE_BUYS[pair]
 
     print(f"📢 Mengirim alert:\n{message}")
     try:
@@ -280,7 +358,6 @@ def send_telegram_alert(signal_type, pair, current_price, details=""):
 # ==============================
 # PROGRAM UTAMA
 # ==============================
-
 def main():
     load_active_buys()
     pairs = get_binance_top_pairs()
