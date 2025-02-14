@@ -35,12 +35,6 @@
         "trailing_stop_active": false,
         "highest_price": null
     },
-    "BONKUSDT": {
-        "price": 1.93e-05,
-        "time": "2025-02-14T19:11:18.248953",
-        "trailing_stop_active": false,
-        "highest_price": null
-    },
     "AAVEUSDT": {
         "price": 267.07,
         "time": "2025-02-14T19:11:19.064018",
@@ -74,12 +68,6 @@
     "OPUSDT": {
         "price": 1.176,
         "time": "2025-02-14T19:11:26.620814",
-        "trailing_stop_active": false,
-        "highest_price": null
-    },
-    "BOMEUSDT": {
-        "price": 0.002509,
-        "time": "2025-02-14T19:21:49.510284",
         "trailing_stop_active": false,
         "highest_price": null
     },
