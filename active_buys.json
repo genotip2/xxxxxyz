@@ -59,18 +59,6 @@
         "trailing_stop_active": false,
         "highest_price": null
     },
-    "MOVEUSDT": {
-        "price": 0.6113,
-        "time": "2025-02-14T19:11:23.197830",
-        "trailing_stop_active": false,
-        "highest_price": null
-    },
-    "RAYUSDT": {
-        "price": 5.796,
-        "time": "2025-02-14T19:11:24.120665",
-        "trailing_stop_active": false,
-        "highest_price": null
-    },
     "ARBUSDT": {
         "price": 0.5061,
         "time": "2025-02-14T19:11:25.020071",
@@ -116,6 +104,12 @@
     "NEIROUSDT": {
         "price": 0.00039279,
         "time": "2025-02-14T19:31:33.212168",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "WIFUSDT": {
+        "price": 0.755,
+        "time": "2025-02-14T20:09:02.541751",
         "trailing_stop_active": false,
         "highest_price": null
     }
