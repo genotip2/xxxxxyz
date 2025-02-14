@@ -95,12 +95,6 @@
         "tp1_hit": false,
         "tp1_price": null
     },
-    "BIOUSDT": {
-        "price": 0.1593,
-        "time": "2025-02-13T21:07:46.669966",
-        "tp1_hit": false,
-        "tp1_price": null
-    },
     "ETHUSDT": {
         "price": 2662.27,
         "time": "2025-02-13T21:24:05.730947",
@@ -110,12 +104,6 @@
     "RAYUSDT": {
         "price": 5.183,
         "time": "2025-02-13T22:07:54.313425",
-        "tp1_hit": false,
-        "tp1_price": null
-    },
-    "GALAUSDT": {
-        "price": 0.02329,
-        "time": "2025-02-13T23:25:06.527300",
         "tp1_hit": false,
         "tp1_price": null
     },
