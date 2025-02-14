@@ -89,12 +89,6 @@
         "trailing_stop_active": false,
         "highest_price": null
     },
-    "BOMEUSDT": {
-        "price": 0.002427,
-        "time": "2025-02-14T21:46:18.543806",
-        "trailing_stop_active": false,
-        "highest_price": null
-    },
     "PYTHUSDT": {
         "price": 0.2227,
         "time": "2025-02-14T22:27:56.990171",
@@ -128,6 +122,12 @@
     "ORDIUSDT": {
         "price": 12.58,
         "time": "2025-02-14T22:46:18.261153",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "PENDLEUSDT": {
+        "price": 3.669,
+        "time": "2025-02-14T23:08:02.806142",
         "trailing_stop_active": false,
         "highest_price": null
     }
