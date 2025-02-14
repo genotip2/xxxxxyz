@@ -221,9 +221,9 @@
         "tp1_hit": false,
         "tp1_price": null
     },
-    "USDCUSDT": {
-        "price": 0.9999,
-        "time": "2025-02-14T05:37:31.919277",
+    "FDUSDUSDT": {
+        "price": 0.9991,
+        "time": "2025-02-14T06:11:41.924794",
         "tp1_hit": false,
         "tp1_price": null
     }
