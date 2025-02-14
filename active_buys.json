@@ -113,12 +113,6 @@
         "tp1_hit": false,
         "tp1_price": null
     },
-    "AVAXUSDT": {
-        "price": 25.61,
-        "time": "2025-02-14T02:04:58.818444",
-        "tp1_hit": false,
-        "tp1_price": null
-    },
     "NEIROUSDT": {
         "price": 0.00034137,
         "time": "2025-02-14T02:05:01.061005",
@@ -137,33 +131,15 @@
         "tp1_hit": false,
         "tp1_price": null
     },
-    "SUSDT": {
-        "price": 0.5427,
-        "time": "2025-02-14T02:53:51.996847",
-        "tp1_hit": false,
-        "tp1_price": null
-    },
     "PENGUUSDT": {
         "price": 0.010356,
         "time": "2025-02-14T02:53:54.237822",
         "tp1_hit": false,
         "tp1_price": null
     },
-    "SHIBUSDT": {
-        "price": 1.639e-05,
-        "time": "2025-02-14T02:53:56.046466",
-        "tp1_hit": false,
-        "tp1_price": null
-    },
     "DOTUSDT": {
         "price": 5.172,
         "time": "2025-02-14T02:53:58.853166",
-        "tp1_hit": false,
-        "tp1_price": null
-    },
-    "LINKUSDT": {
-        "price": 18.73,
-        "time": "2025-02-14T03:12:41.300708",
         "tp1_hit": false,
         "tp1_price": null
     },
@@ -206,8 +182,8 @@
     "TRUMPUSDT": {
         "price": 16.42,
         "time": "2025-02-14T04:40:53.357127",
-        "tp1_hit": false,
-        "tp1_price": null
+        "tp1_hit": true,
+        "tp1_price": 17.29
     },
     "TONUSDT": {
         "price": 3.768,
@@ -221,9 +197,9 @@
         "tp1_hit": false,
         "tp1_price": null
     },
-    "FDUSDUSDT": {
-        "price": 0.9991,
-        "time": "2025-02-14T06:11:41.924794",
+    "ENAUSDT": {
+        "price": 0.4556,
+        "time": "2025-02-14T06:34:14.417971",
         "tp1_hit": false,
         "tp1_price": null
     }
