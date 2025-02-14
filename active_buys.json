@@ -143,18 +143,6 @@
         "tp1_hit": false,
         "tp1_price": null
     },
-    "USDCUSDT": {
-        "price": 0.9999,
-        "time": "2025-02-14T02:04:49.712821",
-        "tp1_hit": false,
-        "tp1_price": null
-    },
-    "SOLUSDT": {
-        "price": 195.67,
-        "time": "2025-02-14T02:04:50.933068",
-        "tp1_hit": false,
-        "tp1_price": null
-    },
     "LDOUSDT": {
         "price": 1.713,
         "time": "2025-02-14T02:04:56.714828",
@@ -170,12 +158,6 @@
     "NEIROUSDT": {
         "price": 0.00034137,
         "time": "2025-02-14T02:05:01.061005",
-        "tp1_hit": false,
-        "tp1_price": null
-    },
-    "BNBUSDT": {
-        "price": 677.29,
-        "time": "2025-02-14T02:53:45.130987",
         "tp1_hit": false,
         "tp1_price": null
     },
@@ -242,6 +224,18 @@
     "DOTUSDT": {
         "price": 5.172,
         "time": "2025-02-14T02:53:58.853166",
+        "tp1_hit": false,
+        "tp1_price": null
+    },
+    "HBARUSDT": {
+        "price": 0.22657,
+        "time": "2025-02-14T03:12:39.957896",
+        "tp1_hit": false,
+        "tp1_price": null
+    },
+    "LINKUSDT": {
+        "price": 18.73,
+        "time": "2025-02-14T03:12:41.300708",
         "tp1_hit": false,
         "tp1_price": null
     }
