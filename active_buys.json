@@ -53,12 +53,6 @@
         "trailing_stop_active": false,
         "highest_price": null
     },
-    "TRUMPUSDT": {
-        "price": 22.38,
-        "time": "2025-02-14T19:31:24.137622",
-        "trailing_stop_active": false,
-        "highest_price": null
-    },
     "RAYUSDT": {
         "price": 5.633,
         "time": "2025-02-14T20:26:58.475502",
@@ -122,6 +116,18 @@
     "JUVUSDT": {
         "price": 2.057,
         "time": "2025-02-14T22:36:36.867179",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "PNUTUSDT": {
+        "price": 0.1794,
+        "time": "2025-02-14T22:46:14.234307",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "ORDIUSDT": {
+        "price": 12.58,
+        "time": "2025-02-14T22:46:18.261153",
         "trailing_stop_active": false,
         "highest_price": null
     }
