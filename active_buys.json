@@ -221,12 +221,6 @@
         "tp1_hit": false,
         "tp1_price": null
     },
-    "CAKEUSDT": {
-        "price": 2.771,
-        "time": "2025-02-14T03:31:19.660794",
-        "tp1_hit": false,
-        "tp1_price": null
-    },
     "SUIUSDT": {
         "price": 3.4868,
         "time": "2025-02-14T03:31:20.604770",
@@ -236,12 +230,6 @@
     "SOLVUSDT": {
         "price": 0.0376,
         "time": "2025-02-14T03:31:26.835526",
-        "tp1_hit": false,
-        "tp1_price": null
-    },
-    "ARKMUSDT": {
-        "price": 0.687,
-        "time": "2025-02-14T03:31:28.919668",
         "tp1_hit": false,
         "tp1_price": null
     },
@@ -272,6 +260,24 @@
     "BOMEUSDT": {
         "price": 0.002221,
         "time": "2025-02-14T04:30:20.336303",
+        "tp1_hit": false,
+        "tp1_price": null
+    },
+    "TRUMPUSDT": {
+        "price": 16.42,
+        "time": "2025-02-14T04:40:53.357127",
+        "tp1_hit": false,
+        "tp1_price": null
+    },
+    "FDUSDUSDT": {
+        "price": 0.9991,
+        "time": "2025-02-14T04:40:54.481473",
+        "tp1_hit": false,
+        "tp1_price": null
+    },
+    "TONUSDT": {
+        "price": 3.768,
+        "time": "2025-02-14T04:41:03.337710",
         "tp1_hit": false,
         "tp1_price": null
     }
