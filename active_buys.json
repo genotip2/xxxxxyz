@@ -5,12 +5,6 @@
         "tp1_hit": false,
         "tp1_price": null
     },
-    "ALGOUSDT": {
-        "price": 0.2931,
-        "time": "2025-02-13T17:46:09.376475",
-        "tp1_hit": false,
-        "tp1_price": null
-    },
     "ADAUSDT": {
         "price": 0.7856,
         "time": "2025-02-13T18:11:29.897562",
@@ -125,12 +119,6 @@
         "tp1_hit": false,
         "tp1_price": null
     },
-    "BAKEUSDT": {
-        "price": 0.2472,
-        "time": "2025-02-14T00:39:29.180803",
-        "tp1_hit": false,
-        "tp1_price": null
-    },
     "LDOUSDT": {
         "price": 1.713,
         "time": "2025-02-14T02:04:56.714828",
@@ -197,12 +185,6 @@
         "tp1_hit": false,
         "tp1_price": null
     },
-    "FLOKIUSDT": {
-        "price": 9.698e-05,
-        "time": "2025-02-14T02:53:58.081805",
-        "tp1_hit": false,
-        "tp1_price": null
-    },
     "DOTUSDT": {
         "price": 5.172,
         "time": "2025-02-14T02:53:58.853166",
@@ -266,12 +248,6 @@
     "TRUMPUSDT": {
         "price": 16.42,
         "time": "2025-02-14T04:40:53.357127",
-        "tp1_hit": false,
-        "tp1_price": null
-    },
-    "FDUSDUSDT": {
-        "price": 0.9991,
-        "time": "2025-02-14T04:40:54.481473",
         "tp1_hit": false,
         "tp1_price": null
     },
