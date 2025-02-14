@@ -125,12 +125,6 @@
         "tp1_hit": false,
         "tp1_price": null
     },
-    "SHIBUSDT": {
-        "price": 1.633e-05,
-        "time": "2025-02-13T22:28:29.988768",
-        "tp1_hit": false,
-        "tp1_price": null
-    },
     "EIGENUSDT": {
         "price": 1.705,
         "time": "2025-02-13T23:25:03.582407",
@@ -143,15 +137,39 @@
         "tp1_hit": false,
         "tp1_price": null
     },
-    "BTCUSDT": {
-        "price": 96610.94,
-        "time": "2025-02-14T00:39:24.997819",
-        "tp1_hit": false,
-        "tp1_price": null
-    },
     "BAKEUSDT": {
         "price": 0.2472,
         "time": "2025-02-14T00:39:29.180803",
+        "tp1_hit": false,
+        "tp1_price": null
+    },
+    "USDCUSDT": {
+        "price": 0.9999,
+        "time": "2025-02-14T02:04:49.712821",
+        "tp1_hit": false,
+        "tp1_price": null
+    },
+    "SOLUSDT": {
+        "price": 195.67,
+        "time": "2025-02-14T02:04:50.933068",
+        "tp1_hit": false,
+        "tp1_price": null
+    },
+    "LDOUSDT": {
+        "price": 1.713,
+        "time": "2025-02-14T02:04:56.714828",
+        "tp1_hit": false,
+        "tp1_price": null
+    },
+    "AVAXUSDT": {
+        "price": 25.61,
+        "time": "2025-02-14T02:04:58.818444",
+        "tp1_hit": false,
+        "tp1_price": null
+    },
+    "NEIROUSDT": {
+        "price": 0.00034137,
+        "time": "2025-02-14T02:05:01.061005",
         "tp1_hit": false,
         "tp1_price": null
     }
