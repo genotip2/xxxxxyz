@@ -1,1 +1,8 @@
-{}
+{
+    "STPTUSDT": {
+        "price": 0.08665,
+        "time": "2025-02-14T08:11:18.814180",
+        "trailing_stop_active": false,
+        "highest_price": null
+    }
+}
