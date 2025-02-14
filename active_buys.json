@@ -172,5 +172,77 @@
         "time": "2025-02-14T02:05:01.061005",
         "tp1_hit": false,
         "tp1_price": null
+    },
+    "BNBUSDT": {
+        "price": 677.29,
+        "time": "2025-02-14T02:53:45.130987",
+        "tp1_hit": false,
+        "tp1_price": null
+    },
+    "PEPEUSDT": {
+        "price": 9.82e-06,
+        "time": "2025-02-14T02:53:48.571177",
+        "tp1_hit": false,
+        "tp1_price": null
+    },
+    "THEUSDT": {
+        "price": 0.7623,
+        "time": "2025-02-14T02:53:49.191369",
+        "tp1_hit": false,
+        "tp1_price": null
+    },
+    "ENAUSDT": {
+        "price": 0.4534,
+        "time": "2025-02-14T02:53:50.222916",
+        "tp1_hit": false,
+        "tp1_price": null
+    },
+    "RUNEUSDT": {
+        "price": 1.462,
+        "time": "2025-02-14T02:53:51.017290",
+        "tp1_hit": false,
+        "tp1_price": null
+    },
+    "SUSDT": {
+        "price": 0.5427,
+        "time": "2025-02-14T02:53:51.996847",
+        "tp1_hit": false,
+        "tp1_price": null
+    },
+    "WIFUSDT": {
+        "price": 0.599,
+        "time": "2025-02-14T02:53:53.164349",
+        "tp1_hit": false,
+        "tp1_price": null
+    },
+    "PENGUUSDT": {
+        "price": 0.010356,
+        "time": "2025-02-14T02:53:54.237822",
+        "tp1_hit": false,
+        "tp1_price": null
+    },
+    "SHIBUSDT": {
+        "price": 1.639e-05,
+        "time": "2025-02-14T02:53:56.046466",
+        "tp1_hit": false,
+        "tp1_price": null
+    },
+    "ZENUSDT": {
+        "price": 15.15,
+        "time": "2025-02-14T02:53:56.575786",
+        "tp1_hit": false,
+        "tp1_price": null
+    },
+    "FLOKIUSDT": {
+        "price": 9.698e-05,
+        "time": "2025-02-14T02:53:58.081805",
+        "tp1_hit": false,
+        "tp1_price": null
+    },
+    "DOTUSDT": {
+        "price": 5.172,
+        "time": "2025-02-14T02:53:58.853166",
+        "tp1_hit": false,
+        "tp1_price": null
     }
 }
