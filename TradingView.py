@@ -14,23 +14,23 @@ ACTIVE_BUYS_FILE = 'active_buys.json'
 ACTIVE_BUYS = {}
 
 # Parameter trading
-TAKE_PROFIT_PERCENTAGE = 6    # Target take profit 5% (dihitung dari harga entry)
-STOP_LOSS_PERCENTAGE = 3      # Stop loss 2% (dihitung dari harga entry)
-TRAILING_STOP_PERCENTAGE = 3  # Trailing stop 2% (dari harga tertinggi setelah take profit tercapai)
+TAKE_PROFIT_PERCENTAGE = 6    # Target take profit 6% (dihitung dari harga entry)
+STOP_LOSS_PERCENTAGE = 3      # Stop loss 3% (dihitung dari harga entry)
+TRAILING_STOP_PERCENTAGE = 3  # Trailing stop 3% (dari harga tertinggi setelah take profit tercapai)
 MAX_HOLD_DURATION_HOUR = 24   # Durasi hold maksimum 24 jam
-PAIR_TO_ANALYZE = 100          # Jumlah pair yang akan dianalisis
+PAIR_TO_ANALYZE = 100         # Jumlah pair yang akan dianalisis
 
 # (Konfigurasi Recommend.MA masih disertakan meskipun tidak digunakan pada logika scoring baru)
 BULLISH_RECOMMEND_MA_THRESHOLD = 0.7
 BEARISH_RECOMMEND_MA_THRESHOLD = 0.3
 
 # Konfigurasi Timeframe
-TIMEFRAME_TREND = Interval.INTERVAL_4_HOURS       # Timeframe untuk analisis tren utama
-TIMEFRAME_ENTRY = Interval.INTERVAL_1_HOUR     # Timeframe untuk analisis entry/pullback
+TIMEFRAME_TREND = Interval.INTERVAL_4_HOURS       # Timeframe untuk analisis tren utama (4H)
+TIMEFRAME_ENTRY = Interval.INTERVAL_1_HOUR          # Timeframe untuk analisis entry/pullback (1H)
 
 # Konfigurasi Score Threshold
 BUY_SCORE_THRESHOLD = 6
-SELL_SCORE_THRESHOLD = 5
+SELL_SCORE_THRESHOLD = 4
 
 # ==============================
 # FUNGSI UTITAS: LOAD & SAVE POSITION
@@ -136,7 +136,7 @@ def calculate_scores(data):
     """
     current_price = data.get('current_price')
 
-    # Data timeframe entry (M15)
+    # Data timeframe entry (sesuai konfigurasi TIMEFRAME_ENTRY)
     ema10_entry = data.get('ema10_entry')  
     ema20_entry = data.get('ema20_entry')  
     rsi_entry = data.get('rsi_entry')  
@@ -150,7 +150,7 @@ def calculate_scores(data):
     stoch_k_entry = data.get('stoch_k_entry')
     stoch_d_entry = data.get('stoch_d_entry')
 
-    # Data timeframe tren (H1)
+    # Data timeframe tren (sesuai konfigurasi TIMEFRAME_TREND)
     ema10_trend = data.get('ema10_trend')  
     ema20_trend = data.get('ema20_trend')  
     rsi_trend = data.get('rsi_trend')  
@@ -165,9 +165,9 @@ def calculate_scores(data):
     # Kondisi beli: tiap tuple berisi (kondisi_boolean, deskripsi indikator)
     buy_conditions = [
         (safe_compare(ema10_entry, ema20_entry, '>'), "EMA10 entry > EMA20 entry"),
-        (safe_compare(ema10_trend, ema20_trend, '>'), "EMA10 trend > EMA20 trend"),
         ((rsi_entry is not None and rsi_entry < 75), "RSI < 75"),
-        (safe_compare(macd_entry, macd_signal_entry, '>'), "MACD > Signal"),
+        (safe_compare(macd_entry, macd_signal_entry, '>'), "MACD entry > Signal entry"),
+        (safe_compare(macd_trend, macd_signal_trend, '>'), "MACD trend > Signal trend"),
         ((bb_lower_entry is not None and current_price is not None and current_price <= bb_lower_entry), "Price <= BB Lower"),
         ((adx_entry is not None and adx_entry > 35), "ADX > 35"),
         ((candle_entry is not None and ("BUY" in candle_entry or "STRONG_BUY" in candle_entry)), "Rekomendasi BUY"),
@@ -176,14 +176,13 @@ def calculate_scores(data):
 
     # Kondisi jual
     sell_conditions = [
-        (safe_compare(ema10_entry, ema20_entry, '<'), "EMA10 entry < EMA20 entry"),
-        (safe_compare(ema10_trend, ema20_trend, '<'), "EMA10 trend < EMA20 trend "),
-        ((rsi_entry is not None and rsi_entry > 85), "RSI > 70"),
-        (safe_compare(macd_entry, macd_signal_entry, '<'), "MACD < Signal "),
+        ((rsi_entry is not None and rsi_entry > 85), "RSI > 85"),
+        (safe_compare(macd_entry, macd_signal_entry, '<'), "MACD entry < Signal entry"),
+        (safe_compare(macd_trend, macd_signal_trend, '<'), "MACD trend < Signal trend"),
         ((bb_upper_entry is not None and current_price is not None and current_price >= bb_upper_entry), "Price >= BB Upper"),
         ((adx_entry is not None and adx_entry < 45), "ADX < 45"),
         ((candle_entry is not None and ("SELL" in candle_entry or "STRONG_SELL" in candle_entry)), "Rekomendasi SELL"),
-        ((stoch_k_entry is not None and stoch_k_entry > 80 and stoch_d_entry is not None and stoch_d_entry > 80), "Stoch RSI  > 80")
+        ((stoch_k_entry is not None and stoch_k_entry > 80 and stoch_d_entry is not None and stoch_d_entry > 80), "Stoch RSI > 80")
     ]
 
     buy_score = sum(1 for cond, _ in buy_conditions if cond)
@@ -202,20 +201,22 @@ def generate_signal(pair):
     - Jika posisi belum aktif: sinyal BUY dihasilkan apabila buy_score minimal BUY_SCORE_THRESHOLD dan lebih tinggi dari sell_score.
     - Jika posisi sudah aktif: cek exit berdasarkan stop loss, take profit, trailing stop, durasi hold,
       atau jika sell_score minimal SELL_SCORE_THRESHOLD dan melebihi buy_score.
+      
+    Mengembalikan tuple: (signal, current_price, details, buy_score, sell_score)
     """
-    # Analisis timeframe tren (H1)
+    # Analisis timeframe tren (menggunakan nilai dari TIMEFRAME_TREND, yaitu 4H)
     trend_analysis = analyze_pair_interval(pair, TIMEFRAME_TREND)
     if trend_analysis is None:
-        return None, None, "Analisis tren gagal."
+        return None, None, "Analisis tren gagal.", None, None
 
-    # Analisis timeframe entry (M15)
+    # Analisis timeframe entry (menggunakan nilai dari TIMEFRAME_ENTRY, yaitu 1H)
     entry_analysis = analyze_pair_interval(pair, TIMEFRAME_ENTRY)
     if entry_analysis is None:
-        return None, None, "Analisis entry gagal."
+        return None, None, "Analisis entry gagal.", None, None
 
     current_price = entry_analysis.indicators.get('close')
     if current_price is None:
-        return None, None, "Harga close tidak tersedia pada timeframe entry."
+        return None, None, "Harga close tidak tersedia pada timeframe entry.", None, None
 
     # Bangun dictionary data untuk perhitungan skor
     data = {
@@ -244,33 +245,33 @@ def generate_signal(pair):
         'obv_trend': trend_analysis.indicators.get('OBV'),
         'candle_trend': trend_analysis.summary.get('RECOMMENDATION')
     }
-
-    # Hitung skor beli dan jual
+    
+    # Hitung score
     buy_score, sell_score, buy_met, sell_met = calculate_scores(data)
 
     # Jika belum ada posisi aktif, evaluasi entry BUY
     if pair not in ACTIVE_BUYS:
         if buy_score >= BUY_SCORE_THRESHOLD and buy_score > sell_score:
             details = f"{', '.join(buy_met)}"
-            return "BUY", current_price, details
+            return "BUY", current_price, details, buy_score, sell_score
 
     # Jika posisi sudah aktif, cek kondisi exit/management posisi
     else:
         data_active = ACTIVE_BUYS[pair]
         holding_duration = datetime.now() - data_active['time']
         if holding_duration > timedelta(hours=MAX_HOLD_DURATION_HOUR):
-            return "EXPIRED", current_price, f"Durasi hold: {str(holding_duration).split('.')[0]}"
+            return "EXPIRED", current_price, f"Durasi hold: {str(holding_duration).split('.')[0]}", buy_score, sell_score
 
         entry_price = data_active['price']
         profit_from_entry = (current_price - entry_price) / entry_price * 100
 
         if profit_from_entry <= -STOP_LOSS_PERCENTAGE:
-            return "STOP LOSS", current_price, "Stop loss tercapai."
+            return "STOP LOSS", current_price, "Stop loss tercapai.", buy_score, sell_score
 
         if not data_active.get('trailing_stop_active', False) and profit_from_entry >= TAKE_PROFIT_PERCENTAGE:
             ACTIVE_BUYS[pair]['trailing_stop_active'] = True
             ACTIVE_BUYS[pair]['highest_price'] = current_price
-            return "TAKE PROFIT", current_price, "Target take profit tercapai, trailing stop diaktifkan."
+            return "TAKE PROFIT", current_price, "Target take profit tercapai, trailing stop diaktifkan.", buy_score, sell_score
 
         if data_active.get('trailing_stop_active', False):
             prev_high = data_active.get('highest_price')
@@ -284,19 +285,19 @@ def generate_signal(pair):
                 )
             trailing_stop_price = ACTIVE_BUYS[pair]['highest_price'] * (1 - TRAILING_STOP_PERCENTAGE / 100)
             if current_price < trailing_stop_price:
-                return "TRAILING STOP", current_price, f"Harga turun ke trailing stop: {trailing_stop_price:.8f}"
+                return "TRAILING STOP", current_price, f"Harga turun ke trailing stop: {trailing_stop_price:.8f}", buy_score, sell_score
 
         # Evaluasi exit berdasarkan sinyal SELL dari skor
         if sell_score >= SELL_SCORE_THRESHOLD and sell_score > buy_score:
             details = f"{', '.join(sell_met)}"
-            return "SELL", current_price, details
+            return "SELL", current_price, details, buy_score, sell_score
 
-    return None, current_price, "Tidak ada sinyal."
+    return None, current_price, "Tidak ada sinyal.", buy_score, sell_score
 
 # ==============================
 # KIRIM ALERT TELEGRAM
 # ==============================
-def send_telegram_alert(signal_type, pair, current_price, details=""):
+def send_telegram_alert(signal_type, pair, current_price, details="", buy_score=None, sell_score=None):
     """
     Mengirim notifikasi ke Telegram.
     Untuk sinyal BUY, posisi disimpan ke ACTIVE_BUYS.
@@ -320,7 +321,8 @@ def send_telegram_alert(signal_type, pair, current_price, details=""):
     message = f"{emoji} *{signal_type}*\n"
     message += f"💱 *Pair:* {display_pair}\n"
     message += f"💲 *Price:* ${current_price:.8f}\n"
-    message += f"📊 *Score:* Buy {buy_score}/8 | Sell {sell_score}/8\n"
+    if buy_score is not None and sell_score is not None:
+        message += f"📊 *Score:* Buy {buy_score}/8 | Sell {sell_score}/7\n"
     if details:
         message += f"📝 *Kondisi:* {details}\n"
 
@@ -366,11 +368,11 @@ def main():
     for pair in pairs:
         print(f"\n🔎 Sedang menganalisis pair: {pair}")
         try:
-            signal, current_price, details = generate_signal(pair)
+            signal, current_price, details, buy_score, sell_score = generate_signal(pair)
             if signal:
                 print(f"💡 Sinyal: {signal}, Harga: {current_price:.8f}")
                 print(f"📝 Details: {details}")
-                send_telegram_alert(signal, pair, current_price, details)
+                send_telegram_alert(signal, pair, current_price, details, buy_score, sell_score)
             else:
                 print("ℹ️ Tidak ada sinyal untuk pair ini.")
         except Exception as e:
