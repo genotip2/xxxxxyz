@@ -4,5 +4,11 @@
         "time": "2025-02-14T13:16:01.366998",
         "trailing_stop_active": false,
         "highest_price": null
+    },
+    "LTCUSDT": {
+        "price": 126.54,
+        "time": "2025-02-14T16:09:50.037251",
+        "trailing_stop_active": false,
+        "highest_price": null
     }
 }
