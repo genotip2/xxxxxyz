@@ -26,8 +26,8 @@
     "XRPUSDT": {
         "price": 2.4597,
         "time": "2025-02-13T19:21:04.742971",
-        "tp1_hit": false,
-        "tp1_price": null
+        "tp1_hit": true,
+        "tp1_price": 2.5848
     },
     "NEARUSDT": {
         "price": 3.343,
@@ -209,12 +209,6 @@
         "tp1_hit": false,
         "tp1_price": null
     },
-    "HBARUSDT": {
-        "price": 0.22657,
-        "time": "2025-02-14T03:12:39.957896",
-        "tp1_hit": false,
-        "tp1_price": null
-    },
     "LINKUSDT": {
         "price": 18.73,
         "time": "2025-02-14T03:12:41.300708",
@@ -248,6 +242,30 @@
     "ARKMUSDT": {
         "price": 0.687,
         "time": "2025-02-14T03:31:28.919668",
+        "tp1_hit": false,
+        "tp1_price": null
+    },
+    "BTCUSDT": {
+        "price": 96946.01,
+        "time": "2025-02-14T04:10:22.905036",
+        "tp1_hit": false,
+        "tp1_price": null
+    },
+    "FDUSDUSDT": {
+        "price": 0.9991,
+        "time": "2025-02-14T04:10:25.507016",
+        "tp1_hit": false,
+        "tp1_price": null
+    },
+    "ENAUSDT": {
+        "price": 0.4531,
+        "time": "2025-02-14T04:10:28.958565",
+        "tp1_hit": false,
+        "tp1_price": null
+    },
+    "CRVUSDT": {
+        "price": 0.5329,
+        "time": "2025-02-14T04:10:35.390764",
         "tp1_hit": false,
         "tp1_price": null
     }
