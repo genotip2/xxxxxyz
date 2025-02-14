@@ -130,5 +130,29 @@
         "time": "2025-02-14T20:35:29.295875",
         "trailing_stop_active": false,
         "highest_price": null
+    },
+    "GMTUSDT": {
+        "price": 0.0748,
+        "time": "2025-02-14T20:46:12.829311",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "1000SATSUSDT": {
+        "price": 0.0001308,
+        "time": "2025-02-14T20:46:13.733365",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "ORDIUSDT": {
+        "price": 13.01,
+        "time": "2025-02-14T20:46:15.089061",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "TROYUSDT": {
+        "price": 0.001501,
+        "time": "2025-02-14T20:46:16.397745",
+        "trailing_stop_active": false,
+        "highest_price": null
     }
 }
