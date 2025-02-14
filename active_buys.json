@@ -136,5 +136,17 @@
         "time": "2025-02-14T20:46:16.397745",
         "trailing_stop_active": false,
         "highest_price": null
+    },
+    "NEIROUSDT": {
+        "price": 0.00037988,
+        "time": "2025-02-14T21:46:14.450638",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "BOMEUSDT": {
+        "price": 0.002427,
+        "time": "2025-02-14T21:46:18.543806",
+        "trailing_stop_active": false,
+        "highest_price": null
     }
 }
