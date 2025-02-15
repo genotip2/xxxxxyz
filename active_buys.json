@@ -68,8 +68,8 @@
     "ACMUSDT": {
         "price": 1.287,
         "time": "2025-02-15T17:46:18.665407",
-        "trailing_stop_active": false,
-        "highest_price": null
+        "trailing_stop_active": true,
+        "highest_price": 1.376
     },
     "FTTUSDT": {
         "price": 2.3322,
