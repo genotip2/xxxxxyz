@@ -23,12 +23,6 @@
         "trailing_stop_active": false,
         "highest_price": null
     },
-    "ORDIUSDT": {
-        "price": 12.58,
-        "time": "2025-02-14T22:46:18.261153",
-        "trailing_stop_active": false,
-        "highest_price": null
-    },
     "PENDLEUSDT": {
         "price": 3.669,
         "time": "2025-02-14T23:08:02.806142",
@@ -50,12 +44,6 @@
     "OGUSDT": {
         "price": 4.24,
         "time": "2025-02-15T06:33:47.431393",
-        "trailing_stop_active": false,
-        "highest_price": null
-    },
-    "RAYUSDT": {
-        "price": 5.494,
-        "time": "2025-02-15T08:29:00.986693",
         "trailing_stop_active": false,
         "highest_price": null
     },
@@ -86,12 +74,6 @@
     "BURGERUSDT": {
         "price": 0.4512,
         "time": "2025-02-15T11:19:52.506005",
-        "trailing_stop_active": false,
-        "highest_price": null
-    },
-    "TROYUSDT": {
-        "price": 0.001694,
-        "time": "2025-02-15T11:19:55.076230",
         "trailing_stop_active": false,
         "highest_price": null
     },
