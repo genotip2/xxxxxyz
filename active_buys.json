@@ -1,10 +1,4 @@
 {
-    "XRPUSDT": {
-        "price": 2.7685,
-        "time": "2025-02-14T20:35:29.295875",
-        "trailing_stop_active": false,
-        "highest_price": null
-    },
     "PENDLEUSDT": {
         "price": 3.669,
         "time": "2025-02-14T23:08:02.806142",
@@ -14,12 +8,6 @@
     "OMUSDT": {
         "price": 7.6032,
         "time": "2025-02-15T09:07:23.187982",
-        "trailing_stop_active": false,
-        "highest_price": null
-    },
-    "PSGUSDT": {
-        "price": 2.54,
-        "time": "2025-02-15T09:07:34.004669",
         "trailing_stop_active": false,
         "highest_price": null
     },
