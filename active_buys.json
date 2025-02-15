@@ -50,8 +50,8 @@
     "BURGERUSDT": {
         "price": 0.4512,
         "time": "2025-02-15T11:19:52.506005",
-        "trailing_stop_active": false,
-        "highest_price": null
+        "trailing_stop_active": true,
+        "highest_price": 0.4876
     },
     "COTIUSDT": {
         "price": 0.09181,
