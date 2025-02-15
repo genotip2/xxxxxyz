@@ -11,12 +11,6 @@
         "trailing_stop_active": false,
         "highest_price": null
     },
-    "RENDERUSDT": {
-        "price": 4.769,
-        "time": "2025-02-14T19:21:53.141943",
-        "trailing_stop_active": false,
-        "highest_price": null
-    },
     "XRPUSDT": {
         "price": 2.7685,
         "time": "2025-02-14T20:35:29.295875",
@@ -32,8 +26,8 @@
     "TROYUSDT": {
         "price": 0.001501,
         "time": "2025-02-14T20:46:16.397745",
-        "trailing_stop_active": false,
-        "highest_price": null
+        "trailing_stop_active": true,
+        "highest_price": 0.001798
     },
     "PYTHUSDT": {
         "price": 0.2227,
