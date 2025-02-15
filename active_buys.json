@@ -11,12 +11,6 @@
         "trailing_stop_active": false,
         "highest_price": null
     },
-    "1000SATSUSDT": {
-        "price": 0.0001308,
-        "time": "2025-02-14T20:46:13.733365",
-        "trailing_stop_active": false,
-        "highest_price": null
-    },
     "JASMYUSDT": {
         "price": 0.02314,
         "time": "2025-02-14T22:28:00.462658",
