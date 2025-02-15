@@ -53,12 +53,6 @@
         "trailing_stop_active": false,
         "highest_price": null
     },
-    "TROYUSDT": {
-        "price": 0.001666,
-        "time": "2025-02-15T14:25:06.132634",
-        "trailing_stop_active": false,
-        "highest_price": null
-    },
     "LTCUSDT": {
         "price": 134.82,
         "time": "2025-02-15T15:08:08.773514",
@@ -80,6 +74,12 @@
     "ACMUSDT": {
         "price": 1.287,
         "time": "2025-02-15T17:46:18.665407",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "FTTUSDT": {
+        "price": 2.3322,
+        "time": "2025-02-15T18:09:29.629023",
         "trailing_stop_active": false,
         "highest_price": null
     }
