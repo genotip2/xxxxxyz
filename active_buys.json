@@ -101,12 +101,6 @@
         "trailing_stop_active": false,
         "highest_price": null
     },
-    "BURGERUSDT": {
-        "price": 0.4589,
-        "time": "2025-02-15T07:07:19.001384",
-        "trailing_stop_active": true,
-        "highest_price": 0.5037
-    },
     "ASRUSDT": {
         "price": 1.643,
         "time": "2025-02-15T07:07:20.304937",
