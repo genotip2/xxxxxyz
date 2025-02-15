@@ -89,12 +89,6 @@
         "trailing_stop_active": false,
         "highest_price": null
     },
-    "OMUSDT": {
-        "price": 6.946,
-        "time": "2025-02-15T03:31:12.430824",
-        "trailing_stop_active": true,
-        "highest_price": 7.8955
-    },
     "WIFUSDT": {
         "price": 0.71,
         "time": "2025-02-15T05:07:46.271217",
@@ -110,12 +104,24 @@
     "BURGERUSDT": {
         "price": 0.4589,
         "time": "2025-02-15T07:07:19.001384",
-        "trailing_stop_active": false,
-        "highest_price": null
+        "trailing_stop_active": true,
+        "highest_price": 0.5037
     },
     "ASRUSDT": {
         "price": 1.643,
         "time": "2025-02-15T07:07:20.304937",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "RAYUSDT": {
+        "price": 5.494,
+        "time": "2025-02-15T08:29:00.986693",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "ACMUSDT": {
+        "price": 1.465,
+        "time": "2025-02-15T08:29:05.998485",
         "trailing_stop_active": false,
         "highest_price": null
     }
