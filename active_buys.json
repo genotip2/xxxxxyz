@@ -112,5 +112,11 @@
         "time": "2025-02-15T11:31:30.396528",
         "trailing_stop_active": false,
         "highest_price": null
+    },
+    "JUVUSDT": {
+        "price": 1.749,
+        "time": "2025-02-15T11:46:16.763074",
+        "trailing_stop_active": false,
+        "highest_price": null
     }
 }
