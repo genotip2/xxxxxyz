@@ -5,12 +5,6 @@
         "trailing_stop_active": false,
         "highest_price": null
     },
-    "JASMYUSDT": {
-        "price": 0.02314,
-        "time": "2025-02-14T22:28:00.462658",
-        "trailing_stop_active": false,
-        "highest_price": null
-    },
     "PENDLEUSDT": {
         "price": 3.669,
         "time": "2025-02-14T23:08:02.806142",
@@ -62,6 +56,24 @@
     "FTTUSDT": {
         "price": 2.2535,
         "time": "2025-02-15T19:31:18.024093",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "HIVEUSDT": {
+        "price": 0.3288,
+        "time": "2025-02-15T20:31:17.905183",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "OSMOUSDT": {
+        "price": 0.3434,
+        "time": "2025-02-15T20:31:19.634204",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "BARUSDT": {
+        "price": 1.714,
+        "time": "2025-02-15T20:31:20.832116",
         "trailing_stop_active": false,
         "highest_price": null
     }
