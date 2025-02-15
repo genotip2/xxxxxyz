@@ -17,12 +17,6 @@
         "trailing_stop_active": false,
         "highest_price": null
     },
-    "UNIUSDT": {
-        "price": 10.189,
-        "time": "2025-02-14T19:11:22.359925",
-        "trailing_stop_active": false,
-        "highest_price": null
-    },
     "RENDERUSDT": {
         "price": 4.769,
         "time": "2025-02-14T19:21:53.141943",
@@ -95,12 +89,6 @@
         "trailing_stop_active": false,
         "highest_price": null
     },
-    "ASRUSDT": {
-        "price": 1.643,
-        "time": "2025-02-15T07:07:20.304937",
-        "trailing_stop_active": false,
-        "highest_price": null
-    },
     "RAYUSDT": {
         "price": 5.494,
         "time": "2025-02-15T08:29:00.986693",
@@ -128,6 +116,12 @@
     "SANTOSUSDT": {
         "price": 2.658,
         "time": "2025-02-15T09:07:35.600404",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "ACMUSDT": {
+        "price": 1.354,
+        "time": "2025-02-15T09:26:02.817950",
         "trailing_stop_active": false,
         "highest_price": null
     }
