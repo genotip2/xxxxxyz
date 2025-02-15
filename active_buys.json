@@ -29,18 +29,6 @@
         "trailing_stop_active": false,
         "highest_price": null
     },
-    "OPUSDT": {
-        "price": 1.176,
-        "time": "2025-02-14T19:11:26.620814",
-        "trailing_stop_active": false,
-        "highest_price": null
-    },
-    "FILUSDT": {
-        "price": 3.604,
-        "time": "2025-02-14T19:21:52.091293",
-        "trailing_stop_active": false,
-        "highest_price": null
-    },
     "RENDERUSDT": {
         "price": 4.769,
         "time": "2025-02-14T19:21:53.141943",
@@ -62,12 +50,6 @@
     "XRPUSDT": {
         "price": 2.7685,
         "time": "2025-02-14T20:35:29.295875",
-        "trailing_stop_active": false,
-        "highest_price": null
-    },
-    "GMTUSDT": {
-        "price": 0.0748,
-        "time": "2025-02-14T20:46:12.829311",
         "trailing_stop_active": false,
         "highest_price": null
     },
