@@ -165,24 +165,26 @@ def calculate_scores(data):
     # Kondisi beli: tiap tuple berisi (kondisi_boolean, deskripsi indikator)
     buy_conditions = [
         (safe_compare(ema10_entry, ema20_entry, '>'), "EMA10 entry > EMA20 entry"),
-        ((rsi_entry is not None and rsi_entry < 75), "RSI < 75"),
+        ((rsi_entry is not None and rsi_entry < 75), f"RSI = {rsi_entry:.2f}" if rsi_entry is not None else "RSI tidak tersedia"),
         (safe_compare(macd_entry, macd_signal_entry, '>'), "MACD entry > Signal entry"),
         (safe_compare(macd_trend, macd_signal_trend, '>'), "MACD trend > Signal trend"),
         ((bb_lower_entry is not None and current_price is not None and current_price <= bb_lower_entry), "Price <= BB Lower"),
-        ((adx_entry is not None and adx_entry > 35), "ADX > 35"),
+        ((adx_entry is not None and adx_entry > 35), f"ADX = {adx_entry:.2f}" if adx_entry is not None else "ADX tidak tersedia"),
         ((candle_entry is not None and ("BUY" in candle_entry or "STRONG_BUY" in candle_entry)), "Rekomendasi BUY"),
-        ((stoch_k_entry is not None and stoch_k_entry < 20 and stoch_d_entry is not None and stoch_d_entry < 20), "Stoch RSI < 20")
+        ((stoch_k_entry is not None and stoch_k_entry < 20),
+         f"Stoch RSI = {stoch_k_entry:.2f}" if stoch_k_entry is not None else "Stoch RSI tidak tersedia")
     ]
 
     # Kondisi jual
     sell_conditions = [
-        ((rsi_entry is not None and rsi_entry > 85), "RSI > 85"),
+        ((rsi_entry is not None and rsi_entry > 85), f"RSI = {rsi_entry:.2f}" if rsi_entry is not None else "RSI tidak tersedia"),
         (safe_compare(macd_entry, macd_signal_entry, '<'), "MACD entry < Signal entry"),
         (safe_compare(macd_trend, macd_signal_trend, '<'), "MACD trend < Signal trend"),
         ((bb_upper_entry is not None and current_price is not None and current_price >= bb_upper_entry), "Price >= BB Upper"),
-        ((adx_entry is not None and adx_entry < 45), "ADX < 45"),
+        ((adx_entry is not None and adx_entry < 45), f"ADX = {adx_entry:.2f}" if adx_entry is not None else "ADX tidak tersedia"),
         ((candle_entry is not None and ("SELL" in candle_entry or "STRONG_SELL" in candle_entry)), "Rekomendasi SELL"),
-        ((stoch_k_entry is not None and stoch_k_entry > 80 and stoch_d_entry is not None and stoch_d_entry > 80), "Stoch RSI > 80")
+        ((stoch_k_entry is not None and stoch_k_entry > 80),
+         f"Stoch RSI = {stoch_k_entry:.2f}" if stoch_k_entry is not None else "Stoch RSI tidak tersedia")
     ]
 
     buy_score = sum(1 for cond, _ in buy_conditions if cond)
