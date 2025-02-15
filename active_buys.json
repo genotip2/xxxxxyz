@@ -29,12 +29,6 @@
         "trailing_stop_active": false,
         "highest_price": null
     },
-    "ARBUSDT": {
-        "price": 0.5061,
-        "time": "2025-02-14T19:11:25.020071",
-        "trailing_stop_active": false,
-        "highest_price": null
-    },
     "OPUSDT": {
         "price": 1.176,
         "time": "2025-02-14T19:11:26.620814",
@@ -107,12 +101,6 @@
         "trailing_stop_active": false,
         "highest_price": null
     },
-    "PNUTUSDT": {
-        "price": 0.1794,
-        "time": "2025-02-14T22:46:14.234307",
-        "trailing_stop_active": false,
-        "highest_price": null
-    },
     "ORDIUSDT": {
         "price": 12.58,
         "time": "2025-02-14T22:46:18.261153",
@@ -158,7 +146,7 @@
     "ACMUSDT": {
         "price": 1.318,
         "time": "2025-02-15T05:07:56.332316",
-        "trailing_stop_active": false,
-        "highest_price": null
+        "trailing_stop_active": true,
+        "highest_price": 1.508
     }
 }
