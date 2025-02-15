@@ -1,10 +1,4 @@
 {
-    "XLMUSDT": {
-        "price": 0.3552,
-        "time": "2025-02-14T19:11:13.440918",
-        "trailing_stop_active": false,
-        "highest_price": null
-    },
     "XRPUSDT": {
         "price": 2.7685,
         "time": "2025-02-14T20:35:29.295875",
@@ -69,13 +63,7 @@
         "price": 1.287,
         "time": "2025-02-15T17:46:18.665407",
         "trailing_stop_active": true,
-        "highest_price": 1.376
-    },
-    "FTTUSDT": {
-        "price": 2.3322,
-        "time": "2025-02-15T18:09:29.629023",
-        "trailing_stop_active": false,
-        "highest_price": null
+        "highest_price": 1.378
     },
     "COTIUSDT": {
         "price": 0.08763,
