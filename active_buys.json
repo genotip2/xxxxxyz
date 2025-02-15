@@ -64,5 +64,11 @@
         "time": "2025-02-15T20:31:20.832116",
         "trailing_stop_active": false,
         "highest_price": null
+    },
+    "STPTUSDT": {
+        "price": 0.09255,
+        "time": "2025-02-15T21:07:12.687819",
+        "trailing_stop_active": false,
+        "highest_price": null
     }
 }
