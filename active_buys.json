@@ -98,8 +98,8 @@
     "ACMUSDT": {
         "price": 1.184,
         "time": "2025-02-14T22:27:59.518835",
-        "trailing_stop_active": false,
-        "highest_price": null
+        "trailing_stop_active": true,
+        "highest_price": 1.265
     },
     "JASMYUSDT": {
         "price": 0.02314,
