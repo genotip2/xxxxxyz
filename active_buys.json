@@ -29,12 +29,6 @@
         "trailing_stop_active": false,
         "highest_price": null
     },
-    "MOVEUSDT": {
-        "price": 0.5894,
-        "time": "2025-02-14T20:27:00.745787",
-        "trailing_stop_active": false,
-        "highest_price": null
-    },
     "XRPUSDT": {
         "price": 2.7685,
         "time": "2025-02-14T20:35:29.295875",
@@ -122,12 +116,6 @@
     "ASRUSDT": {
         "price": 1.643,
         "time": "2025-02-15T07:07:20.304937",
-        "trailing_stop_active": false,
-        "highest_price": null
-    },
-    "ACMUSDT": {
-        "price": 1.481,
-        "time": "2025-02-15T07:31:21.306405",
         "trailing_stop_active": false,
         "highest_price": null
     }
