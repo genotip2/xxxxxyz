@@ -41,12 +41,6 @@
         "trailing_stop_active": false,
         "highest_price": null
     },
-    "OGUSDT": {
-        "price": 4.24,
-        "time": "2025-02-15T06:33:47.431393",
-        "trailing_stop_active": false,
-        "highest_price": null
-    },
     "OMUSDT": {
         "price": 7.6032,
         "time": "2025-02-15T09:07:23.187982",
@@ -62,12 +56,6 @@
     "SANTOSUSDT": {
         "price": 2.658,
         "time": "2025-02-15T09:07:35.600404",
-        "trailing_stop_active": false,
-        "highest_price": null
-    },
-    "ACMUSDT": {
-        "price": 1.354,
-        "time": "2025-02-15T09:26:02.817950",
         "trailing_stop_active": false,
         "highest_price": null
     },
@@ -92,6 +80,12 @@
     "ASRUSDT": {
         "price": 1.584,
         "time": "2025-02-15T13:31:41.695522",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "TROYUSDT": {
+        "price": 0.001666,
+        "time": "2025-02-15T14:25:06.132634",
         "trailing_stop_active": false,
         "highest_price": null
     }
