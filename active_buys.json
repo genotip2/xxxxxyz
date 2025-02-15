@@ -29,18 +29,6 @@
         "trailing_stop_active": false,
         "highest_price": null
     },
-    "DOGEUSDT": {
-        "price": 0.28216,
-        "time": "2025-02-15T02:52:17.852516",
-        "trailing_stop_active": false,
-        "highest_price": null
-    },
-    "WIFUSDT": {
-        "price": 0.71,
-        "time": "2025-02-15T05:07:46.271217",
-        "trailing_stop_active": false,
-        "highest_price": null
-    },
     "OMUSDT": {
         "price": 7.6032,
         "time": "2025-02-15T09:07:23.187982",
