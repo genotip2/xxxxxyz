@@ -41,12 +41,6 @@
         "trailing_stop_active": false,
         "highest_price": null
     },
-    "LTCUSDT": {
-        "price": 134.82,
-        "time": "2025-02-15T15:08:08.773514",
-        "trailing_stop_active": false,
-        "highest_price": null
-    },
     "USDCUSDT": {
         "price": 0.9999,
         "time": "2025-02-15T16:46:11.997193",
@@ -58,12 +52,6 @@
         "time": "2025-02-15T16:46:20.378110",
         "trailing_stop_active": false,
         "highest_price": null
-    },
-    "ACMUSDT": {
-        "price": 1.287,
-        "time": "2025-02-15T17:46:18.665407",
-        "trailing_stop_active": true,
-        "highest_price": 1.378
     },
     "COTIUSDT": {
         "price": 0.08763,
