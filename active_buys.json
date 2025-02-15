@@ -154,5 +154,17 @@
         "time": "2025-02-15T03:31:12.430824",
         "trailing_stop_active": true,
         "highest_price": 7.8568
+    },
+    "WIFUSDT": {
+        "price": 0.71,
+        "time": "2025-02-15T05:07:46.271217",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "ACMUSDT": {
+        "price": 1.318,
+        "time": "2025-02-15T05:07:56.332316",
+        "trailing_stop_active": false,
+        "highest_price": null
     }
 }
