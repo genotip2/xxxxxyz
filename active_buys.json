@@ -131,12 +131,6 @@
         "trailing_stop_active": false,
         "highest_price": null
     },
-    "OGUSDT": {
-        "price": 4.207,
-        "time": "2025-02-15T02:03:42.458822",
-        "trailing_stop_active": false,
-        "highest_price": null
-    },
     "DOGEUSDT": {
         "price": 0.28216,
         "time": "2025-02-15T02:52:17.852516",
