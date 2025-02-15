@@ -59,12 +59,6 @@
         "trailing_stop_active": false,
         "highest_price": null
     },
-    "JUVUSDT": {
-        "price": 2.057,
-        "time": "2025-02-14T22:36:36.867179",
-        "trailing_stop_active": false,
-        "highest_price": null
-    },
     "ORDIUSDT": {
         "price": 12.58,
         "time": "2025-02-14T22:46:18.261153",
@@ -110,12 +104,6 @@
     "RAYUSDT": {
         "price": 5.494,
         "time": "2025-02-15T08:29:00.986693",
-        "trailing_stop_active": false,
-        "highest_price": null
-    },
-    "ACMUSDT": {
-        "price": 1.465,
-        "time": "2025-02-15T08:29:05.998485",
         "trailing_stop_active": false,
         "highest_price": null
     }
