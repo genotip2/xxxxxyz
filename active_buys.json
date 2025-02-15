@@ -76,5 +76,11 @@
         "time": "2025-02-15T16:46:20.378110",
         "trailing_stop_active": false,
         "highest_price": null
+    },
+    "ACMUSDT": {
+        "price": 1.287,
+        "time": "2025-02-15T17:46:18.665407",
+        "trailing_stop_active": false,
+        "highest_price": null
     }
 }
