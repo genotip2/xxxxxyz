@@ -130,5 +130,17 @@
         "time": "2025-02-14T23:08:02.806142",
         "trailing_stop_active": false,
         "highest_price": null
+    },
+    "JTOUSDT": {
+        "price": 3.223,
+        "time": "2025-02-15T02:03:38.112963",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "OGUSDT": {
+        "price": 4.207,
+        "time": "2025-02-15T02:03:42.458822",
+        "trailing_stop_active": false,
+        "highest_price": null
     }
 }
