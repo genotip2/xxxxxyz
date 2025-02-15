@@ -106,5 +106,11 @@
         "time": "2025-02-15T11:19:55.076230",
         "trailing_stop_active": false,
         "highest_price": null
+    },
+    "COTIUSDT": {
+        "price": 0.09181,
+        "time": "2025-02-15T11:31:30.396528",
+        "trailing_stop_active": false,
+        "highest_price": null
     }
 }
