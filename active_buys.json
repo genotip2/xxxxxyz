@@ -23,12 +23,6 @@
         "trailing_stop_active": false,
         "highest_price": null
     },
-    "TROYUSDT": {
-        "price": 0.001501,
-        "time": "2025-02-14T20:46:16.397745",
-        "trailing_stop_active": true,
-        "highest_price": 0.001798
-    },
     "PYTHUSDT": {
         "price": 0.2227,
         "time": "2025-02-14T22:27:56.990171",
@@ -110,12 +104,6 @@
     "ACMUSDT": {
         "price": 1.354,
         "time": "2025-02-15T09:26:02.817950",
-        "trailing_stop_active": false,
-        "highest_price": null
-    },
-    "BURGERUSDT": {
-        "price": 0.4768,
-        "time": "2025-02-15T09:33:27.573013",
         "trailing_stop_active": false,
         "highest_price": null
     }
