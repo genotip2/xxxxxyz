@@ -99,7 +99,7 @@
         "price": 1.184,
         "time": "2025-02-14T22:27:59.518835",
         "trailing_stop_active": true,
-        "highest_price": 1.265
+        "highest_price": 1.343
     },
     "JASMYUSDT": {
         "price": 0.02314,
@@ -140,6 +140,12 @@
     "OGUSDT": {
         "price": 4.207,
         "time": "2025-02-15T02:03:42.458822",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "DOGEUSDT": {
+        "price": 0.28216,
+        "time": "2025-02-15T02:52:17.852516",
         "trailing_stop_active": false,
         "highest_price": null
     }
