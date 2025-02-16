@@ -1,10 +1,4 @@
 {
-    "OMUSDT": {
-        "price": 7.6032,
-        "time": "2025-02-15T09:07:23.187982",
-        "trailing_stop_active": false,
-        "highest_price": null
-    },
     "ASRUSDT": {
         "price": 1.584,
         "time": "2025-02-15T13:31:41.695522",
