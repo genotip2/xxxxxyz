@@ -70,5 +70,17 @@
         "time": "2025-02-16T14:33:28.125302",
         "trailing_stop_active": false,
         "highest_price": null
+    },
+    "COOKIEUSDT": {
+        "price": 0.2102,
+        "time": "2025-02-16T14:46:05.874497",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "CVCUSDT": {
+        "price": 0.1221,
+        "time": "2025-02-16T14:46:07.178965",
+        "trailing_stop_active": false,
+        "highest_price": null
     }
 }
