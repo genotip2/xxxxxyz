@@ -17,12 +17,6 @@
         "trailing_stop_active": false,
         "highest_price": null
     },
-    "PSGUSDT": {
-        "price": 2.488,
-        "time": "2025-02-15T21:23:04.877037",
-        "trailing_stop_active": false,
-        "highest_price": null
-    },
     "LTCUSDT": {
         "price": 135.97,
         "time": "2025-02-16T02:59:00.361898",
@@ -44,12 +38,6 @@
     "FTTUSDT": {
         "price": 2.2108,
         "time": "2025-02-16T05:36:54.298550",
-        "trailing_stop_active": false,
-        "highest_price": null
-    },
-    "HIVEUSDT": {
-        "price": 0.3409,
-        "time": "2025-02-16T06:46:25.011399",
         "trailing_stop_active": false,
         "highest_price": null
     }
