@@ -17,12 +17,6 @@
         "trailing_stop_active": false,
         "highest_price": null
     },
-    "FTTUSDT": {
-        "price": 2.2535,
-        "time": "2025-02-15T19:31:18.024093",
-        "trailing_stop_active": false,
-        "highest_price": null
-    },
     "HIVEUSDT": {
         "price": 0.3288,
         "time": "2025-02-15T20:31:17.905183",
@@ -62,6 +56,12 @@
     "OSMOUSDT": {
         "price": 0.3312,
         "time": "2025-02-16T03:39:03.484054",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "CTXCUSDT": {
+        "price": 0.1945,
+        "time": "2025-02-16T04:09:36.968967",
         "trailing_stop_active": false,
         "highest_price": null
     }
