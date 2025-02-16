@@ -47,12 +47,6 @@
         "trailing_stop_active": false,
         "highest_price": null
     },
-    "BARUSDT": {
-        "price": 1.764,
-        "time": "2025-02-16T06:10:47.292417",
-        "trailing_stop_active": false,
-        "highest_price": null
-    },
     "HIVEUSDT": {
         "price": 0.3409,
         "time": "2025-02-16T06:46:25.011399",
