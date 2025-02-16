@@ -1,0 +1,68 @@
+{
+    "ETHUSDT": {
+        "price": 2708.64,
+        "time": "2025-02-16T12:19:02.700852",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "IDUSDT": {
+        "price": 0.3246,
+        "time": "2025-02-16T12:19:07.357133",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "COOKIEUSDT": {
+        "price": 0.2139,
+        "time": "2025-02-16T12:19:14.024355",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "CVCUSDT": {
+        "price": 0.1243,
+        "time": "2025-02-16T12:19:15.732775",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "AUDIOUSDT": {
+        "price": 0.107,
+        "time": "2025-02-16T12:19:16.537751",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "STGUSDT": {
+        "price": 0.2851,
+        "time": "2025-02-16T12:19:18.361775",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "POWRUSDT": {
+        "price": 0.2268,
+        "time": "2025-02-16T12:19:20.509801",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "POLYXUSDT": {
+        "price": 0.1918,
+        "time": "2025-02-16T12:19:21.842665",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "WINUSDT": {
+        "price": 8.039e-05,
+        "time": "2025-02-16T12:19:23.061418",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "ARKUSDT": {
+        "price": 0.4012,
+        "time": "2025-02-16T12:19:24.409002",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "ANKRUSDT": {
+        "price": 0.02359,
+        "time": "2025-02-16T12:19:26.503422",
+        "trailing_stop_active": false,
+        "highest_price": null
+    }
+}
