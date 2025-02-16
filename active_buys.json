@@ -50,8 +50,8 @@
     "STPTUSDT": {
         "price": 0.09255,
         "time": "2025-02-15T21:07:12.687819",
-        "trailing_stop_active": false,
-        "highest_price": null
+        "trailing_stop_active": true,
+        "highest_price": 0.10105
     },
     "PSGUSDT": {
         "price": 2.488,
