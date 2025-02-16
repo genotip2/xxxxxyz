@@ -17,21 +17,9 @@
         "trailing_stop_active": false,
         "highest_price": null
     },
-    "HIVEUSDT": {
-        "price": 0.3288,
-        "time": "2025-02-15T20:31:17.905183",
-        "trailing_stop_active": true,
-        "highest_price": 0.3571
-    },
     "PSGUSDT": {
         "price": 2.488,
         "time": "2025-02-15T21:23:04.877037",
-        "trailing_stop_active": false,
-        "highest_price": null
-    },
-    "CITYUSDT": {
-        "price": 1.396,
-        "time": "2025-02-15T23:46:14.825690",
         "trailing_stop_active": false,
         "highest_price": null
     },
@@ -68,6 +56,12 @@
     "BARUSDT": {
         "price": 1.764,
         "time": "2025-02-16T06:10:47.292417",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "BURGERUSDT": {
+        "price": 0.4387,
+        "time": "2025-02-16T06:32:19.898978",
         "trailing_stop_active": false,
         "highest_price": null
     }
