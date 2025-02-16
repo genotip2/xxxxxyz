@@ -1,0 +1,50 @@
+{
+    "ARKUSDT": {
+        "price": 0.4047,
+        "time": "2025-02-16T11:21:03.203935",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "WINUSDT": {
+        "price": 8.031e-05,
+        "time": "2025-02-16T11:21:04.271793",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "POLYXUSDT": {
+        "price": 0.1924,
+        "time": "2025-02-16T11:21:04.821016",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "POWRUSDT": {
+        "price": 0.2262,
+        "time": "2025-02-16T11:21:06.025413",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "CVCUSDT": {
+        "price": 0.1255,
+        "time": "2025-02-16T11:21:08.204066",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "ELFUSDT": {
+        "price": 0.3104,
+        "time": "2025-02-16T11:21:10.088478",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "SLFUSDT": {
+        "price": 0.2232,
+        "time": "2025-02-16T11:21:11.830707",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "USDCUSDT": {
+        "price": 0.9999,
+        "time": "2025-02-16T11:21:17.150922",
+        "trailing_stop_active": false,
+        "highest_price": null
+    }
+}
