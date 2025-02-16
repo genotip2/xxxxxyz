@@ -46,5 +46,11 @@
         "time": "2025-02-16T15:24:17.229029",
         "trailing_stop_active": false,
         "highest_price": null
+    },
+    "STEEMUSDT": {
+        "price": 0.1811,
+        "time": "2025-02-16T18:07:44.198546",
+        "trailing_stop_active": false,
+        "highest_price": null
     }
 }
