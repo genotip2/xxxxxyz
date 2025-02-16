@@ -46,5 +46,35 @@
         "time": "2025-02-16T11:21:17.150922",
         "trailing_stop_active": false,
         "highest_price": null
+    },
+    "ANKRUSDT": {
+        "price": 0.02367,
+        "time": "2025-02-16T12:15:42.281568",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "STGUSDT": {
+        "price": 0.2858,
+        "time": "2025-02-16T12:15:44.152567",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "AUDIOUSDT": {
+        "price": 0.1075,
+        "time": "2025-02-16T12:15:44.894723",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "SXPUSDT": {
+        "price": 0.2545,
+        "time": "2025-02-16T12:15:46.264944",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "COOKIEUSDT": {
+        "price": 0.2145,
+        "time": "2025-02-16T12:15:47.262923",
+        "trailing_stop_active": false,
+        "highest_price": null
     }
 }
