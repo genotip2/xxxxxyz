@@ -11,12 +11,6 @@
         "trailing_stop_active": false,
         "highest_price": null
     },
-    "OGUSDT": {
-        "price": 3.969,
-        "time": "2025-02-15T16:46:20.378110",
-        "trailing_stop_active": false,
-        "highest_price": null
-    },
     "COTIUSDT": {
         "price": 0.08763,
         "time": "2025-02-15T18:46:09.250700",
@@ -32,14 +26,8 @@
     "HIVEUSDT": {
         "price": 0.3288,
         "time": "2025-02-15T20:31:17.905183",
-        "trailing_stop_active": false,
-        "highest_price": null
-    },
-    "OSMOUSDT": {
-        "price": 0.3434,
-        "time": "2025-02-15T20:31:19.634204",
-        "trailing_stop_active": false,
-        "highest_price": null
+        "trailing_stop_active": true,
+        "highest_price": 0.3571
     },
     "BARUSDT": {
         "price": 1.714,
@@ -59,15 +47,15 @@
         "trailing_stop_active": false,
         "highest_price": null
     },
-    "CTXCUSDT": {
-        "price": 0.1995,
-        "time": "2025-02-15T23:46:14.032887",
-        "trailing_stop_active": false,
-        "highest_price": null
-    },
     "CITYUSDT": {
         "price": 1.396,
         "time": "2025-02-15T23:46:14.825690",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "LTCUSDT": {
+        "price": 135.97,
+        "time": "2025-02-16T02:59:00.361898",
         "trailing_stop_active": false,
         "highest_price": null
     }
