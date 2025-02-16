@@ -1,10 +1,4 @@
 {
-    "ETHUSDT": {
-        "price": 2708.64,
-        "time": "2025-02-16T12:19:02.700852",
-        "trailing_stop_active": false,
-        "highest_price": null
-    },
     "COOKIEUSDT": {
         "price": 0.2139,
         "time": "2025-02-16T12:19:14.024355",
@@ -14,12 +8,6 @@
     "CVCUSDT": {
         "price": 0.1243,
         "time": "2025-02-16T12:19:15.732775",
-        "trailing_stop_active": false,
-        "highest_price": null
-    },
-    "AUDIOUSDT": {
-        "price": 0.107,
-        "time": "2025-02-16T12:19:16.537751",
         "trailing_stop_active": false,
         "highest_price": null
     },
@@ -65,12 +53,6 @@
         "trailing_stop_active": false,
         "highest_price": null
     },
-    "BARUSDT": {
-        "price": 1.849,
-        "time": "2025-02-16T13:12:03.421462",
-        "trailing_stop_active": true,
-        "highest_price": 2.252
-    },
     "STORJUSDT": {
         "price": 0.3846,
         "time": "2025-02-16T13:26:37.494213",
@@ -80,6 +62,18 @@
     "TONUSDT": {
         "price": 3.803,
         "time": "2025-02-16T13:26:40.063468",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "IDUSDT": {
+        "price": 0.3105,
+        "time": "2025-02-16T14:07:23.861277",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "ATMUSDT": {
+        "price": 1.64,
+        "time": "2025-02-16T14:07:40.175342",
         "trailing_stop_active": false,
         "highest_price": null
     }
