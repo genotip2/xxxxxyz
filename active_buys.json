@@ -5,12 +5,6 @@
         "trailing_stop_active": false,
         "highest_price": null
     },
-    "CVCUSDT": {
-        "price": 0.1243,
-        "time": "2025-02-16T12:19:15.732775",
-        "trailing_stop_active": false,
-        "highest_price": null
-    },
     "STGUSDT": {
         "price": 0.2851,
         "time": "2025-02-16T12:19:18.361775",
@@ -41,30 +35,6 @@
         "trailing_stop_active": false,
         "highest_price": null
     },
-    "ANKRUSDT": {
-        "price": 0.02359,
-        "time": "2025-02-16T12:19:26.503422",
-        "trailing_stop_active": false,
-        "highest_price": null
-    },
-    "ACHUSDT": {
-        "price": 0.02893,
-        "time": "2025-02-16T13:11:56.169713",
-        "trailing_stop_active": false,
-        "highest_price": null
-    },
-    "STORJUSDT": {
-        "price": 0.3846,
-        "time": "2025-02-16T13:26:37.494213",
-        "trailing_stop_active": false,
-        "highest_price": null
-    },
-    "TONUSDT": {
-        "price": 3.803,
-        "time": "2025-02-16T13:26:40.063468",
-        "trailing_stop_active": false,
-        "highest_price": null
-    },
     "IDUSDT": {
         "price": 0.3105,
         "time": "2025-02-16T14:07:23.861277",
@@ -74,6 +44,24 @@
     "ATMUSDT": {
         "price": 1.64,
         "time": "2025-02-16T14:07:40.175342",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "OMUSDT": {
+        "price": 7.5698,
+        "time": "2025-02-16T14:25:38.256888",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "BARUSDT": {
+        "price": 2.034,
+        "time": "2025-02-16T14:25:44.578413",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "AUDIOUSDT": {
+        "price": 0.104,
+        "time": "2025-02-16T14:25:46.611029",
         "trailing_stop_active": false,
         "highest_price": null
     }
