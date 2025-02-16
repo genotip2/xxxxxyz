@@ -11,12 +11,6 @@
         "trailing_stop_active": false,
         "highest_price": null
     },
-    "USDCUSDT": {
-        "price": 0.9999,
-        "time": "2025-02-15T16:46:11.997193",
-        "trailing_stop_active": false,
-        "highest_price": null
-    },
     "OGUSDT": {
         "price": 3.969,
         "time": "2025-02-15T16:46:20.378110",
