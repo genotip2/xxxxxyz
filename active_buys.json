@@ -47,12 +47,6 @@
         "trailing_stop_active": false,
         "highest_price": null
     },
-    "BARUSDT": {
-        "price": 2.034,
-        "time": "2025-02-16T14:25:44.578413",
-        "trailing_stop_active": false,
-        "highest_price": null
-    },
     "AUDIOUSDT": {
         "price": 0.104,
         "time": "2025-02-16T14:25:46.611029",
