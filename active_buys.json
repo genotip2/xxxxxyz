@@ -29,12 +29,6 @@
         "trailing_stop_active": false,
         "highest_price": null
     },
-    "STPTUSDT": {
-        "price": 0.09255,
-        "time": "2025-02-15T21:07:12.687819",
-        "trailing_stop_active": true,
-        "highest_price": 0.1037
-    },
     "PSGUSDT": {
         "price": 2.488,
         "time": "2025-02-15T21:23:04.877037",
