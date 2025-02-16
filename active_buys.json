@@ -1,10 +1,4 @@
 {
-    "COOKIEUSDT": {
-        "price": 0.2139,
-        "time": "2025-02-16T12:19:14.024355",
-        "trailing_stop_active": false,
-        "highest_price": null
-    },
     "STGUSDT": {
         "price": 0.2851,
         "time": "2025-02-16T12:19:18.361775",
@@ -62,6 +56,18 @@
     "AUDIOUSDT": {
         "price": 0.104,
         "time": "2025-02-16T14:25:46.611029",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "ACHUSDT": {
+        "price": 0.02801,
+        "time": "2025-02-16T14:33:22.311967",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "STORJUSDT": {
+        "price": 0.3694,
+        "time": "2025-02-16T14:33:28.125302",
         "trailing_stop_active": false,
         "highest_price": null
     }
