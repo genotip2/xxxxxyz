@@ -11,18 +11,6 @@
         "trailing_stop_active": false,
         "highest_price": null
     },
-    "SXPUSDT": {
-        "price": 0.2484,
-        "time": "2025-02-16T15:24:08.326587",
-        "trailing_stop_active": false,
-        "highest_price": null
-    },
-    "MAGICUSDT": {
-        "price": 0.2599,
-        "time": "2025-02-16T15:24:09.849242",
-        "trailing_stop_active": false,
-        "highest_price": null
-    },
     "ARKUSDT": {
         "price": 0.4001,
         "time": "2025-02-16T15:24:12.848942",
