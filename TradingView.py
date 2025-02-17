@@ -446,7 +446,7 @@ def send_telegram_alert(signal_type, pair, current_price, details="", buy_score=
     binance_url = get_binance_url(pair)
 
     message = f"{emoji} *{signal_type}*\n"
-    message += f"💱 *Pair:* {display_pair} | 🔗 [*Buka di Binance*]({binance_url})\n"
+    message += f"💱 *Pair:* [{display_pair}]({binance_url})\n"
     message += f"💲 *Price:* ${current_price:.8f}\n"
     if buy_score is not None and sell_score is not None:
         message += f"📊 *Score:* Buy {buy_score}/8 | Sell {sell_score}/7\n"
