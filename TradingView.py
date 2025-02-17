@@ -29,7 +29,7 @@ ANALYSIS_ORDER = "smallest"
 TAKE_PROFIT_PERCENTAGE = 6    # Target take profit 6% (dihitung dari harga entry)
 STOP_LOSS_PERCENTAGE = 3      # Stop loss 3% (dihitung dari harga entry)
 TRAILING_STOP_PERCENTAGE = 3  # Trailing stop 3% (dari harga tertinggi setelah take profit tercapai)
-MAX_HOLD_DURATION_HOUR = 24   # Durasi hold maksimum 24 jam
+MAX_HOLD_DURATION_HOUR = 48   # Durasi hold maksimum 24 jam
 
 # Konfigurasi Timeframe
 TIMEFRAME_TREND = Interval.INTERVAL_4_HOURS       # Timeframe untuk analisis tren utama (4H)
