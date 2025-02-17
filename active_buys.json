@@ -5,17 +5,11 @@
         "trailing_stop_active": false,
         "highest_price": null
     },
-    "ARKUSDT": {
-        "price": 0.4001,
-        "time": "2025-02-16T15:24:12.848942",
-        "trailing_stop_active": true,
-        "highest_price": 0.6883
-    },
     "STGUSDT": {
         "price": 0.2816,
         "time": "2025-02-16T15:24:14.439814",
-        "trailing_stop_active": false,
-        "highest_price": null
+        "trailing_stop_active": true,
+        "highest_price": 0.3007
     },
     "AUDIOUSDT": {
         "price": 0.1048,
