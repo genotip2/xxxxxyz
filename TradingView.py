@@ -421,6 +421,18 @@ def get_binance_url(pair):
     return f"https://www.binance.com/en/trade/{base}_{quote}"
 
 ##############################
+# FUNGSI PEMBANTU UNTUK MENGHADIRKAN LINK TRADINGVIEW
+##############################
+
+def get_tradingview_url(pair):
+    """
+    Membangun URL TradingView untuk pair.
+    Misalnya, jika pair = "BTCUSDT", maka URL yang dihasilkan adalah:
+    https://www.tradingview.com/chart/?symbol=BINANCE:BTCUSDT
+    """
+    return f"https://www.tradingview.com/chart/?symbol=BINANCE:{pair}"
+    
+##############################
 # KIRIM ALERT TELEGRAM
 ##############################
 def send_telegram_alert(signal_type, pair, current_price, details="", buy_score=None, sell_score=None):
@@ -443,10 +455,11 @@ def send_telegram_alert(signal_type, pair, current_price, details="", buy_score=
         'NEW HIGH': '📈'
     }.get(signal_type, 'ℹ️')
     
-    binance_url = get_binance_url(pair)
+    binance_url = get_binance_url(pair)   # Link Binance
+    tradingview_url = get_tradingview_url(pair)  # Link TradingView
 
     message = f"{emoji} *{signal_type}*\n"
-    message += f"💱 *Pair:* [{display_pair}]({binance_url})\n"
+    message += f"💱 *Pair:* [{display_pair}]({binance_url}) [Lihat di TradingView]({tradingview_url})\n"
     message += f"💲 *Price:* ${current_price:.8f}\n"
     if buy_score is not None and sell_score is not None:
         message += f"📊 *Score:* Buy {buy_score}/8 | Sell {sell_score}/7\n"
