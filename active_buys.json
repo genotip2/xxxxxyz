@@ -17,21 +17,9 @@
         "trailing_stop_active": false,
         "highest_price": null
     },
-    "POLYXUSDT": {
-        "price": 0.1921,
-        "time": "2025-02-16T15:24:16.486519",
-        "trailing_stop_active": false,
-        "highest_price": null
-    },
     "POWRUSDT": {
         "price": 0.2251,
         "time": "2025-02-16T15:24:17.229029",
-        "trailing_stop_active": false,
-        "highest_price": null
-    },
-    "STEEMUSDT": {
-        "price": 0.1811,
-        "time": "2025-02-16T18:07:44.198546",
         "trailing_stop_active": false,
         "highest_price": null
     },
