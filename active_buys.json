@@ -35,12 +35,6 @@
         "trailing_stop_active": false,
         "highest_price": null
     },
-    "CFXUSDT": {
-        "price": 0.1199,
-        "time": "2025-02-17T04:10:57.675680",
-        "trailing_stop_active": false,
-        "highest_price": null
-    },
     "POLUSDT": {
         "price": 0.3248,
         "time": "2025-02-17T04:10:59.685434",
