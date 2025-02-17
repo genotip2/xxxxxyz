@@ -9,7 +9,7 @@
         "price": 0.4001,
         "time": "2025-02-16T15:24:12.848942",
         "trailing_stop_active": true,
-        "highest_price": 0.4699
+        "highest_price": 0.5088
     },
     "STGUSDT": {
         "price": 0.2816,
@@ -21,7 +21,7 @@
         "price": 0.2251,
         "time": "2025-02-16T15:24:17.229029",
         "trailing_stop_active": true,
-        "highest_price": 0.2393
+        "highest_price": 0.2453
     },
     "AUDIOUSDT": {
         "price": 0.1048,
@@ -38,8 +38,8 @@
     "SXPUSDT": {
         "price": 0.2559,
         "time": "2025-02-17T05:30:27.717916",
-        "trailing_stop_active": false,
-        "highest_price": null
+        "trailing_stop_active": true,
+        "highest_price": 0.2717
     },
     "POLUSDT": {
         "price": 0.3241,
