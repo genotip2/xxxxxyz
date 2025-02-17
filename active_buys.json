@@ -34,5 +34,11 @@
         "time": "2025-02-17T08:34:06.443034",
         "trailing_stop_active": false,
         "highest_price": null
+    },
+    "SXPUSDT": {
+        "price": 0.255,
+        "time": "2025-02-17T08:49:03.961783",
+        "trailing_stop_active": false,
+        "highest_price": null
     }
 }
