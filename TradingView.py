@@ -442,18 +442,16 @@ def send_telegram_alert(signal_type, pair, current_price, details="", buy_score=
         'TRAILING STOP': '📉',
         'NEW HIGH': '📈'
     }.get(signal_type, 'ℹ️')
+    
+    binance_url = get_binance_url(pair)
 
     message = f"{emoji} *{signal_type}*\n"
-    message += f"💱 *Pair:* {display_pair}\n"
+    message += f"💱 *Pair:* {display_pair} | 🔗 [*Buka di Binance*]({binance_url})\n"
     message += f"💲 *Price:* ${current_price:.8f}\n"
     if buy_score is not None and sell_score is not None:
         message += f"📊 *Score:* Buy {buy_score}/8 | Sell {sell_score}/7\n"
     if details:
         message += f"📝 *Kondisi:* {details}\n"
-
-    # Tambahkan link ke Binance
-    binance_url = get_binance_url(pair)
-    message += f"🔗 [Buka di Binance]({binance_url})\n"
 
     if signal_type == "BUY":
         ACTIVE_BUYS[pair] = {
