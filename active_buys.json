@@ -26,8 +26,8 @@
     "ARKUSDT": {
         "price": 0.5125,
         "time": "2025-02-17T14:08:13.439768",
-        "trailing_stop_active": false,
-        "highest_price": null
+        "trailing_stop_active": true,
+        "highest_price": 0.5438
     },
     "SLFUSDT": {
         "price": 0.2276,
