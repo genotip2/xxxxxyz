@@ -23,9 +23,9 @@
         "trailing_stop_active": false,
         "highest_price": null
     },
-    "POLUSDT": {
-        "price": 0.3241,
-        "time": "2025-02-17T06:12:46.254882",
+    "POWRUSDT": {
+        "price": 0.2369,
+        "time": "2025-02-17T07:46:12.782293",
         "trailing_stop_active": false,
         "highest_price": null
     }
