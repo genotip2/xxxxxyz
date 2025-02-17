@@ -5,12 +5,6 @@
         "trailing_stop_active": false,
         "highest_price": null
     },
-    "STGUSDT": {
-        "price": 0.2816,
-        "time": "2025-02-16T15:24:14.439814",
-        "trailing_stop_active": true,
-        "highest_price": 0.3007
-    },
     "AUDIOUSDT": {
         "price": 0.1048,
         "time": "2025-02-16T20:25:41.950882",
@@ -26,6 +20,12 @@
     "POWRUSDT": {
         "price": 0.2369,
         "time": "2025-02-17T07:46:12.782293",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "SXPUSDT": {
+        "price": 0.2633,
+        "time": "2025-02-17T08:12:25.843250",
         "trailing_stop_active": false,
         "highest_price": null
     }
