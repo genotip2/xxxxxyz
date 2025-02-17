@@ -14,10 +14,11 @@ ACTIVE_BUYS = {}
 
 # File cache untuk menyimpan daftar pair top berdasarkan volume trading
 CACHE_FILE = 'pairs_cache.json'
+CACHE_EXPIRED_DAYS = 30  # Cache akan dianggap kadaluarsa jika lebih lama dari 30 hari
 
 # Konfigurasi jumlah pair untuk cache dan analisis
 TOP_PAIRS_CACHED = 100       # Jumlah pair teratas (berdasarkan volume) yang akan disimpan ke cache
-PAIR_TO_ANALYZE = 50        # Dari cache, hanya analisis sejumlah pair tertentu
+PAIR_TO_ANALYZE = 50         # Dari cache, hanya analisis sejumlah pair tertentu
 
 # Konfigurasi order analisis: 
 # "largest" = mulai dari pair dengan volume terbesar
@@ -28,7 +29,7 @@ ANALYSIS_ORDER = "smallest"
 TAKE_PROFIT_PERCENTAGE = 6    # Target take profit 6% (dihitung dari harga entry)
 STOP_LOSS_PERCENTAGE = 3      # Stop loss 3% (dihitung dari harga entry)
 TRAILING_STOP_PERCENTAGE = 3  # Trailing stop 3% (dari harga tertinggi setelah take profit tercapai)
-MAX_HOLD_DURATION_HOUR = 48   # Durasi hold maksimum 24 jam
+MAX_HOLD_DURATION_HOUR = 24   # Durasi hold maksimum 24 jam
 
 # Konfigurasi Timeframe
 TIMEFRAME_TREND = Interval.INTERVAL_4_HOURS       # Timeframe untuk analisis tren utama (4H)
@@ -126,12 +127,27 @@ def update_pairs_cache():
 def get_pairs_from_cache():
     """
     Memuat daftar pair dari file cache.
-    Jika file cache tidak ada atau jika hari ini merupakan hari pertama bulan,
+    Jika file cache tidak ada atau sudah kadaluarsa berdasarkan konfigurasi CACHE_EXPIRED_DAYS,
     maka file cache akan diperbarui terlebih dahulu.
     """
     now = datetime.now()
-    if not os.path.exists(CACHE_FILE) or now.day == 1:
+    update_cache = False
+
+    if not os.path.exists(CACHE_FILE):
+        update_cache = True
+    else:
+        try:
+            mtime = os.path.getmtime(CACHE_FILE)
+            mod_time = datetime.fromtimestamp(mtime)
+            if now - mod_time > timedelta(days=CACHE_EXPIRED_DAYS):
+                update_cache = True
+        except Exception as e:
+            print(f"⚠️ Gagal mendapatkan waktu modifikasi cache: {e}")
+            update_cache = True
+
+    if update_cache:
         update_pairs_cache()
+
     try:
         with open(CACHE_FILE, 'r') as f:
             pairs = json.load(f)
@@ -392,6 +408,19 @@ def generate_signal(pair):
     return None, current_price, "Tidak ada sinyal.", buy_score, sell_score
 
 ##############################
+# FUNGSI PEMBANTU UNTUK MENGHADIRKAN LINK BINANCE
+##############################
+def get_binance_url(pair):
+    """
+    Membangun URL Binance untuk pair.
+    Misalnya, jika pair = "BTCUSDT", maka URL yang dihasilkan adalah:
+    https://www.binance.com/en/trade/BTC_USDT
+    """
+    base = pair[:-4]
+    quote = pair[-4:]
+    return f"https://www.binance.com/en/trade/{base}_{quote}"
+
+##############################
 # KIRIM ALERT TELEGRAM
 ##############################
 def send_telegram_alert(signal_type, pair, current_price, details="", buy_score=None, sell_score=None):
@@ -402,52 +431,61 @@ def send_telegram_alert(signal_type, pair, current_price, details="", buy_score=
     Sementara untuk sinyal TAKE PROFIT, hanya mengaktifkan trailing stop tanpa menghapus posisi.
     Untuk sinyal "NEW HIGH", posisi tidak dihapus.
     Informasi tambahan mengenai Entry Price, Profit/Loss, dan Duration akan ditambahkan untuk semua jenis sinyal kecuali BUY.
-    """  
-    display_pair = f"{pair[:-4]}/USDT"  
-    emoji = {  
-        'BUY': '🚀',  
-        'SELL': '⚠️',  
-        'TAKE PROFIT': '✅',  
-        'STOP LOSS': '🛑',  
-        'EXPIRED': '⌛',  
-        'TRAILING STOP': '📉',  
-        'NEW HIGH': '📈'  
-    }.get(signal_type, 'ℹ️')  
+    """
+    display_pair = f"{pair[:-4]}/USDT"
+    emoji = {
+        'BUY': '🚀',
+        'SELL': '⚠️',
+        'TAKE PROFIT': '✅',
+        'STOP LOSS': '🛑',
+        'EXPIRED': '⌛',
+        'TRAILING STOP': '📉',
+        'NEW HIGH': '📈'
+    }.get(signal_type, 'ℹ️')
 
-    message = f"{emoji} *{signal_type}*\n"  
-    message += f"💱 *Pair:* {display_pair}\n"  
-    message += f"💲 *Price:* ${current_price:.8f}\n"  
-    if buy_score is not None and sell_score is not None:  
-        message += f"📊 *Score:* Buy {buy_score}/8 | Sell {sell_score}/7\n"  
-    if details:  
-        message += f"📝 *Kondisi:* {details}\n"  
+    message = f"{emoji} *{signal_type}*\n"
+    message += f"💱 *Pair:* {display_pair}\n"
+    message += f"💲 *Price:* ${current_price:.8f}\n"
+    if buy_score is not None and sell_score is not None:
+        message += f"📊 *Score:* Buy {buy_score}/8 | Sell {sell_score}/7\n"
+    if details:
+        message += f"📝 *Kondisi:* {details}\n"
 
-    if signal_type == "BUY":  
-        ACTIVE_BUYS[pair] = {  
-            'price': current_price,  
-            'time': datetime.now(),  
-            'trailing_stop_active': False,  
-            'highest_price': None  
-        }  
-    else:  
-        if pair in ACTIVE_BUYS:  
-            entry_price = ACTIVE_BUYS[pair]['price']  
-            profit = (current_price - entry_price) / entry_price * 100  
-            duration = datetime.now() - ACTIVE_BUYS[pair]['time']  
-            message += f"▫️ *Entry Price:* ${entry_price:.8f}\n"  
-            message += f"💰 *{'Profit' if profit > 0 else 'Loss'}:* {profit:+.2f}%\n"  
-            message += f"🕒 *Duration:* {str(duration).split('.')[0]}\n"  
-        if signal_type in ["SELL", "STOP LOSS", "EXPIRED", "TRAILING STOP"]:  
-            if pair in ACTIVE_BUYS:  
-                del ACTIVE_BUYS[pair]  
+    # Tambahkan link ke Binance
+    binance_url = get_binance_url(pair)
+    message += f"🔗 [Buka di Binance]({binance_url})\n"
 
-    print(f"📢 Mengirim alert:\n{message}")  
-    try:  
-        requests.post(  
-            f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage",  
-            json={'chat_id': TELEGRAM_CHAT_ID, 'text': message, 'parse_mode': 'Markdown'}  
-        )  
-    except Exception as e:  
+    if signal_type == "BUY":
+        ACTIVE_BUYS[pair] = {
+            'price': current_price,
+            'time': datetime.now(),
+            'trailing_stop_active': False,
+            'highest_price': None
+        }
+    else:
+        if pair in ACTIVE_BUYS:
+            entry_price = ACTIVE_BUYS[pair]['price']
+            profit = (current_price - entry_price) / entry_price * 100
+            duration = datetime.now() - ACTIVE_BUYS[pair]['time']
+            message += f"▫️ *Entry Price:* ${entry_price:.8f}\n"
+            message += f"💰 *{'Profit' if profit > 0 else 'Loss'}:* {profit:+.2f}%\n"
+            message += f"🕒 *Duration:* {str(duration).split('.')[0]}\n"
+        if signal_type in ["SELL", "STOP LOSS", "EXPIRED", "TRAILING STOP"]:
+            if pair in ACTIVE_BUYS:
+                del ACTIVE_BUYS[pair]
+
+    print(f"📢 Mengirim alert:\n{message}")
+    try:
+        requests.post(
+            f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage",
+            json={
+                'chat_id': TELEGRAM_CHAT_ID,
+                'text': message,
+                'parse_mode': 'Markdown',
+                'disable_web_page_preview': True  # Menonaktifkan preview link
+        }
+    )
+    except Exception as e:
         print(f"❌ Gagal mengirim alert Telegram: {e}")
 
 ##############################
@@ -470,27 +508,27 @@ def main():
     
     print(f"🔍 Memulai analisis {len(pairs)} pair pada {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
 
-    for pair in pairs:  
-        print(f"\n🔎 Sedang menganalisis pair: {pair}")  
-        try:  
-            signal, current_price, details, buy_score, sell_score = generate_signal(pair)  
-            if signal:  
-                print(f"💡 Sinyal: {signal}, Harga: {current_price:.8f}")  
-                print(f"📝 Details: {details}")  
-                send_telegram_alert(signal, pair, current_price, details, buy_score, sell_score)  
-            else:  
-                print("ℹ️ Tidak ada sinyal untuk pair ini.")  
-        except Exception as e:  
-            print(f"⚠️ Error di {pair}: {e}")  
-            continue  
+    for pair in pairs:
+        print(f"\n🔎 Sedang menganalisis pair: {pair}")
+        try:
+            signal, current_price, details, buy_score, sell_score = generate_signal(pair)
+            if signal:
+                print(f"💡 Sinyal: {signal}, Harga: {current_price:.8f}")
+                print(f"📝 Details: {details}")
+                send_telegram_alert(signal, pair, current_price, details, buy_score, sell_score)
+            else:
+                print("ℹ️ Tidak ada sinyal untuk pair ini.")
+        except Exception as e:
+            print(f"⚠️ Error di {pair}: {e}")
+            continue
 
-    # Auto-close posisi jika durasi hold melebihi batas (cek ulang posisi aktif)  
-    for pair in list(ACTIVE_BUYS.keys()):  
-        holding_duration = datetime.now() - ACTIVE_BUYS[pair]['time']  
-        if holding_duration > timedelta(hours=MAX_HOLD_DURATION_HOUR):  
-            entry_analysis = analyze_pair_interval(pair, TIMEFRAME_ENTRY)  
-            current_price = entry_analysis.indicators.get('close') if entry_analysis else 0  
-            send_telegram_alert("EXPIRED", pair, current_price, f"Durasi hold: {str(holding_duration).split('.')[0]}")  
+    # Auto-close posisi jika durasi hold melebihi batas (cek ulang posisi aktif)
+    for pair in list(ACTIVE_BUYS.keys()):
+        holding_duration = datetime.now() - ACTIVE_BUYS[pair]['time']
+        if holding_duration > timedelta(hours=MAX_HOLD_DURATION_HOUR):
+            entry_analysis = analyze_pair_interval(pair, TIMEFRAME_ENTRY)
+            current_price = entry_analysis.indicators.get('close') if entry_analysis else 0
+            send_telegram_alert("EXPIRED", pair, current_price, f"Durasi hold: {str(holding_duration).split('.')[0]}")
 
     save_active_buys()
 
