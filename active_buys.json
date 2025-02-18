@@ -1,10 +1,4 @@
 {
-    "CVCUSDT": {
-        "price": 0.1342,
-        "time": "2025-02-18T02:53:01.926189",
-        "trailing_stop_active": true,
-        "highest_price": 0.1437
-    },
     "SLFUSDT": {
         "price": 0.2354,
         "time": "2025-02-18T05:08:37.882815",
