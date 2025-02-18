@@ -4,5 +4,11 @@
         "time": "2025-02-18T05:08:37.882815",
         "trailing_stop_active": false,
         "highest_price": null
+    },
+    "CVCUSDT": {
+        "price": 0.1365,
+        "time": "2025-02-18T06:48:31.344663",
+        "trailing_stop_active": false,
+        "highest_price": null
     }
 }
