@@ -2,14 +2,8 @@
     "SXPUSDT": {
         "price": 0.255,
         "time": "2025-02-17T08:49:03.961783",
-        "trailing_stop_active": false,
-        "highest_price": null
-    },
-    "SLFUSDT": {
-        "price": 0.2276,
-        "time": "2025-02-17T19:31:27.306625",
         "trailing_stop_active": true,
-        "highest_price": 0.2435
+        "highest_price": 0.2705
     },
     "CVCUSDT": {
         "price": 0.1342,
