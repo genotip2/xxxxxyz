@@ -10,11 +10,5 @@
         "time": "2025-02-19T09:36:00.439413",
         "trailing_stop_active": false,
         "highest_price": null
-    },
-    "SLFUSDT": {
-        "price": 0.2443,
-        "time": "2025-02-19T12:14:58.627503",
-        "trailing_stop_active": false,
-        "highest_price": null
     }
 }
