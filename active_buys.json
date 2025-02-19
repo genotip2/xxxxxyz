@@ -250,5 +250,11 @@
         "time": "2025-02-19T23:24:16.401497",
         "trailing_stop_active": false,
         "highest_price": null
+    },
+    "LAYERUSDT": {
+        "price": 0.6393,
+        "time": "2025-02-19T23:31:36.096687",
+        "trailing_stop_active": false,
+        "highest_price": null
     }
 }
