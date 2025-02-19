@@ -124,5 +124,17 @@
         "time": "2025-02-19T19:20:12.487096",
         "trailing_stop_active": false,
         "highest_price": null
+    },
+    "BCHUSDT": {
+        "price": 321.4,
+        "time": "2025-02-19T19:31:39.057878",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "ZKUSDT": {
+        "price": 0.1064,
+        "time": "2025-02-19T19:31:40.051994",
+        "trailing_stop_active": false,
+        "highest_price": null
     }
 }
