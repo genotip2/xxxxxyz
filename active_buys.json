@@ -4,5 +4,11 @@
         "time": "2025-02-18T12:15:21.674366",
         "trailing_stop_active": false,
         "highest_price": null
+    },
+    "ARKUSDT": {
+        "price": 0.4913,
+        "time": "2025-02-19T08:49:04.776083",
+        "trailing_stop_active": false,
+        "highest_price": null
     }
 }
