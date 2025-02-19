@@ -238,5 +238,17 @@
         "time": "2025-02-19T23:08:01.317414",
         "trailing_stop_active": false,
         "highest_price": null
+    },
+    "NEIROUSDT": {
+        "price": 0.00032949,
+        "time": "2025-02-19T23:24:14.797710",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "PENDLEUSDT": {
+        "price": 3.318,
+        "time": "2025-02-19T23:24:16.401497",
+        "trailing_stop_active": false,
+        "highest_price": null
     }
 }
