@@ -52,5 +52,77 @@
         "time": "2025-02-19T19:11:17.899390",
         "trailing_stop_active": false,
         "highest_price": null
+    },
+    "ETHUSDT": {
+        "price": 2716,
+        "time": "2025-02-19T19:19:53.890802",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "HBARUSDT": {
+        "price": 0.21513,
+        "time": "2025-02-19T19:19:57.202724",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "ETHFIUSDT": {
+        "price": 1.109,
+        "time": "2025-02-19T19:19:59.168811",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "DOTUSDT": {
+        "price": 4.854,
+        "time": "2025-02-19T19:19:59.724981",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "XLMUSDT": {
+        "price": 0.3333,
+        "time": "2025-02-19T19:20:00.337490",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "CRVUSDT": {
+        "price": 0.5118,
+        "time": "2025-02-19T19:20:01.102629",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "FILUSDT": {
+        "price": 3.305,
+        "time": "2025-02-19T19:20:03.206881",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "GALAUSDT": {
+        "price": 0.0222,
+        "time": "2025-02-19T19:20:03.812873",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "LAYERUSDT": {
+        "price": 0.6409,
+        "time": "2025-02-19T19:20:08.716364",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "ARUSDT": {
+        "price": 9.06,
+        "time": "2025-02-19T19:20:09.360276",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "ZROUSDT": {
+        "price": 2.921,
+        "time": "2025-02-19T19:20:11.583809",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "ATOMUSDT": {
+        "price": 4.677,
+        "time": "2025-02-19T19:20:12.487096",
+        "trailing_stop_active": false,
+        "highest_price": null
     }
 }
