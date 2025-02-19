@@ -142,5 +142,83 @@
         "time": "2025-02-19T19:46:14.661336",
         "trailing_stop_active": false,
         "highest_price": null
+    },
+    "XRPUSDT": {
+        "price": 2.6697,
+        "time": "2025-02-19T20:09:09.782669",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "TRUMPUSDT": {
+        "price": 16.93,
+        "time": "2025-02-19T20:09:10.750117",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "OPUSDT": {
+        "price": 1.136,
+        "time": "2025-02-19T20:09:15.227300",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "ARBUSDT": {
+        "price": 0.4703,
+        "time": "2025-02-19T20:09:15.793407",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "SHIBUSDT": {
+        "price": 1.539e-05,
+        "time": "2025-02-19T20:09:16.641474",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "SEIUSDT": {
+        "price": 0.2264,
+        "time": "2025-02-19T20:09:17.811074",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "WBTCUSDT": {
+        "price": 96168.13,
+        "time": "2025-02-19T20:09:18.502075",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "NEIROUSDT": {
+        "price": 0.00032857,
+        "time": "2025-02-19T20:09:19.814861",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "IOUSDT": {
+        "price": 1.343,
+        "time": "2025-02-19T20:09:24.059146",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "RENDERUSDT": {
+        "price": 4.244,
+        "time": "2025-02-19T20:09:26.155617",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "ICPUSDT": {
+        "price": 6.888,
+        "time": "2025-02-19T20:09:27.829705",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "QTUMUSDT": {
+        "price": 3.259,
+        "time": "2025-02-19T20:09:28.523609",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "JASMYUSDT": {
+        "price": 0.0214,
+        "time": "2025-02-19T20:09:29.298215",
+        "trailing_stop_active": false,
+        "highest_price": null
     }
 }
