@@ -1,0 +1,56 @@
+{
+    "SUSDT": {
+        "price": 0.7205,
+        "time": "2025-02-19T19:11:01.500725",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "TAOUSDT": {
+        "price": 411.6,
+        "time": "2025-02-19T19:11:02.995164",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "APTUSDT": {
+        "price": 6.42,
+        "time": "2025-02-19T19:11:03.935410",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "FLOKIUSDT": {
+        "price": 0.00010048,
+        "time": "2025-02-19T19:11:06.339137",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "ORDIUSDT": {
+        "price": 12.69,
+        "time": "2025-02-19T19:11:09.828636",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "TIAUSDT": {
+        "price": 3.109,
+        "time": "2025-02-19T19:11:12.133245",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "INJUSDT": {
+        "price": 14.96,
+        "time": "2025-02-19T19:11:13.265479",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "AUCTIONUSDT": {
+        "price": 12.69,
+        "time": "2025-02-19T19:11:15.116612",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "ETCUSDT": {
+        "price": 20.9,
+        "time": "2025-02-19T19:11:17.899390",
+        "trailing_stop_active": false,
+        "highest_price": null
+    }
+}
