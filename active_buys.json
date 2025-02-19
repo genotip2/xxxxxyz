@@ -101,12 +101,6 @@
         "trailing_stop_active": false,
         "highest_price": null
     },
-    "LAYERUSDT": {
-        "price": 0.6409,
-        "time": "2025-02-19T19:20:08.716364",
-        "trailing_stop_active": false,
-        "highest_price": null
-    },
     "ARUSDT": {
         "price": 9.06,
         "time": "2025-02-19T19:20:09.360276",
@@ -212,12 +206,6 @@
     "JASMYUSDT": {
         "price": 0.0214,
         "time": "2025-02-19T20:09:29.298215",
-        "trailing_stop_active": false,
-        "highest_price": null
-    },
-    "SOLVUSDT": {
-        "price": 0.0315,
-        "time": "2025-02-19T20:27:57.575673",
         "trailing_stop_active": false,
         "highest_price": null
     },
