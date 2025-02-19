@@ -1,0 +1,74 @@
+{
+    "SUSDT": {
+        "price": 0.7196,
+        "time": "2025-02-19T19:05:55.164709",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "TAOUSDT": {
+        "price": 412.9,
+        "time": "2025-02-19T19:05:56.901744",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "APTUSDT": {
+        "price": 6.43,
+        "time": "2025-02-19T19:05:57.942821",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "FLOKIUSDT": {
+        "price": 0.00010071,
+        "time": "2025-02-19T19:05:59.829428",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "DOTUSDT": {
+        "price": 4.841,
+        "time": "2025-02-19T19:06:02.898062",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "ORDIUSDT": {
+        "price": 12.71,
+        "time": "2025-02-19T19:06:03.918976",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "CRVUSDT": {
+        "price": 0.5103,
+        "time": "2025-02-19T19:06:04.839852",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "TIAUSDT": {
+        "price": 3.108,
+        "time": "2025-02-19T19:06:06.973035",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "INJUSDT": {
+        "price": 14.99,
+        "time": "2025-02-19T19:06:08.136043",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "GALAUSDT": {
+        "price": 0.02213,
+        "time": "2025-02-19T19:06:09.459675",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "AUCTIONUSDT": {
+        "price": 12.69,
+        "time": "2025-02-19T19:06:10.770840",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "ETCUSDT": {
+        "price": 20.93,
+        "time": "2025-02-19T19:06:13.653095",
+        "trailing_stop_active": false,
+        "highest_price": null
+    }
+}
