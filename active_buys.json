@@ -185,12 +185,6 @@
         "trailing_stop_active": false,
         "highest_price": null
     },
-    "NEIROUSDT": {
-        "price": 0.00032857,
-        "time": "2025-02-19T20:09:19.814861",
-        "trailing_stop_active": false,
-        "highest_price": null
-    },
     "IOUSDT": {
         "price": 1.343,
         "time": "2025-02-19T20:09:24.059146",
