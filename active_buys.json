@@ -70,5 +70,17 @@
         "time": "2025-02-19T19:06:13.653095",
         "trailing_stop_active": false,
         "highest_price": null
+    },
+    "HBARUSDT": {
+        "price": 0.21325,
+        "time": "2025-02-19T19:06:47.342286",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "ATOMUSDT": {
+        "price": 4.669,
+        "time": "2025-02-19T19:06:58.736110",
+        "trailing_stop_active": false,
+        "highest_price": null
     }
 }
