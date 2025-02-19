@@ -220,5 +220,11 @@
         "time": "2025-02-19T20:27:57.575673",
         "trailing_stop_active": false,
         "highest_price": null
+    },
+    "ENSUSDT": {
+        "price": 26.89,
+        "time": "2025-02-19T21:24:04.221476",
+        "trailing_stop_active": false,
+        "highest_price": null
     }
 }
