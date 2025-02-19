@@ -386,11 +386,11 @@ def send_telegram_alert(signal_type, pair, current_price, details="", buy_score=
     binance_url = get_binance_url(pair)   # Link Binance
     tradingview_url = get_tradingview_url(pair)  # Link TradingView
 
-    message = f"{emoji} {signal_type}\n"
-    message += f"💱 Pair: {display_pair} ==> [TradingView]({tradingview_url})\n"
-    message += f"💲 Price: ${current_price:.8f}\n"
+    message = f"{emoji} *{signal_type}*\n"
+    message += f"💱 *Pair:* [{display_pair}]({binance_url}) ==> [TradingView]({tradingview_url})\n"
+    message += f"💲 *Price:* ${current_price:.8f}\n"
     if details:
-        message += f"📝 Kondisi: {details}\n"
+        message += f"📝 *Kondisi:* {details}\n"
 
     if signal_type == "BUY":
         ACTIVE_BUYS[pair] = {
