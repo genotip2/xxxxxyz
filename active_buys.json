@@ -136,5 +136,11 @@
         "time": "2025-02-19T19:31:40.051994",
         "trailing_stop_active": false,
         "highest_price": null
+    },
+    "BTCUSDT": {
+        "price": 96004,
+        "time": "2025-02-19T19:46:14.661336",
+        "trailing_stop_active": false,
+        "highest_price": null
     }
 }
