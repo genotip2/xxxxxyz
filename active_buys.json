@@ -226,5 +226,11 @@
         "time": "2025-02-19T20:27:57.575673",
         "trailing_stop_active": false,
         "highest_price": null
+    },
+    "DOGEUSDT": {
+        "price": 0.25309,
+        "time": "2025-02-19T20:36:45.624511",
+        "trailing_stop_active": false,
+        "highest_price": null
     }
 }
