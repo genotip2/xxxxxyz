@@ -151,7 +151,7 @@
         "time": "2025-02-20T06:44:28.368002",
         "trailing_stop_active": true,
         "highest_price": 3.62,
-        "exit_flag": null
+        "exit_flag": "TRAILING STOP"
     },
     "SEIUSDT": {
         "price": 0.2431,
