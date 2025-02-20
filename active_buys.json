@@ -272,13 +272,6 @@
         "highest_price": null,
         "exit_flag": null
     },
-    "QTUMUSDT": {
-        "price": 3.266,
-        "time": "2025-02-20T06:44:46.669578",
-        "trailing_stop_active": false,
-        "highest_price": null,
-        "exit_flag": null
-    },
     "SOLVUSDT": {
         "price": 0.0316,
         "time": "2025-02-20T06:44:47.532891",
