@@ -230,24 +230,33 @@ def is_best_entry(data):
       - Rekomendasi candle harus 'BUY' atau 'STRONG_BUY'
       - EMA10 entry > EMA20 entry
       - MACD entry > Signal entry
+      - MACD entry > 0
       - MACD trend > Signal trend
     Mengembalikan tuple: (boolean, pesan evaluasi)
     """
     candle_entry = data.get('candle_entry')
     if candle_entry is None or not any(rec in candle_entry.upper() for rec in ["BUY", "STRONG_BUY"]):
         return False, "Rekomendasi candle tidak mendukung (tidak ada 'BUY' atau 'STRONG_BUY')."
+    
     ema10_entry = data.get('ema10_entry')
     ema20_entry = data.get('ema20_entry')
     if ema10_entry is None or ema20_entry is None or ema10_entry <= ema20_entry:
         return False, "EMA10 entry tidak lebih besar dari EMA20 entry."
+    
     macd_entry = data.get('macd_entry')
     macd_signal_entry = data.get('macd_signal_entry')
-    if macd_entry is None or macd_signal_entry is None or macd_entry <= macd_signal_entry:
+    if macd_entry is None or macd_signal_entry is None:
+        return False, "Data MACD entry atau Signal entry tidak tersedia."
+    if macd_entry <= macd_signal_entry:
         return False, "MACD entry tidak lebih besar dari Signal entry."
+    if macd_entry <= 0:
+        return False, "MACD entry harus lebih besar dari 0."
+    
     macd_trend = data.get('macd_trend')
     macd_signal_trend = data.get('macd_signal_trend')
     if macd_trend is None or macd_signal_trend is None or macd_trend <= macd_signal_trend:
         return False, "MACD trend tidak lebih besar dari Signal trend."
+    
     return True, "Best Entry Condition terpenuhi."
 
 ##############################
@@ -265,14 +274,17 @@ def is_best_exit(data):
     candle_entry = data.get('candle_entry')
     if candle_entry is None or not any(rec in candle_entry.upper() for rec in ["SELL", "STRONG_SELL"]):
         return False, "Rekomendasi candle tidak mendukung (tidak ada 'SELL' atau 'STRONG_SELL')."
+    
     ema10_entry = data.get('ema10_entry')
     ema20_entry = data.get('ema20_entry')
     if ema10_entry is None or ema20_entry is None or ema10_entry >= ema20_entry:
         return False, "EMA10 entry tidak lebih kecil dari EMA20 entry."
+    
     macd_entry = data.get('macd_entry')
     macd_signal_entry = data.get('macd_signal_entry')
     if macd_entry is None or macd_signal_entry is None or macd_entry >= macd_signal_entry:
         return False, "MACD entry tidak lebih kecil dari Signal entry."
+    
     return True, "Best Exit Condition terpenuhi."
 
 ##############################
@@ -404,9 +416,9 @@ def send_telegram_alert(signal_type, pair, current_price, details="", buy_score=
             entry_price = ACTIVE_BUYS[pair]['price']
             profit = (current_price - entry_price) / entry_price * 100
             duration = datetime.now() - ACTIVE_BUYS[pair]['time']
-            message += f"▫️ Entry Price: ${entry_price:.8f}\n"
-            message += f"💰 {'Profit' if profit > 0 else 'Loss'}: {profit:+.2f}%\n"
-            message += f"🕒 Duration: {str(duration).split('.')[0]}\n"
+            message += f"▫️ *Entry Price:* ${entry_price:.8f}\n"
+            message += f"💰 *{'Profit' if profit > 0 else 'Loss'}:* {profit:+.2f}%\n"
+            message += f"🕒 *Duration:* {str(duration).split('.')[0]}\n"
             del ACTIVE_BUYS[pair]
 
     print(f"📢 Mengirim alert:\n{message}")
