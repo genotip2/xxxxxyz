@@ -444,7 +444,7 @@ def send_telegram_alert(signal_type, pair, current_price, details=""):
             stoch_k_value = entry_analysis.indicators.get('Stoch.K')
             if rsi_value is not None and adx_value is not None and stoch_k_value is not None:
                 indicator_info = f"*RSI:* {rsi_value:.2f}, *ADX:* {adx_value:.2f}, *Stoch K:* {stoch_k_value:.2f}"
-                message += f"\n🧮 {indicator_info}\n"
+                message += f"📊 {indicator_info}\n"
     except Exception as e:
         print(f"⚠️ Gagal mengambil indikator untuk {pair}: {e}")
 
