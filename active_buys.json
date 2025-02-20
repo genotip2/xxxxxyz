@@ -370,5 +370,17 @@
         "time": "2025-02-20T04:30:19.602441",
         "trailing_stop_active": false,
         "highest_price": null
+    },
+    "FETUSDT": {
+        "price": 0.737,
+        "time": "2025-02-20T05:08:44.716967",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "AUCTIONUSDT": {
+        "price": 12.94,
+        "time": "2025-02-20T05:08:46.236172",
+        "trailing_stop_active": false,
+        "highest_price": null
     }
 }
