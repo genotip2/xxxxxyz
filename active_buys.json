@@ -241,7 +241,7 @@
         "price": 0.2162,
         "time": "2025-02-20T06:44:44.095791",
         "trailing_stop_active": true,
-        "highest_price": 0.2497,
+        "highest_price": 0.2503,
         "exit_flag": null
     },
     "ATOMUSDT": {
@@ -318,7 +318,7 @@
         "price": 1215,
         "time": "2025-02-20T09:08:52.799780",
         "trailing_stop_active": true,
-        "highest_price": 1345,
+        "highest_price": 1371,
         "exit_flag": null
     },
     "ALGOUSDT": {
