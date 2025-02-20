@@ -552,9 +552,9 @@
         "highest_price": null,
         "exit_flag": "STOP LOSS"
     },
-    "DOGEUSDT": {
-        "price": 0.25562,
-        "time": "2025-02-20T20:27:45.150989",
+    "FLOKIUSDT": {
+        "price": 9.662e-05,
+        "time": "2025-02-20T21:07:32.924118",
         "trailing_stop_active": false,
         "highest_price": null,
         "exit_flag": null
