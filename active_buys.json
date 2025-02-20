@@ -352,5 +352,11 @@
         "time": "2025-02-20T02:55:15.340460",
         "trailing_stop_active": false,
         "highest_price": null
+    },
+    "LINKUSDT": {
+        "price": 18.25,
+        "time": "2025-02-20T03:13:54.419754",
+        "trailing_stop_active": false,
+        "highest_price": null
     }
 }
