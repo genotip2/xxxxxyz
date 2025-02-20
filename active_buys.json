@@ -17,12 +17,6 @@
         "trailing_stop_active": false,
         "highest_price": null
     },
-    "FLOKIUSDT": {
-        "price": 0.00010048,
-        "time": "2025-02-19T19:11:06.339137",
-        "trailing_stop_active": false,
-        "highest_price": null
-    },
     "ORDIUSDT": {
         "price": 12.69,
         "time": "2025-02-19T19:11:09.828636",
@@ -233,12 +227,6 @@
         "trailing_stop_active": false,
         "highest_price": null
     },
-    "SOLVUSDT": {
-        "price": 0.0315,
-        "time": "2025-02-19T23:08:01.317414",
-        "trailing_stop_active": false,
-        "highest_price": null
-    },
     "NEIROUSDT": {
         "price": 0.00032949,
         "time": "2025-02-19T23:24:14.797710",
@@ -248,12 +236,6 @@
     "PENDLEUSDT": {
         "price": 3.318,
         "time": "2025-02-19T23:24:16.401497",
-        "trailing_stop_active": false,
-        "highest_price": null
-    },
-    "LAYERUSDT": {
-        "price": 0.6393,
-        "time": "2025-02-19T23:31:36.096687",
         "trailing_stop_active": false,
         "highest_price": null
     },
@@ -302,6 +284,18 @@
     "MANTAUSDT": {
         "price": 0.379,
         "time": "2025-02-20T00:40:14.833734",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "BERAUSDT": {
+        "price": 6.887,
+        "time": "2025-02-20T02:06:06.562541",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "MKRUSDT": {
+        "price": 1207,
+        "time": "2025-02-20T02:06:09.332546",
         "trailing_stop_active": false,
         "highest_price": null
     }
