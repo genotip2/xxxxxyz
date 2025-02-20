@@ -299,5 +299,19 @@
         "trailing_stop_active": false,
         "highest_price": null,
         "exit_flag": null
+    },
+    "AIXBTUSDT": {
+        "price": 0.1825,
+        "time": "2025-02-20T07:31:26.688473",
+        "trailing_stop_active": false,
+        "highest_price": null,
+        "exit_flag": null
+    },
+    "NEIROUSDT": {
+        "price": 0.00033292,
+        "time": "2025-02-20T07:31:27.907625",
+        "trailing_stop_active": false,
+        "highest_price": null,
+        "exit_flag": null
     }
 }
