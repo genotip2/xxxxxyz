@@ -347,12 +347,6 @@
         "trailing_stop_active": false,
         "highest_price": null
     },
-    "ORDIUSDT": {
-        "price": 12.76,
-        "time": "2025-02-20T04:10:17.554165",
-        "trailing_stop_active": false,
-        "highest_price": null
-    },
     "ARKMUSDT": {
         "price": 0.656,
         "time": "2025-02-20T04:10:19.416960",
@@ -362,12 +356,6 @@
     "BONKUSDT": {
         "price": 1.585e-05,
         "time": "2025-02-20T04:10:19.967680",
-        "trailing_stop_active": false,
-        "highest_price": null
-    },
-    "AIXBTUSDT": {
-        "price": 0.1887,
-        "time": "2025-02-20T04:30:19.602441",
         "trailing_stop_active": false,
         "highest_price": null
     },
