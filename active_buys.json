@@ -327,5 +327,19 @@
         "trailing_stop_active": false,
         "highest_price": null,
         "exit_flag": null
+    },
+    "AAVEUSDT": {
+        "price": 254.56,
+        "time": "2025-02-20T08:11:38.020815",
+        "trailing_stop_active": false,
+        "highest_price": null,
+        "exit_flag": null
+    },
+    "GNOUSDT": {
+        "price": 184.1,
+        "time": "2025-02-20T08:11:40.335678",
+        "trailing_stop_active": false,
+        "highest_price": null,
+        "exit_flag": null
     }
 }
