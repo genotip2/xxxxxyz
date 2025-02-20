@@ -364,5 +364,11 @@
         "time": "2025-02-20T04:10:19.967680",
         "trailing_stop_active": false,
         "highest_price": null
+    },
+    "AIXBTUSDT": {
+        "price": 0.1887,
+        "time": "2025-02-20T04:30:19.602441",
+        "trailing_stop_active": false,
+        "highest_price": null
     }
 }
