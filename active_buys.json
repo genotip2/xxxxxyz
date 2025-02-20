@@ -80,7 +80,7 @@
         "price": 3.197,
         "time": "2025-02-20T06:44:19.464823",
         "trailing_stop_active": true,
-        "highest_price": 3.449,
+        "highest_price": 3.459,
         "exit_flag": null
     },
     "WLDUSDT": {
@@ -150,7 +150,7 @@
         "price": 0.2431,
         "time": "2025-02-20T06:44:29.279851",
         "trailing_stop_active": true,
-        "highest_price": 0.2698,
+        "highest_price": 0.2725,
         "exit_flag": null
     },
     "INJUSDT": {
@@ -262,7 +262,7 @@
         "price": 0.0316,
         "time": "2025-02-20T06:44:47.532891",
         "trailing_stop_active": true,
-        "highest_price": 0.0339,
+        "highest_price": 0.034,
         "exit_flag": null
     },
     "JASMYUSDT": {
@@ -290,7 +290,7 @@
         "price": 0.00033292,
         "time": "2025-02-20T07:31:27.907625",
         "trailing_stop_active": true,
-        "highest_price": 0.00035344,
+        "highest_price": 0.00035346,
         "exit_flag": null
     },
     "JUPUSDT": {
@@ -548,6 +548,13 @@
     "ACHUSDT": {
         "price": 0.0398,
         "time": "2025-02-20T20:09:07.834078",
+        "trailing_stop_active": false,
+        "highest_price": null,
+        "exit_flag": null
+    },
+    "DOGEUSDT": {
+        "price": 0.25562,
+        "time": "2025-02-20T20:27:45.150989",
         "trailing_stop_active": false,
         "highest_price": null,
         "exit_flag": null
