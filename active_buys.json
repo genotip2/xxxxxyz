@@ -150,7 +150,7 @@
         "price": 0.2431,
         "time": "2025-02-20T06:44:29.279851",
         "trailing_stop_active": true,
-        "highest_price": 0.2619,
+        "highest_price": 0.2631,
         "exit_flag": null
     },
     "INJUSDT": {
@@ -241,7 +241,7 @@
         "price": 0.2162,
         "time": "2025-02-20T06:44:44.095791",
         "trailing_stop_active": true,
-        "highest_price": 0.2448,
+        "highest_price": 0.2497,
         "exit_flag": null
     },
     "ATOMUSDT": {
