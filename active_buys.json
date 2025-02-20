@@ -150,7 +150,7 @@
         "price": 3.203,
         "time": "2025-02-20T06:44:28.368002",
         "trailing_stop_active": true,
-        "highest_price": 3.536,
+        "highest_price": 3.577,
         "exit_flag": null
     },
     "SEIUSDT": {
@@ -254,8 +254,8 @@
     "PYTHUSDT": {
         "price": 0.2162,
         "time": "2025-02-20T06:44:44.095791",
-        "trailing_stop_active": false,
-        "highest_price": null,
+        "trailing_stop_active": true,
+        "highest_price": 0.2305,
         "exit_flag": null
     },
     "ATOMUSDT": {
