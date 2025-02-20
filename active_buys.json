@@ -318,7 +318,7 @@
         "price": 1215,
         "time": "2025-02-20T09:08:52.799780",
         "trailing_stop_active": true,
-        "highest_price": 1459,
+        "highest_price": 1474,
         "exit_flag": null
     },
     "ALGOUSDT": {
@@ -527,8 +527,8 @@
     "BNXUSDT": {
         "price": 0.9403,
         "time": "2025-02-20T19:31:25.537042",
-        "trailing_stop_active": false,
-        "highest_price": null,
+        "trailing_stop_active": true,
+        "highest_price": 1.0169,
         "exit_flag": null
     },
     "QTUMUSDT": {
