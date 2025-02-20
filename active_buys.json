@@ -80,7 +80,7 @@
         "price": 3.197,
         "time": "2025-02-20T06:44:19.464823",
         "trailing_stop_active": true,
-        "highest_price": 3.406,
+        "highest_price": 3.42,
         "exit_flag": null
     },
     "WLDUSDT": {
@@ -150,7 +150,7 @@
         "price": 0.2431,
         "time": "2025-02-20T06:44:29.279851",
         "trailing_stop_active": true,
-        "highest_price": 0.2644,
+        "highest_price": 0.2661,
         "exit_flag": null
     },
     "INJUSDT": {
@@ -241,7 +241,7 @@
         "price": 0.2162,
         "time": "2025-02-20T06:44:44.095791",
         "trailing_stop_active": true,
-        "highest_price": 0.2556,
+        "highest_price": 0.2634,
         "exit_flag": null
     },
     "ATOMUSDT": {
@@ -304,7 +304,7 @@
         "price": 1.342,
         "time": "2025-02-20T07:46:07.879451",
         "trailing_stop_active": true,
-        "highest_price": 1.432,
+        "highest_price": 1.441,
         "exit_flag": null
     },
     "AAVEUSDT": {
@@ -318,7 +318,7 @@
         "price": 1215,
         "time": "2025-02-20T09:08:52.799780",
         "trailing_stop_active": true,
-        "highest_price": 1443,
+        "highest_price": 1458,
         "exit_flag": null
     },
     "ALGOUSDT": {
@@ -492,6 +492,34 @@
     "ARKMUSDT": {
         "price": 0.654,
         "time": "2025-02-20T19:06:42.436193",
+        "trailing_stop_active": false,
+        "highest_price": null,
+        "exit_flag": null
+    },
+    "BNBUSDT": {
+        "price": 656.56,
+        "time": "2025-02-20T19:21:07.439440",
+        "trailing_stop_active": false,
+        "highest_price": null,
+        "exit_flag": null
+    },
+    "WIFUSDT": {
+        "price": 0.631,
+        "time": "2025-02-20T19:21:10.859246",
+        "trailing_stop_active": false,
+        "highest_price": null,
+        "exit_flag": null
+    },
+    "XVGUSDT": {
+        "price": 0.00683,
+        "time": "2025-02-20T19:21:20.545836",
+        "trailing_stop_active": false,
+        "highest_price": null,
+        "exit_flag": null
+    },
+    "BCHUSDT": {
+        "price": 325,
+        "time": "2025-02-20T19:21:22.552625",
         "trailing_stop_active": false,
         "highest_price": null,
         "exit_flag": null
