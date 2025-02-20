@@ -80,7 +80,7 @@
         "price": 3.197,
         "time": "2025-02-20T06:44:19.464823",
         "trailing_stop_active": true,
-        "highest_price": 3.459,
+        "highest_price": 3.467,
         "exit_flag": null
     },
     "WLDUSDT": {
@@ -367,7 +367,7 @@
         "price": 0.7743,
         "time": "2025-02-20T11:07:17.802078",
         "trailing_stop_active": true,
-        "highest_price": 0.8656,
+        "highest_price": 0.8892,
         "exit_flag": null
     },
     "RUNEUSDT": {
@@ -550,7 +550,7 @@
         "time": "2025-02-20T20:09:07.834078",
         "trailing_stop_active": false,
         "highest_price": null,
-        "exit_flag": null
+        "exit_flag": "STOP LOSS"
     },
     "DOGEUSDT": {
         "price": 0.25562,
