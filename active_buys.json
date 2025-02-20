@@ -256,5 +256,53 @@
         "time": "2025-02-19T23:31:36.096687",
         "trailing_stop_active": false,
         "highest_price": null
+    },
+    "AVAXUSDT": {
+        "price": 23.84,
+        "time": "2025-02-20T00:40:03.918772",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "NEARUSDT": {
+        "price": 3.163,
+        "time": "2025-02-20T00:40:05.229032",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "EIGENUSDT": {
+        "price": 1.75,
+        "time": "2025-02-20T00:40:06.804691",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "GLMUSDT": {
+        "price": 0.3388,
+        "time": "2025-02-20T00:40:10.151257",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "STORJUSDT": {
+        "price": 0.4014,
+        "time": "2025-02-20T00:40:10.765320",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "VETUSDT": {
+        "price": 0.03201,
+        "time": "2025-02-20T00:40:12.548075",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "PYTHUSDT": {
+        "price": 0.2142,
+        "time": "2025-02-20T00:40:13.405783",
+        "trailing_stop_active": false,
+        "highest_price": null
+    },
+    "MANTAUSDT": {
+        "price": 0.379,
+        "time": "2025-02-20T00:40:14.833734",
+        "trailing_stop_active": false,
+        "highest_price": null
     }
 }
