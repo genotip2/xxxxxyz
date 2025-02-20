@@ -136,7 +136,7 @@
         "price": 1.844,
         "time": "2025-02-20T06:44:25.946530",
         "trailing_stop_active": true,
-        "highest_price": 1.973,
+        "highest_price": 1.985,
         "exit_flag": null
     },
     "FETUSDT": {
@@ -184,8 +184,8 @@
     "LAYERUSDT": {
         "price": 0.6548,
         "time": "2025-02-20T06:44:35.041942",
-        "trailing_stop_active": false,
-        "highest_price": null,
+        "trailing_stop_active": true,
+        "highest_price": 0.727,
         "exit_flag": null
     },
     "ARUSDT": {
@@ -478,6 +478,27 @@
     "AUCTIONUSDT": {
         "price": 13.19,
         "time": "2025-02-20T11:46:19.898085",
+        "trailing_stop_active": false,
+        "highest_price": null,
+        "exit_flag": null
+    },
+    "ARKMUSDT": {
+        "price": 0.653,
+        "time": "2025-02-20T12:15:26.840152",
+        "trailing_stop_active": false,
+        "highest_price": null,
+        "exit_flag": null
+    },
+    "POLUSDT": {
+        "price": 0.3035,
+        "time": "2025-02-20T12:15:28.470123",
+        "trailing_stop_active": false,
+        "highest_price": null,
+        "exit_flag": null
+    },
+    "LOKAUSDT": {
+        "price": 0.1311,
+        "time": "2025-02-20T12:15:34.910748",
         "trailing_stop_active": false,
         "highest_price": null,
         "exit_flag": null
