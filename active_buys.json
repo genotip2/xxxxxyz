@@ -136,7 +136,7 @@
         "price": 0.732,
         "time": "2025-02-20T06:44:27.294440",
         "trailing_stop_active": true,
-        "highest_price": 0.779,
+        "highest_price": 0.784,
         "exit_flag": null
     },
     "TIAUSDT": {
@@ -262,7 +262,7 @@
         "price": 0.0316,
         "time": "2025-02-20T06:44:47.532891",
         "trailing_stop_active": true,
-        "highest_price": 0.0342,
+        "highest_price": 0.0346,
         "exit_flag": null
     },
     "JASMYUSDT": {
@@ -290,7 +290,7 @@
         "price": 0.00033292,
         "time": "2025-02-20T07:31:27.907625",
         "trailing_stop_active": true,
-        "highest_price": 0.00036036,
+        "highest_price": 0.00036537,
         "exit_flag": null
     },
     "JUPUSDT": {
