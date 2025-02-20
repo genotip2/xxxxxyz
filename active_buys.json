@@ -149,8 +149,8 @@
     "TIAUSDT": {
         "price": 3.203,
         "time": "2025-02-20T06:44:28.368002",
-        "trailing_stop_active": false,
-        "highest_price": null,
+        "trailing_stop_active": true,
+        "highest_price": 3.397,
         "exit_flag": null
     },
     "SEIUSDT": {
