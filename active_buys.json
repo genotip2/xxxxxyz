@@ -290,7 +290,7 @@
         "price": 0.00033292,
         "time": "2025-02-20T07:31:27.907625",
         "trailing_stop_active": true,
-        "highest_price": 0.00036692,
+        "highest_price": 0.00036888,
         "exit_flag": null
     },
     "JUPUSDT": {
@@ -331,8 +331,8 @@
     "RAYUSDT": {
         "price": 4.345,
         "time": "2025-02-20T09:36:42.453279",
-        "trailing_stop_active": false,
-        "highest_price": null,
+        "trailing_stop_active": true,
+        "highest_price": 4.607,
         "exit_flag": null
     },
     "RENDERUSDT": {
