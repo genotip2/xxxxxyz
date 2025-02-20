@@ -80,7 +80,7 @@
         "price": 3.197,
         "time": "2025-02-20T06:44:19.464823",
         "trailing_stop_active": true,
-        "highest_price": 3.402,
+        "highest_price": 3.406,
         "exit_flag": null
     },
     "WLDUSDT": {
@@ -472,7 +472,7 @@
         "price": 0.00193,
         "time": "2025-02-20T18:11:43.276269",
         "trailing_stop_active": true,
-        "highest_price": 0.00205,
+        "highest_price": 0.00212,
         "exit_flag": null
     },
     "PEPEUSDT": {
