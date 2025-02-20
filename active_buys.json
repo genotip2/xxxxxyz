@@ -150,7 +150,7 @@
         "price": 3.203,
         "time": "2025-02-20T06:44:28.368002",
         "trailing_stop_active": true,
-        "highest_price": 3.577,
+        "highest_price": 3.62,
         "exit_flag": null
     },
     "SEIUSDT": {
@@ -305,7 +305,7 @@
         "time": "2025-02-20T07:31:26.688473",
         "trailing_stop_active": true,
         "highest_price": 0.1982,
-        "exit_flag": null
+        "exit_flag": "TRAILING STOP"
     },
     "NEIROUSDT": {
         "price": 0.00033292,
@@ -471,6 +471,13 @@
     "GMTUSDT": {
         "price": 0.0684,
         "time": "2025-02-20T11:07:35.523464",
+        "trailing_stop_active": false,
+        "highest_price": null,
+        "exit_flag": null
+    },
+    "AUCTIONUSDT": {
+        "price": 13.19,
+        "time": "2025-02-20T11:46:19.898085",
         "trailing_stop_active": false,
         "highest_price": null,
         "exit_flag": null
