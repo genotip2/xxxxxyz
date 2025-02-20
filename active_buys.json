@@ -80,7 +80,7 @@
         "price": 3.197,
         "time": "2025-02-20T06:44:19.464823",
         "trailing_stop_active": true,
-        "highest_price": 3.434,
+        "highest_price": 3.449,
         "exit_flag": null
     },
     "WLDUSDT": {
@@ -150,7 +150,7 @@
         "price": 0.2431,
         "time": "2025-02-20T06:44:29.279851",
         "trailing_stop_active": true,
-        "highest_price": 0.2686,
+        "highest_price": 0.2698,
         "exit_flag": null
     },
     "INJUSDT": {
@@ -186,7 +186,7 @@
         "time": "2025-02-20T06:44:35.822932",
         "trailing_stop_active": true,
         "highest_price": 10.38,
-        "exit_flag": null
+        "exit_flag": "TRAILING STOP"
     },
     "GLMUSDT": {
         "price": 0.3338,
@@ -242,7 +242,7 @@
         "time": "2025-02-20T06:44:44.095791",
         "trailing_stop_active": true,
         "highest_price": 0.2634,
-        "exit_flag": null
+        "exit_flag": "TRAILING STOP"
     },
     "ATOMUSDT": {
         "price": 4.819,
@@ -290,7 +290,7 @@
         "price": 0.00033292,
         "time": "2025-02-20T07:31:27.907625",
         "trailing_stop_active": true,
-        "highest_price": 0.00035331,
+        "highest_price": 0.00035344,
         "exit_flag": null
     },
     "JUPUSDT": {
@@ -473,7 +473,7 @@
         "time": "2025-02-20T18:11:43.276269",
         "trailing_stop_active": true,
         "highest_price": 0.00214,
-        "exit_flag": null
+        "exit_flag": "TRAILING STOP"
     },
     "PEPEUSDT": {
         "price": 9.57e-06,
@@ -534,6 +534,20 @@
     "QTUMUSDT": {
         "price": 3.271,
         "time": "2025-02-20T19:31:38.089901",
+        "trailing_stop_active": false,
+        "highest_price": null,
+        "exit_flag": null
+    },
+    "ENAUSDT": {
+        "price": 0.4197,
+        "time": "2025-02-20T20:09:07.198987",
+        "trailing_stop_active": false,
+        "highest_price": null,
+        "exit_flag": null
+    },
+    "ACHUSDT": {
+        "price": 0.0398,
+        "time": "2025-02-20T20:09:07.834078",
         "trailing_stop_active": false,
         "highest_price": null,
         "exit_flag": null
