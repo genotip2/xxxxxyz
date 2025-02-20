@@ -67,7 +67,7 @@
         "time": "2025-02-20T06:44:12.667734",
         "trailing_stop_active": true,
         "highest_price": 8.233,
-        "exit_flag": null
+        "exit_flag": "TRAILING STOP"
     },
     "HBARUSDT": {
         "price": 0.22418,
@@ -186,7 +186,7 @@
         "time": "2025-02-20T06:44:35.041942",
         "trailing_stop_active": true,
         "highest_price": 0.727,
-        "exit_flag": null
+        "exit_flag": "TRAILING STOP"
     },
     "ARUSDT": {
         "price": 9.32,
@@ -275,8 +275,8 @@
     "SOLVUSDT": {
         "price": 0.0316,
         "time": "2025-02-20T06:44:47.532891",
-        "trailing_stop_active": false,
-        "highest_price": null,
+        "trailing_stop_active": true,
+        "highest_price": 0.0335,
         "exit_flag": null
     },
     "JASMYUSDT": {
@@ -492,6 +492,13 @@
     "LOKAUSDT": {
         "price": 0.1311,
         "time": "2025-02-20T12:15:34.910748",
+        "trailing_stop_active": false,
+        "highest_price": null,
+        "exit_flag": null
+    },
+    "GALAUSDT": {
+        "price": 0.02249,
+        "time": "2025-02-20T14:08:17.886924",
         "trailing_stop_active": false,
         "highest_price": null,
         "exit_flag": null
