@@ -185,7 +185,7 @@
         "price": 9.32,
         "time": "2025-02-20T06:44:35.822932",
         "trailing_stop_active": true,
-        "highest_price": 10.07,
+        "highest_price": 10.2,
         "exit_flag": null
     },
     "GLMUSDT": {
@@ -363,18 +363,11 @@
         "highest_price": null,
         "exit_flag": null
     },
-    "TRUMPUSDT": {
-        "price": 17.14,
-        "time": "2025-02-20T11:07:16.789629",
-        "trailing_stop_active": false,
-        "highest_price": null,
-        "exit_flag": null
-    },
     "SUSDT": {
         "price": 0.7743,
         "time": "2025-02-20T11:07:17.802078",
-        "trailing_stop_active": false,
-        "highest_price": null,
+        "trailing_stop_active": true,
+        "highest_price": 0.8327,
         "exit_flag": null
     },
     "RUNEUSDT": {
