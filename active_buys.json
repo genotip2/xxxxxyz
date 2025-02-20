@@ -53,7 +53,7 @@
         "time": "2025-02-20T06:44:10.644374",
         "trailing_stop_active": false,
         "highest_price": null,
-        "exit_flag": null
+        "exit_flag": "STOP LOSS"
     },
     "LINKUSDT": {
         "price": 18.16,
@@ -289,6 +289,13 @@
     "JASMYUSDT": {
         "price": 0.02142,
         "time": "2025-02-20T06:44:48.297760",
+        "trailing_stop_active": false,
+        "highest_price": null,
+        "exit_flag": null
+    },
+    "MANTAUSDT": {
+        "price": 0.388,
+        "time": "2025-02-20T07:08:30.025795",
         "trailing_stop_active": false,
         "highest_price": null,
         "exit_flag": null
