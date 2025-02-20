@@ -241,7 +241,7 @@
         "price": 0.2162,
         "time": "2025-02-20T06:44:44.095791",
         "trailing_stop_active": true,
-        "highest_price": 0.2367,
+        "highest_price": 0.2388,
         "exit_flag": null
     },
     "ATOMUSDT": {
@@ -262,7 +262,7 @@
         "price": 0.0316,
         "time": "2025-02-20T06:44:47.532891",
         "trailing_stop_active": true,
-        "highest_price": 0.0336,
+        "highest_price": 0.0337,
         "exit_flag": null
     },
     "JASMYUSDT": {
@@ -317,8 +317,8 @@
     "MKRUSDT": {
         "price": 1215,
         "time": "2025-02-20T09:08:52.799780",
-        "trailing_stop_active": false,
-        "highest_price": null,
+        "trailing_stop_active": true,
+        "highest_price": 1311,
         "exit_flag": null
     },
     "ALGOUSDT": {
@@ -422,6 +422,13 @@
     "GALAUSDT": {
         "price": 0.02249,
         "time": "2025-02-20T14:08:17.886924",
+        "trailing_stop_active": false,
+        "highest_price": null,
+        "exit_flag": null
+    },
+    "TRXUSDT": {
+        "price": 0.2432,
+        "time": "2025-02-20T17:07:26.228737",
         "trailing_stop_active": false,
         "highest_price": null,
         "exit_flag": null
