@@ -80,7 +80,7 @@
         "price": 3.197,
         "time": "2025-02-20T06:44:19.464823",
         "trailing_stop_active": true,
-        "highest_price": 3.389,
+        "highest_price": 3.402,
         "exit_flag": null
     },
     "WLDUSDT": {
@@ -150,7 +150,7 @@
         "price": 0.2431,
         "time": "2025-02-20T06:44:29.279851",
         "trailing_stop_active": true,
-        "highest_price": 0.2631,
+        "highest_price": 0.2644,
         "exit_flag": null
     },
     "INJUSDT": {
@@ -241,7 +241,7 @@
         "price": 0.2162,
         "time": "2025-02-20T06:44:44.095791",
         "trailing_stop_active": true,
-        "highest_price": 0.2503,
+        "highest_price": 0.2556,
         "exit_flag": null
     },
     "ATOMUSDT": {
@@ -296,15 +296,15 @@
     "JUPUSDT": {
         "price": 0.742,
         "time": "2025-02-20T07:45:59.010659",
-        "trailing_stop_active": false,
-        "highest_price": null,
+        "trailing_stop_active": true,
+        "highest_price": 0.7886,
         "exit_flag": null
     },
     "IOUSDT": {
         "price": 1.342,
         "time": "2025-02-20T07:46:07.879451",
         "trailing_stop_active": true,
-        "highest_price": 1.424,
+        "highest_price": 1.432,
         "exit_flag": null
     },
     "AAVEUSDT": {
@@ -318,7 +318,7 @@
         "price": 1215,
         "time": "2025-02-20T09:08:52.799780",
         "trailing_stop_active": true,
-        "highest_price": 1396,
+        "highest_price": 1440,
         "exit_flag": null
     },
     "ALGOUSDT": {
@@ -367,7 +367,7 @@
         "price": 0.7743,
         "time": "2025-02-20T11:07:17.802078",
         "trailing_stop_active": true,
-        "highest_price": 0.8383,
+        "highest_price": 0.8656,
         "exit_flag": null
     },
     "RUNEUSDT": {
@@ -471,6 +471,20 @@
     "AMBUSDT": {
         "price": 0.00193,
         "time": "2025-02-20T18:11:43.276269",
+        "trailing_stop_active": true,
+        "highest_price": 0.00205,
+        "exit_flag": null
+    },
+    "PEPEUSDT": {
+        "price": 9.57e-06,
+        "time": "2025-02-20T18:34:58.448862",
+        "trailing_stop_active": false,
+        "highest_price": null,
+        "exit_flag": null
+    },
+    "BOMEUSDT": {
+        "price": 0.001967,
+        "time": "2025-02-20T18:35:08.858927",
         "trailing_stop_active": false,
         "highest_price": null,
         "exit_flag": null
