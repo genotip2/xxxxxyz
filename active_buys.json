@@ -184,8 +184,8 @@
     "ARUSDT": {
         "price": 9.32,
         "time": "2025-02-20T06:44:35.822932",
-        "trailing_stop_active": false,
-        "highest_price": null,
+        "trailing_stop_active": true,
+        "highest_price": 10.07,
         "exit_flag": null
     },
     "GLMUSDT": {
@@ -241,7 +241,7 @@
         "price": 0.2162,
         "time": "2025-02-20T06:44:44.095791",
         "trailing_stop_active": true,
-        "highest_price": 0.2344,
+        "highest_price": 0.2367,
         "exit_flag": null
     },
     "ATOMUSDT": {
