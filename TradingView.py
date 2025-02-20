@@ -255,7 +255,7 @@ def is_best_entry_from_data(data):
     if macd_trend is None or macd_signal_trend is None or macd_trend <= macd_signal_trend:
         return False, "MACD trend tidak memenuhi (MACD trend <= signal trend)."
 
-    return True, "Best Entry Condition terpenuhi."
+    return True, "OK"
 
 ##############################
 # FUNGSI BEST EXIT
@@ -296,6 +296,7 @@ def generate_signal(pair):
     atau berdasarkan kondisi manajemen posisi (stop loss, take profit, trailing stop, expired).
     Perubahan:
       - Jika posisi sudah memiliki exit_flag (STOP LOSS atau TRAILING STOP), tidak mengembalikan sinyal baru kecuali sinyal SELL/EXPIRED.
+      - Untuk sinyal BUY, ditambahkan informasi nilai RSI, ADX, dan Stoch K.
     Mengembalikan tuple: (signal, current_price, details)
     """
     # Analisis timeframe tren (4H)
@@ -324,13 +325,19 @@ def generate_signal(pair):
         'macd_signal_trend': trend_analysis.indicators.get('MACD.signal')
     }
 
+    # Ambil nilai tambahan untuk sinyal BUY
+    rsi_value = entry_analysis.indicators.get('RSI')
+    adx_value = entry_analysis.indicators.get('ADX')
+    stoch_k_value = entry_analysis.indicators.get('Stoch.K')
+    extra_info = f"*RSI:* {rsi_value}, *ADX:* {adx_value}, *Stoch K:* {stoch_k_value}"
+
     if pair not in ACTIVE_BUYS:
         best_entry_ok, best_entry_msg = is_best_entry_from_data(data)
         if best_entry_ok:
-            details = f"BEST ENTRY: {best_entry_msg}"
+            details = f"BEST ENTRY: {best_entry_msg} | {extra_info}"
             return "BUY", current_price, details
         else:
-            return None, current_price, f"Tidak memenuhi best entry: {best_entry_msg}"
+            return None, current_price, f"Tidak memenuhi best entry: {best_entry_msg} | {extra_info}"
     else:
         data_active = ACTIVE_BUYS[pair]
         # Jika sudah ada exit_flag (STOP LOSS atau TRAILING STOP), jangan berikan sinyal baru kecuali SELL/EXPIRED.
