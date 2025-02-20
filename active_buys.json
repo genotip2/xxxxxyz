@@ -313,5 +313,19 @@
         "trailing_stop_active": false,
         "highest_price": null,
         "exit_flag": null
+    },
+    "JUPUSDT": {
+        "price": 0.742,
+        "time": "2025-02-20T07:45:59.010659",
+        "trailing_stop_active": false,
+        "highest_price": null,
+        "exit_flag": null
+    },
+    "IOUSDT": {
+        "price": 1.342,
+        "time": "2025-02-20T07:46:07.879451",
+        "trailing_stop_active": false,
+        "highest_price": null,
+        "exit_flag": null
     }
 }
