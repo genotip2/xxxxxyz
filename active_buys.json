@@ -318,7 +318,7 @@
         "price": 1215,
         "time": "2025-02-20T09:08:52.799780",
         "trailing_stop_active": true,
-        "highest_price": 1440,
+        "highest_price": 1443,
         "exit_flag": null
     },
     "ALGOUSDT": {
@@ -472,7 +472,7 @@
         "price": 0.00193,
         "time": "2025-02-20T18:11:43.276269",
         "trailing_stop_active": true,
-        "highest_price": 0.00212,
+        "highest_price": 0.00214,
         "exit_flag": null
     },
     "PEPEUSDT": {
@@ -485,6 +485,13 @@
     "BOMEUSDT": {
         "price": 0.001967,
         "time": "2025-02-20T18:35:08.858927",
+        "trailing_stop_active": false,
+        "highest_price": null,
+        "exit_flag": null
+    },
+    "ARKMUSDT": {
+        "price": 0.654,
+        "time": "2025-02-20T19:06:42.436193",
         "trailing_stop_active": false,
         "highest_price": null,
         "exit_flag": null
