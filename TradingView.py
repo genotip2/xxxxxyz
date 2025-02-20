@@ -329,7 +329,7 @@ def generate_signal(pair):
     rsi_value = entry_analysis.indicators.get('RSI')
     adx_value = entry_analysis.indicators.get('ADX')
     stoch_k_value = entry_analysis.indicators.get('Stoch.K')
-    extra_info = f"*RSI:* {rsi_value}, *ADX:* {adx_value}, *Stoch K:* {stoch_k_value}"
+    extra_info = f"*RSI:* {rsi_value:.2f}, *ADX:* {adx_value:.2f}, *Stoch K:* {stoch_k_value:.2f}"
 
     if pair not in ACTIVE_BUYS:
         best_entry_ok, best_entry_msg = is_best_entry_from_data(data)
