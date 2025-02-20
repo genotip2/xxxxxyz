@@ -51,7 +51,8 @@ def load_active_buys():
                         'price': d['price'],
                         'time': datetime.fromisoformat(d['time']),
                         'trailing_stop_active': d.get('trailing_stop_active', False),
-                        'highest_price': d.get('highest_price', None)
+                        'highest_price': d.get('highest_price', None),
+                        'exit_flag': d.get('exit_flag', None)
                     }
                     for pair, d in data.items()
                 }
@@ -70,7 +71,8 @@ def save_active_buys():
                 'price': d['price'],
                 'time': d['time'].isoformat(),
                 'trailing_stop_active': d.get('trailing_stop_active', False),
-                'highest_price': d.get('highest_price', None)
+                'highest_price': d.get('highest_price', None),
+                'exit_flag': d.get('exit_flag', None)
             }
         with open(ACTIVE_BUYS_FILE, 'w') as f:
             json.dump(data, f, indent=4)
@@ -292,6 +294,8 @@ def generate_signal(pair):
     Jika posisi belum aktif: sinyal BUY dihasilkan apabila best entry terpenuhi.
     Jika posisi sudah aktif: sinyal SELL dihasilkan apabila best exit terpenuhi,
     atau berdasarkan kondisi manajemen posisi (stop loss, take profit, trailing stop, expired).
+    Perubahan:
+      - Jika posisi sudah memiliki exit_flag (STOP LOSS atau TRAILING STOP), tidak mengembalikan sinyal baru kecuali sinyal SELL/EXPIRED.
     Mengembalikan tuple: (signal, current_price, details)
     """
     # Analisis timeframe tren (4H)
@@ -320,7 +324,6 @@ def generate_signal(pair):
         'macd_signal_trend': trend_analysis.indicators.get('MACD.signal')
     }
 
-    # Jika posisi belum aktif, evaluasi best entry
     if pair not in ACTIVE_BUYS:
         best_entry_ok, best_entry_msg = is_best_entry_from_data(data)
         if best_entry_ok:
@@ -329,25 +332,33 @@ def generate_signal(pair):
         else:
             return None, current_price, f"Tidak memenuhi best entry: {best_entry_msg}"
     else:
-        # Jika posisi sudah aktif, evaluasi best exit terlebih dahulu
+        data_active = ACTIVE_BUYS[pair]
+        # Jika sudah ada exit_flag (STOP LOSS atau TRAILING STOP), jangan berikan sinyal baru kecuali SELL/EXPIRED.
+        if data_active.get('exit_flag') is not None:
+            return None, current_price, "Sinyal exit sudah ditandai, menunggu sinyal SELL/EXPIRED."
+        
+        # Evaluasi kondisi best exit
         best_exit_ok, best_exit_msg = is_best_exit_from_data(data)
         if best_exit_ok:
-            details = f"BEST EXIT: {best_exit_msg}"
-            return "SELL", current_price, details
-
-        # Lanjutkan dengan evaluasi manajemen posisi
-        data_active = ACTIVE_BUYS[pair]
+            return "SELL", current_price, f"BEST EXIT: {best_exit_msg}"
+        
         holding_duration = datetime.now() - data_active['time']
         if holding_duration > timedelta(hours=MAX_HOLD_DURATION_HOUR):
             return "EXPIRED", current_price, f"Durasi hold: {str(holding_duration).split('.')[0]}"
+        
         entry_price = data_active['price']
         profit_from_entry = (current_price - entry_price) / entry_price * 100
+        
+        # Jika kondisi stop loss terpenuhi dan belum ada exit_flag, kembalikan sinyal STOP LOSS
         if profit_from_entry <= -STOP_LOSS_PERCENTAGE:
             return "STOP LOSS", current_price, "Stop loss tercapai."
+        
+        # Jika target take profit tercapai, aktifkan trailing stop (tanpa menghapus posisi)
         if not data_active.get('trailing_stop_active', False) and profit_from_entry >= TAKE_PROFIT_PERCENTAGE:
             ACTIVE_BUYS[pair]['trailing_stop_active'] = True
             ACTIVE_BUYS[pair]['highest_price'] = current_price
             return "TAKE PROFIT", current_price, "Target take profit tercapai, trailing stop diaktifkan."
+        
         if data_active.get('trailing_stop_active', False):
             prev_high = data_active.get('highest_price')
             if prev_high is None or current_price > prev_high:
@@ -361,6 +372,7 @@ def generate_signal(pair):
             trailing_stop_price = ACTIVE_BUYS[pair]['highest_price'] * (1 - TRAILING_STOP_PERCENTAGE / 100)
             if current_price < trailing_stop_price:
                 return "TRAILING STOP", current_price, f"Harga turun ke trailing stop: {trailing_stop_price:.8f}"
+        
         return None, current_price, "Tidak ada sinyal."
 
 ##############################
@@ -393,10 +405,13 @@ def get_tradingview_url(pair):
 def send_telegram_alert(signal_type, pair, current_price, details=""):
     """
     Mengirim notifikasi ke Telegram.
-    Untuk sinyal BUY, posisi disimpan ke ACTIVE_BUYS.
-    Untuk sinyal exit seperti SELL, STOP LOSS, EXPIRED, atau TRAILING STOP, posisi dihapus.
-    Sementara untuk sinyal TAKE PROFIT, hanya mengaktifkan trailing stop tanpa menghapus posisi.
-    Informasi tambahan mengenai Entry Price, Profit/Loss, dan Duration akan ditambahkan untuk semua jenis sinyal kecuali BUY.
+    Perubahan:
+      - Untuk sinyal BUY, posisi disimpan ke ACTIVE_BUYS dengan field exit_flag = None.
+      - Untuk sinyal STOP LOSS dan TRAILING STOP, posisi tidak dihapus melainkan hanya ditandai (exit_flag),
+        dan notifikasi dikirim jika ini adalah sinyal pertama.
+      - Untuk sinyal SELL dan EXPIRED:
+            * Jika posisi sudah memiliki exit_flag, notifikasi tidak dikirim (posisi dihapus secara diam-diam).
+            * Jika posisi tidak memiliki exit_flag, notifikasi tetap dikirim dan posisi dihapus setelahnya.
     """
     display_pair = f"{pair[:-4]}/USDT"
     emoji = {
@@ -408,35 +423,48 @@ def send_telegram_alert(signal_type, pair, current_price, details=""):
         'TRAILING STOP': '📉',
         'NEW HIGH': '📈'
     }.get(signal_type, 'ℹ️')
-
-    binance_url = get_binance_url(pair)   # Link Binance
-    tradingview_url = get_tradingview_url(pair)  # Link TradingView
+    
+    binance_url = get_binance_url(pair)
+    tradingview_url = get_tradingview_url(pair)
+    
+    # Penanganan khusus untuk sinyal SELL dan EXPIRED
+    if signal_type in ["SELL", "EXPIRED"]:
+        if pair in ACTIVE_BUYS:
+            # Jika sudah ada exit_flag, hapus posisi tanpa mengirim notifikasi.
+            if ACTIVE_BUYS[pair].get("exit_flag") is not None:
+                del ACTIVE_BUYS[pair]
+                print(f"✅ Posisi {pair} ditutup tanpa notifikasi (exit flag sudah ada) dengan sinyal {signal_type}.")
+                return
+    # Untuk sinyal BUY, tambahkan entry baru ke ACTIVE_BUYS.
+    if signal_type == "BUY":
+        ACTIVE_BUYS[pair] = {
+            'price': current_price,
+            'time': datetime.now(),
+            'trailing_stop_active': False,
+            'highest_price': None,
+            'exit_flag': None
+        }
+    
+    # Untuk sinyal STOP LOSS dan TRAILING STOP, tandai posisi aktif dengan exit_flag.
+    if signal_type in ["STOP LOSS", "TRAILING STOP"]:
+        if pair in ACTIVE_BUYS:
+            ACTIVE_BUYS[pair]['exit_flag'] = signal_type
 
     message = f"{emoji} *{signal_type}*\n"
     message += f"💱 *Pair:* [{display_pair}]({binance_url}) ==> [TradingView]({tradingview_url})\n"
     message += f"💲 *Price:* ${current_price:.8f}\n"
     if details:
         message += f"📝 *Kondisi:* {details}\n"
-
-    if signal_type == "BUY":
-        ACTIVE_BUYS[pair] = {
-            'price': current_price,
-            'time': datetime.now(),
-            'trailing_stop_active': False,
-            'highest_price': None
-        }
-    else:
-        if pair in ACTIVE_BUYS:
-            entry_price = ACTIVE_BUYS[pair]['price']
-            profit = (current_price - entry_price) / entry_price * 100
-            duration = datetime.now() - ACTIVE_BUYS[pair]['time']
-            message += f"▫️ *Entry Price:* ${entry_price:.8f}\n"
-            message += f"💰 *{'Profit' if profit > 0 else 'Loss'}:* {profit:+.2f}%\n"
-            message += f"🕒 *Duration:* {str(duration).split('.')[0]}\n"
-        if signal_type in ["SELL", "STOP LOSS", "EXPIRED", "TRAILING STOP"]:
-            if pair in ACTIVE_BUYS:
-                del ACTIVE_BUYS[pair]
-
+    
+    # Untuk sinyal selain BUY, tambahkan info posisi (Entry Price, Profit/Loss, Duration) jika masih aktif.
+    if signal_type != "BUY" and pair in ACTIVE_BUYS:
+        entry_price = ACTIVE_BUYS[pair]['price']
+        profit = (current_price - entry_price) / entry_price * 100
+        duration = datetime.now() - ACTIVE_BUYS[pair]['time']
+        message += f"▫️ *Entry Price:* ${entry_price:.8f}\n"
+        message += f"💰 *{'Profit' if profit > 0 else 'Loss'}:* {profit:+.2f}%\n"
+        message += f"🕒 *Duration:* {str(duration).split('.')[0]}\n"
+    
     print(f"📢 Mengirim alert:\n{message}")
     try:
         requests.post(
@@ -450,6 +478,11 @@ def send_telegram_alert(signal_type, pair, current_price, details=""):
         )
     except Exception as e:
         print(f"❌ Gagal mengirim alert Telegram: {e}")
+    
+    # Untuk sinyal SELL dan EXPIRED tanpa exit_flag, hapus posisi setelah mengirim notifikasi.
+    if signal_type in ["SELL", "EXPIRED"]:
+        if pair in ACTIVE_BUYS:
+            del ACTIVE_BUYS[pair]
 
 ##############################
 # PROGRAM UTAMA
