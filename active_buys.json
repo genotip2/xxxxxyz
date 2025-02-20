@@ -65,8 +65,8 @@
     "BERAUSDT": {
         "price": 7.428,
         "time": "2025-02-20T06:44:12.667734",
-        "trailing_stop_active": false,
-        "highest_price": null,
+        "trailing_stop_active": true,
+        "highest_price": 7.962,
         "exit_flag": null
     },
     "HBARUSDT": {
@@ -331,13 +331,6 @@
     "AAVEUSDT": {
         "price": 254.56,
         "time": "2025-02-20T08:11:38.020815",
-        "trailing_stop_active": false,
-        "highest_price": null,
-        "exit_flag": null
-    },
-    "GNOUSDT": {
-        "price": 184.1,
-        "time": "2025-02-20T08:11:40.335678",
         "trailing_stop_active": false,
         "highest_price": null,
         "exit_flag": null
