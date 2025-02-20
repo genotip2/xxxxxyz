@@ -358,5 +358,11 @@
         "time": "2025-02-20T03:13:54.419754",
         "trailing_stop_active": false,
         "highest_price": null
+    },
+    "APEUSDT": {
+        "price": 0.684,
+        "time": "2025-02-20T03:46:55.952056",
+        "trailing_stop_active": false,
+        "highest_price": null
     }
 }
