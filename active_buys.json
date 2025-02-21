@@ -115,7 +115,7 @@
         "price": 1.844,
         "time": "2025-02-20T06:44:25.946530",
         "trailing_stop_active": true,
-        "highest_price": 2.005,
+        "highest_price": 2.036,
         "exit_flag": null
     },
     "FETUSDT": {
@@ -339,7 +339,7 @@
         "price": 0.681,
         "time": "2025-02-20T10:31:56.598657",
         "trailing_stop_active": true,
-        "highest_price": 0.723,
+        "highest_price": 0.728,
         "exit_flag": null
     },
     "JTOUSDT": {
@@ -576,6 +576,20 @@
     "XVSUSDT": {
         "price": 9.01,
         "time": "2025-02-21T00:40:36.498013",
+        "trailing_stop_active": false,
+        "highest_price": null,
+        "exit_flag": null
+    },
+    "LTCUSDT": {
+        "price": 135.02,
+        "time": "2025-02-21T04:10:30.859324",
+        "trailing_stop_active": false,
+        "highest_price": null,
+        "exit_flag": null
+    },
+    "CAKEUSDT": {
+        "price": 2.54,
+        "time": "2025-02-21T04:10:34.989936",
         "trailing_stop_active": false,
         "highest_price": null,
         "exit_flag": null
