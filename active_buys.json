@@ -531,13 +531,6 @@
         "highest_price": 1.1523,
         "exit_flag": "TRAILING STOP"
     },
-    "QTUMUSDT": {
-        "price": 3.271,
-        "time": "2025-02-20T19:31:38.089901",
-        "trailing_stop_active": false,
-        "highest_price": null,
-        "exit_flag": null
-    },
     "ENAUSDT": {
         "price": 0.4197,
         "time": "2025-02-20T20:09:07.198987",
@@ -590,13 +583,6 @@
     "FDUSDUSDT": {
         "price": 0.9989,
         "time": "2025-02-21T00:40:18.304263",
-        "trailing_stop_active": false,
-        "highest_price": null,
-        "exit_flag": null
-    },
-    "TRUMPUSDT": {
-        "price": 16.97,
-        "time": "2025-02-21T00:40:19.438481",
         "trailing_stop_active": false,
         "highest_price": null,
         "exit_flag": null
