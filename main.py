@@ -5,7 +5,7 @@ from urllib.parse import urlparse
 
 ORIGINAL_SECRET = "0TtN@v1.7.2AESk3y!"
 ANDROID_ID = "dd96dec43fb6d99d"
-PLAYLIST_URL = "https://ourimagine.my.id/adskdhajshlawuoaiwhoeh9aweowau2931aksdjnddka/mpd "
+PLAYLIST_URL = "https://ourimagine.my.id/aaavodisadjlasdjlaksjdlkawjlkdjalkw/vodididi"
 
 SECRET_KEY = hashlib.sha256(ORIGINAL_SECRET.encode()).digest()[:16]
 IV = hashlib.sha256(ANDROID_ID.encode()).digest()[:16]
