@@ -1,0 +1,39 @@
+name: Weekly Playlist Update
+
+on:
+  schedule:
+    - cron: '0 0 * * 1'  # Setiap Senin jam 00:00 UTC
+  workflow_dispatch:     # Bisa dijalankan manual
+
+jobs:
+  update-playlist:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pycryptodome cloudscraper
+
+    - name: Run playlist script
+      run: python main.py  # Sesuaikan dengan nama file script kamu
+      env:
+        PYTHONPATH: ${{ github.workspace }}
+
+    - name: Commit and push changes
+      run: |
+        git config --global user.name 'GitHub Actions'
+        git config --global user.email 'actions@github.com'
+        git add xyz.m3u
+        git commit -m "Update playlist - $(date +'%Y-%m-%d %H:%M:%S')" || exit 0
+        git push
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
