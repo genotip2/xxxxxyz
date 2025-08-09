@@ -9,28 +9,28 @@
 #KODIPROP:inputstreamaddon=inputstream.adaptive
 #KODIPROP:inputstream.adaptive.manifest_type=dash
 #KODIPROP:inputstream.adaptive.license_type=org.w3.clearkey
-#KODIPROP:inputstream.adaptive.license_key=765c8bcaf473c5569fded758e9283746:c89579e1ca850deba8d07a3bfd452669
+#KODIPROP:inputstream.adaptive.license_key={"keys": [{"kty": "oct", "kid": "dlyLyvRzxVaf3tdY6Sg3Rg", "k": "yJV54cqFDeuo0Ho7_UUmaQ"}], "type": "temporary"}
 https://hbogoprod-vod.akamaized.net/video/vod/output/HBOAsia/6645532dd940521074ff8740_hbovodhd/dash0/IDN_DOLBY_index.mpd
 
 #EXTINF:-1 type="" group-title="VOD ONLY ON OTT" tvg-logo="https://dai3fd1oh325y.cloudfront.net/images/480p/042165X0-portrait.jpg",Gaga Chromatica Ball 2024
 #KODIPROP:inputstreamaddon=inputstream.adaptive
 #KODIPROP:inputstream.adaptive.manifest_type=dash
 #KODIPROP:inputstream.adaptive.license_type=org.w3.clearkey
-#KODIPROP:inputstream.adaptive.license_key=3f84f7a48e452feb289a07122e71b6cb:f40b41e1741bd87ca9267a168707a69d
+#KODIPROP:inputstream.adaptive.license_key={"keys": [{"kty": "oct", "kid": "P4T3pI5FL-somgcSLnG2yw", "k": "9AtB4XQb2HypJnoWhwemnQ"}], "type": "temporary"}
 https://hbogoprod-vod.akamaized.net/video/vod/output/HBOAsia/664e9d69d940521074006392_hbovodhd/dash0/IDN_DOLBY_index.mpd
 
 #EXTINF:-1 type="" group-title="VOD ONLY ON OTT" tvg-logo="https://dai3fd1oh325y.cloudfront.net/images/480p/042100X0-portrait.jpg",Turtles All The Way Down 2024
 #KODIPROP:inputstreamaddon=inputstream.adaptive
 #KODIPROP:inputstream.adaptive.manifest_type=dash
 #KODIPROP:inputstream.adaptive.license_type=org.w3.clearkey
-#KODIPROP:inputstream.adaptive.license_key=01f3277731487170356fe98c79b4e4cc:fd1e67236efae838767ecd7da6e7571f
+#KODIPROP:inputstream.adaptive.license_key={"keys": [{"kty": "oct", "kid": "AfMndzFIcXA1b-mMebTkzA", "k": "_R5nI2766Dh2fs19pudXHw"}], "type": "temporary"}
 https://hbogoprod-vod.akamaized.net/video/vod/output/HBOAsia/6630593bd940521074fd9110_hbovodhd/dash0/IDN_DOLBY_index.mpd
 
 #EXTINF:-1 type="" group-title="VOD ONLY ON OTT" tvg-logo="https://dai3fd1oh325y.cloudfront.net/images/480p/042172X0-portrait.jpg",Call Me Country: Beyonce & Nashville'S Renaissance 2024
 #KODIPROP:inputstreamaddon=inputstream.adaptive
 #KODIPROP:inputstream.adaptive.manifest_type=dash
 #KODIPROP:inputstream.adaptive.license_type=org.w3.clearkey
-#KODIPROP:inputstream.adaptive.license_key=1b6c7c61f56b405019e07b1c9593104d:98d328cc1b8d33c68cb7441772871e38
+#KODIPROP:inputstream.adaptive.license_key={"keys": [{"kty": "oct", "kid": "G2x8YfVrQFAZ4HsclZMQTQ", "k": "mNMozBuNM8aMt0QXcoceOA"}], "type": "temporary"}
 https://hbogoprod-vod.akamaized.net/video/vod/output/HBOAsia/664c3c53d940521074002b63_hbovodhd/dash0/IDN_index.mpd
 
 #KODIPROP:inputstreamaddon=inputstream.adaptive
@@ -44,14 +44,14 @@ https://hbogoprod-vod.akamaized.net/video/vod/output/HBOAsia/667cf90ad9405210740
 #KODIPROP:inputstreamaddon=inputstream.adaptive
 #KODIPROP:inputstream.adaptive.manifest_type=dash
 #KODIPROP:inputstream.adaptive.license_type=org.w3.clearkey
-#KODIPROP:inputstream.adaptive.license_key=41205ddb3acb6e2279c32f151fd1d575:a5ecad8c5a6b89e429cdacaffba8ef5e
+#KODIPROP:inputstream.adaptive.license_key={"keys": [{"kty": "oct", "kid": "QSBd2zrLbiJ5wy8VH9HVdQ", "k": "peytjFprieQpzayv-6jvXg"}], "type": "temporary"}
 https://hbogoprod-vod.akamaized.net/video/vod/output/HBOAsia/6642f030d940521074ff4e87_hbovodhd/dash0/IDN_DOLBY_index.mpd
 
 #EXTINF:-1 type="" group-title="VOD ONLY ON OTT" tvg-logo="https://dai3fd1oh325y.cloudfront.net/images/480p/041673X0-portrait.jpg",Craig Before The Creek 2024
 #KODIPROP:inputstreamaddon=inputstream.adaptive
 #KODIPROP:inputstream.adaptive.manifest_type=dash
 #KODIPROP:inputstream.adaptive.license_type=org.w3.clearkey
-#KODIPROP:inputstream.adaptive.license_key=2cc95e339328cddb69ef742087fe5c8c:9a23f9ea4e6e033a2ddc91d2bb38da75
+#KODIPROP:inputstream.adaptive.license_key={"keys": [{"kty": "oct", "kid": "LMleM5Mozdtp73Qgh_5cjA", "k": "miP56k5uAzot3JHSuzjadQ"}], "type": "temporary"}
 https://hbogoprod-vod.akamaized.net/video/vod/output/HBOAsia/65ab21b8d940521074f1222e_hbovodhd/dash0/IDN_index.mpd
 
 
@@ -68,28 +68,28 @@ VOD HBO
 #KODIPROP:inputstreamaddon=inputstream.adaptive
 #KODIPROP:inputstream.adaptive.manifest_type=dash
 #KODIPROP:inputstream.adaptive.license_type=org.w3.clearkey
-#KODIPROP:inputstream.adaptive.license_key=765c8bcaf473c5569fded758e9283746:c89579e1ca850deba8d07a3bfd452669
+#KODIPROP:inputstream.adaptive.license_key={"keys": [{"kty": "oct", "kid": "dlyLyvRzxVaf3tdY6Sg3Rg", "k": "yJV54cqFDeuo0Ho7_UUmaQ"}], "type": "temporary"}
 https://hbogoprod-vod.akamaized.net/video/vod/output/HBOAsia/6645532dd940521074ff8740_hbovodhd/dash0/IDN_DOLBY_index.mpd
 
 #EXTINF:-1 type="" group-title="HBOGO ASIA 2024" tvg-logo="https://dai3fd1oh325y.cloudfront.net/images/480p/042165X0-portrait.jpg",Gaga Chromatica Ball 2024
 #KODIPROP:inputstreamaddon=inputstream.adaptive
 #KODIPROP:inputstream.adaptive.manifest_type=dash
 #KODIPROP:inputstream.adaptive.license_type=org.w3.clearkey
-#KODIPROP:inputstream.adaptive.license_key=3f84f7a48e452feb289a07122e71b6cb:f40b41e1741bd87ca9267a168707a69d
+#KODIPROP:inputstream.adaptive.license_key={"keys": [{"kty": "oct", "kid": "P4T3pI5FL-somgcSLnG2yw", "k": "9AtB4XQb2HypJnoWhwemnQ"}], "type": "temporary"}
 https://hbogoprod-vod.akamaized.net/video/vod/output/HBOAsia/664e9d69d940521074006392_hbovodhd/dash0/IDN_DOLBY_index.mpd
 
 #EXTINF:-1 type="" group-title="HBOGO ASIA 2024" tvg-logo="https://dai3fd1oh325y.cloudfront.net/images/480p/042100X0-portrait.jpg",Turtles All The Way Down 2024
 #KODIPROP:inputstreamaddon=inputstream.adaptive
 #KODIPROP:inputstream.adaptive.manifest_type=dash
 #KODIPROP:inputstream.adaptive.license_type=org.w3.clearkey
-#KODIPROP:inputstream.adaptive.license_key=01f3277731487170356fe98c79b4e4cc:fd1e67236efae838767ecd7da6e7571f
+#KODIPROP:inputstream.adaptive.license_key={"keys": [{"kty": "oct", "kid": "AfMndzFIcXA1b-mMebTkzA", "k": "_R5nI2766Dh2fs19pudXHw"}], "type": "temporary"}
 https://hbogoprod-vod.akamaized.net/video/vod/output/HBOAsia/6630593bd940521074fd9110_hbovodhd/dash0/IDN_DOLBY_index.mpd
 
 #EXTINF:-1 type="" group-title="HBOGO ASIA 2024" tvg-logo="https://dai3fd1oh325y.cloudfront.net/images/480p/042172X0-portrait.jpg",Call Me Country: Beyonce & Nashville'S Renaissance 2024
 #KODIPROP:inputstreamaddon=inputstream.adaptive
 #KODIPROP:inputstream.adaptive.manifest_type=dash
 #KODIPROP:inputstream.adaptive.license_type=org.w3.clearkey
-#KODIPROP:inputstream.adaptive.license_key=1b6c7c61f56b405019e07b1c9593104d:98d328cc1b8d33c68cb7441772871e38
+#KODIPROP:inputstream.adaptive.license_key={"keys": [{"kty": "oct", "kid": "G2x8YfVrQFAZ4HsclZMQTQ", "k": "mNMozBuNM8aMt0QXcoceOA"}], "type": "temporary"}
 https://hbogoprod-vod.akamaized.net/video/vod/output/HBOAsia/664c3c53d940521074002b63_hbovodhd/dash0/IDN_index.mpd
 
 #KODIPROP:inputstreamaddon=inputstream.adaptive
@@ -103,14 +103,14 @@ https://hbogoprod-vod.akamaized.net/video/vod/output/HBOAsia/667cf90ad9405210740
 #KODIPROP:inputstreamaddon=inputstream.adaptive
 #KODIPROP:inputstream.adaptive.manifest_type=dash
 #KODIPROP:inputstream.adaptive.license_type=org.w3.clearkey
-#KODIPROP:inputstream.adaptive.license_key=41205ddb3acb6e2279c32f151fd1d575:a5ecad8c5a6b89e429cdacaffba8ef5e
+#KODIPROP:inputstream.adaptive.license_key={"keys": [{"kty": "oct", "kid": "QSBd2zrLbiJ5wy8VH9HVdQ", "k": "peytjFprieQpzayv-6jvXg"}], "type": "temporary"}
 https://hbogoprod-vod.akamaized.net/video/vod/output/HBOAsia/6642f030d940521074ff4e87_hbovodhd/dash0/IDN_DOLBY_index.mpd
 
 #EXTINF:-1 type="" group-title="HBOGO ASIA 2024" tvg-logo="https://dai3fd1oh325y.cloudfront.net/images/480p/041673X0-portrait.jpg",Craig Before The Creek 2024
 #KODIPROP:inputstreamaddon=inputstream.adaptive
 #KODIPROP:inputstream.adaptive.manifest_type=dash
 #KODIPROP:inputstream.adaptive.license_type=org.w3.clearkey
-#KODIPROP:inputstream.adaptive.license_key=2cc95e339328cddb69ef742087fe5c8c:9a23f9ea4e6e033a2ddc91d2bb38da75
+#KODIPROP:inputstream.adaptive.license_key={"keys": [{"kty": "oct", "kid": "LMleM5Mozdtp73Qgh_5cjA", "k": "miP56k5uAzot3JHSuzjadQ"}], "type": "temporary"}
 https://hbogoprod-vod.akamaized.net/video/vod/output/HBOAsia/65ab21b8d940521074f1222e_hbovodhd/dash0/IDN_index.mpd
 
 
@@ -122,7 +122,7 @@ https://hbogoprod-vod.akamaized.net/video/vod/output/HBOAsia/65ab21b8d940521074f
 #KODIPROP:inputstreamaddon=inputstream.adaptive
 #KODIPROP:inputstream.adaptive.manifest_type=dash
 #KODIPROP:inputstream.adaptive.license_type=org.w3.clearkey
-#KODIPROP:inputstream.adaptive.license_key=2fc1ae9870d9f413395b4d29f76dac8d:9ec077feb1d763ce2e4662ecbb06404f
+#KODIPROP:inputstream.adaptive.license_key={"keys": [{"kty": "oct", "kid": "L8GumHDZ9BM5W00p922sjQ", "k": "nsB3_rHXY84uRmLsuwZATw"}], "type": "temporary"}
 https://hbogoprod-vod.akamaized.net/video/vod/output/HBOAsia/658501a6d940521074ed91ac_hbovodhd/dash0/IDN_index.mpd
 
 #KODIPROP:inputstreamaddon=inputstream.adaptive
@@ -135,7 +135,7 @@ https://hbogoprod-vod.akamaized.net/video/vod/output/HBOAsia/65d41058d940521074f
 #KODIPROP:inputstreamaddon=inputstream.adaptive
 #KODIPROP:inputstream.adaptive.manifest_type=dash
 #KODIPROP:inputstream.adaptive.license_type=org.w3.clearkey
-#KODIPROP:inputstream.adaptive.license_key=37b9eee44a4d9cbe34c002ed047cdbde:bde829af20214a2a07907c0a537686db
+#KODIPROP:inputstream.adaptive.license_key={"keys": [{"kty": "oct", "kid": "N7nu5EpNnL40wALtBHzb3g", "k": "vegpryAhSioHkHwKU3aG2w"}], "type": "temporary"}
 #EXTINF:-1 type="" group-title="HBOGO ASIA 2023" tvg-logo="https://dai3fd1oh325y.cloudfront.net/images/480p/041832X0-portrait.jpg",Wonka 2023
 https://hbogoprod-vod.akamaized.net/video/vod/output/HBOAsia/66570a7ed940521074012bee_hbovodhd/dash0/IDN_DOLBY_index.mpd
 
@@ -143,14 +143,14 @@ https://hbogoprod-vod.akamaized.net/video/vod/output/HBOAsia/66570a7ed9405210740
 #KODIPROP:inputstreamaddon=inputstream.adaptive
 #KODIPROP:inputstream.adaptive.manifest_type=dash
 #KODIPROP:inputstream.adaptive.license_type=org.w3.clearkey
-#KODIPROP:inputstream.adaptive.license_key=580c594066cdde0fac35ecbf2827580b:e0816dd0864fc8881da2788232feb0fd
+#KODIPROP:inputstream.adaptive.license_key={"keys": [{"kty": "oct", "kid": "WAxZQGbN3g-sNey_KCdYCw", "k": "4IFt0IZPyIgdoniCMv6w_Q"}], "type": "temporary"}
 https://hbogoprod-vod.akamaized.net/video/vod/output/HBOAsia/654c8c6cd940521074e84b5d_hbovodhd/dash0/IDN_DOLBY_index.mpd
 
 #EXTINF:-1 type="" group-title="HBOGO ASIA 2023" tvg-logo="https://dai3fd1oh325y.cloudfront.net/images/480p/041470X0-portrait.jpg",Please Don'T Destroy: The Treasure Of Foggy Mountain 2023
 #KODIPROP:inputstreamaddon=inputstream.adaptive
 #KODIPROP:inputstream.adaptive.manifest_type=dash
 #KODIPROP:inputstream.adaptive.license_type=org.w3.clearkey
-#KODIPROP:inputstream.adaptive.license_key=585e24087a458f21cd7bfd0ea48a17ab:f414160438f1597a728025831b732280
+#KODIPROP:inputstream.adaptive.license_key={"keys": [{"kty": "oct", "kid": "WF4kCHpFjyHNe_0OpIoXqw", "k": "9BQWBDjxWXpygCWDG3MigA"}], "type": "temporary"}
 https://hbogoprod-vod.akamaized.net/video/vod/output/HBOAsia/6545698dd940521074e7a03e_hbovodhd/dash0/IDN_DOLBY_index.mpd
 
 #EXTINF:-1 type="" group-title="HBOGO ASIA 2023" tvg-logo="https://dai3fd1oh325y.cloudfront.net/images/480p/041482X0-portrait.jpg",Taking On Taylor Swift 2023
@@ -164,7 +164,7 @@ https://hbogoprod-vod.akamaized.net/video/vod/output/HBOAsia/654499f2d940521074e
 #KODIPROP:inputstreamaddon=inputstream.adaptive
 #KODIPROP:inputstream.adaptive.manifest_type=dash
 #KODIPROP:inputstream.adaptive.license_type=org.w3.clearkey
-#KODIPROP:inputstream.adaptive.license_key=10a6005e81cd4c90d62c5b1b0b8e6ccc:55c36e6afff65b8d7afdba6c62209739
+#KODIPROP:inputstream.adaptive.license_key={"keys": [{"kty": "oct", "kid": "EKYAXoHNTJDWLFsbC45szA", "k": "VcNuav_2W416_bpsYiCXOQ"}], "type": "temporary"}
 https://hbogoprod-vod.akamaized.net/video/vod/output/HBOAsia/6545604dd940521074e79f43_hbovodhd/dash0/IDN_DOLBY_index.mpd
 
 #EXTINF:-1 type="" group-title="HBOGO ASIA 2023" tvg-logo="https://dai3fd1oh325y.cloudfront.net/images/480p/041243X0-portrait.jpg",The Nun Ii 2023
@@ -178,7 +178,7 @@ https://hbogoprod-vod.akamaized.net/video/vod/output/HBOAsia/6537627dd940521074e
 #KODIPROP:inputstreamaddon=inputstream.adaptive
 #KODIPROP:inputstream.adaptive.manifest_type=dash
 #KODIPROP:inputstream.adaptive.license_type=org.w3.clearkey
-#KODIPROP:inputstream.adaptive.license_key=9c147261c177959ed6debaf706b6fa9e:912bfcf5e1d0d684bbe21fb8602df942
+#KODIPROP:inputstream.adaptive.license_key={"keys": [{"kty": "oct", "kid": "nBRyYcF3lZ7W3rr3Brb6ng", "k": "kSv89eHQ1oS74h-4YC35Qg"}], "type": "temporary"}
 https://hbogoprod-vod.akamaized.net/video/vod/output/HBOAsia/654c47b5d940521074e844b6_hbovodhd/dash0/IDN_DOLBY_index.mpd
 
 #EXTINF:-1 type="" group-title="HBOGO ASIA 2023" tvg-logo="https://dai3fd1oh325y.cloudfront.net/images/480p/041162X0-portrait.jpg",Meg 2: The Trench 2023
@@ -192,21 +192,21 @@ https://hbogoprod-vod.akamaized.net/video/vod/output/HBOAsia/64fee5add940521074e
 #KODIPROP:inputstreamaddon=inputstream.adaptive
 #KODIPROP:inputstream.adaptive.manifest_type=dash
 #KODIPROP:inputstream.adaptive.license_type=org.w3.clearkey
-#KODIPROP:inputstream.adaptive.license_key=023a803caa6448dbf92b7e035e1ea850:bc1f5be5278a6c2096b2616b35ef309b
+#KODIPROP:inputstream.adaptive.license_key={"keys": [{"kty": "oct", "kid": "AjqAPKpkSNv5K34DXh6oUA", "k": "vB9b5SeKbCCWsmFrNe8wmw"}], "type": "temporary"}
 https://hbogoprod-vod.akamaized.net/video/vod/output/HBOAsia/6570447ed940521074eba258_hbovodhd/dash0/IDN_DOLBY_index.mpd
 
 #EXTINF:-1 type="" group-title="HBOGO ASIA 2023" tvg-logo="https://dai3fd1oh325y.cloudfront.net/images/480p/041674X0-portrait.jpg",Barbie Feature Commentary 2023
 #KODIPROP:inputstreamaddon=inputstream.adaptive
 #KODIPROP:inputstream.adaptive.manifest_type=dash
 #KODIPROP:inputstream.adaptive.license_type=org.w3.clearkey
-#KODIPROP:inputstream.adaptive.license_key=58bdfffaa88f557f9d01fdcde7a98d28:0bfcd37adb5582da662cd57b7a97f5c9
+#KODIPROP:inputstream.adaptive.license_key={"keys": [{"kty": "oct", "kid": "WL3_-qiPVX-dAf3N56mNKA", "k": "C_zTettVgtpmLNV7epf1yQ"}], "type": "temporary"}
 https://hbogoprod-vod.akamaized.net/video/vod/output/HBOAsia/6596b3dbd940521074ef3730_hbovodhd/dash0/IDN_index.mpd
 
 #EXTINF:-1 type="" group-title="HBOGO ASIA 2023" tvg-logo="https://dai3fd1oh325y.cloudfront.net/images/480p/041487X0-portrait.jpg",Gray Matter 2023
 #KODIPROP:inputstreamaddon=inputstream.adaptive
 #KODIPROP:inputstream.adaptive.manifest_type=dash
 #KODIPROP:inputstream.adaptive.license_type=org.w3.clearkey
-#KODIPROP:inputstream.adaptive.license_key=9fa8112f1bcc8f09bb2b75770a8f3c59:b2fa074de74e8259b11088ee5b48ae37
+#KODIPROP:inputstream.adaptive.license_key={"keys": [{"kty": "oct", "kid": "n6gRLxvMjwm7K3V3Co88WQ", "k": "svoHTedOglmxEIjuW0iuNw"}], "type": "temporary"}
 https://hbogoprod-vod.akamaized.net/video/vod/output/HBOAsia/6556de4bd940521074e9418d_hbovodhd/dash0/IDN_DOLBY_index.mpd
 
 #EXTINF:-1 type="" group-title="HBOGO ASIA 2023" tvg-logo="https://dai3fd1oh325y.cloudfront.net/images/480p/040975X0-portrait.jpg",The Flash 2023
@@ -220,14 +220,14 @@ https://hbogoprod-vod.akamaized.net/video/vod/output/HBOAsia/64c3794dd940521074d
 #KODIPROP:inputstreamaddon=inputstream.adaptive
 #KODIPROP:inputstream.adaptive.manifest_type=dash
 #KODIPROP:inputstream.adaptive.license_type=org.w3.clearkey
-#KODIPROP:inputstream.adaptive.license_key=08a2cb77aee4f2ac04ecd63960968ff5:53297eef65dfb04b4efce81dfbafb850
+#KODIPROP:inputstream.adaptive.license_key={"keys": [{"kty": "oct", "kid": "CKLLd67k8qwE7NY5YJaP9Q", "k": "Uyl-72XfsEtO_Ogd-6-4UA"}], "type": "temporary"}
 https://hbogoprod-vod.akamaized.net/video/vod/output/HBOAsia/65454aafd940521074e79d0c_hbovodhd/dash0/IDN_DOLBY_index.mpd
 
 #EXTINF:-1 type="" group-title="HBOGO ASIA 2023" tvg-logo="https://dai3fd1oh325y.cloudfront.net/images/480p/041297X0-portrait.jpg",Shooting Stars 2023
 #KODIPROP:inputstreamaddon=inputstream.adaptive
 #KODIPROP:inputstream.adaptive.manifest_type=dash
 #KODIPROP:inputstream.adaptive.license_type=org.w3.clearkey
-#KODIPROP:inputstream.adaptive.license_key=2663d15a769c96f070507c7da4398fcb:24c93d535c4668ebd84bc6a7a8ed7fde
+#KODIPROP:inputstream.adaptive.license_key={"keys": [{"kty": "oct", "kid": "JmPRWnaclvBwUHx9pDmPyw", "k": "JMk9U1xGaOvYS8anqO1_3g"}], "type": "temporary"}
 https://hbogoprod-vod.akamaized.net/video/vod/output/HBOAsia/651f9005d940521074e40eb9_hbovodhd/dash0/IDN_DOLBY_index.mpd
 
 #EXTINF:-1 type="" group-title="HBOGO ASIA 2023" tvg-logo="https://dai3fd1oh325y.cloudfront.net/images/480p/040334X0-portrait.jpg",Reality 2023
@@ -241,7 +241,7 @@ https://hbogoprod-vod.akamaized.net/video/vod/output/HBOAsia/646fee3ed940521074d
 #KODIPROP:inputstreamaddon=inputstream.adaptive
 #KODIPROP:inputstream.adaptive.manifest_type=dash
 #KODIPROP:inputstream.adaptive.license_type=org.w3.clearkey
-#KODIPROP:inputstream.adaptive.license_key=35c46b4b36d53f9c9e74eb061e8bd8f9:e9fd1a90aa43a31db7c1007e9165d70a
+#KODIPROP:inputstream.adaptive.license_key={"keys": [{"kty": "oct", "kid": "NcRrSzbVP5yedOsGHovY-Q", "k": "6f0akKpDox23wQB-kWXXCg"}], "type": "temporary"}
 https://hbogoprod-vod.akamaized.net/video/vod/output/HBOAsia/65454719d940521074e79cab_hbovodhd/dash0/IDN_DOLBY_index.mpd
 
 #EXTINF:-1 type="" group-title="HBOGO ASIA 2023" tvg-logo="https://dai3fd1oh325y.cloudfront.net/images/480p/041269X0-portrait.jpg",Land Of Gold 2023
@@ -262,14 +262,14 @@ https://hbogoprod-vod.akamaized.net/video/vod/output/HBOAsia/648828a5d940521074d
 #KODIPROP:inputstreamaddon=inputstream.adaptive
 #KODIPROP:inputstream.adaptive.manifest_type=dash
 #KODIPROP:inputstream.adaptive.license_type=org.w3.clearkey
-#KODIPROP:inputstream.adaptive.license_key=8f26d21278dbc7e643d25fa9395bc20e:e9f42c0ed2338a1ee2abdc11fe85b611
+#KODIPROP:inputstream.adaptive.license_key={"keys": [{"kty": "oct", "kid": "jybSEnjbx-ZD0l-pOVvCDg", "k": "6fQsDtIzih7iq9wR_oW2EQ"}], "type": "temporary"}
 https://hbogoprod-vod.akamaized.net/video/vod/output/HBOAsia/650e55a5d940521074e273f8_hbovodhd/dash0/IDN_DOLBY_index.mpd
 
 #EXTINF:-1 type="" group-title="HBOGO ASIA 2023" tvg-logo="https://dai3fd1oh325y.cloudfront.net/images/480p/041229X0-portrait.jpg",The Super Mario Bros. Movie 2023
 #KODIPROP:inputstreamaddon=inputstream.adaptive
 #KODIPROP:inputstream.adaptive.manifest_type=dash
 #KODIPROP:inputstream.adaptive.license_type=org.w3.clearkey
-#KODIPROP:inputstream.adaptive.license_key=ccf4698050003d7e0e1b7695a6454f7f:b9865f7d2152b176ac241166517e4aec
+#KODIPROP:inputstream.adaptive.license_key={"keys": [{"kty": "oct", "kid": "zPRpgFAAPX4OG3aVpkVPfw", "k": "uYZffSFSsXasJBFmUX5K7A"}], "type": "temporary"}
 https://hbogoprod-vod.akamaized.net/video/vod/output/HBOAsia/6566fd56d940521074eac1e7_hbovodhd/dash0/IDN_DOLBY_index.mpd
 
 #EXTINF:-1 type="" group-title="HBOGO ASIA 2023" tvg-logo="https://dai3fd1oh325y.cloudfront.net/images/480p/040878X0-portrait.jpg",Dungeons & Dragons: Honor Among Thieves 2023
@@ -311,7 +311,7 @@ https://hbogoprod-vod.akamaized.net/video/vod/output/HBOAsia/64564331d940521074d
 #KODIPROP:inputstreamaddon=inputstream.adaptive
 #KODIPROP:inputstream.adaptive.manifest_type=dash
 #KODIPROP:inputstream.adaptive.license_type=org.w3.clearkey
-#KODIPROP:inputstream.adaptive.license_key=02f26648b3f951a7fdef85f737299e6a:aea7f4643c7b98d76fcae03e198dec1b
+#KODIPROP:inputstream.adaptive.license_key={"keys": [{"kty": "oct", "kid": "AvJmSLP5Uaf974X3Nymeag", "k": "rqf0ZDx7mNdvyuA-GY3sGw"}], "type": "temporary"}
 https://hbogoprod-vod.akamaized.net/video/vod/output/HBOAsia/65452a2cd940521074e799ca_hbovodhd/dash0/MYS_DOLBY_index.mpd
 
 #EXTINF:-1 type="" group-title="HBOGO ASIA 2023" tvg-logo="https://dai3fd1oh325y.cloudfront.net/images/480p/040443X0-portrait.jpg",War Zone: Bear Grylls Meets President Zelenskyy 2023
@@ -339,7 +339,7 @@ https://hbogoprod-vod.akamaized.net/video/vod/output/HBOAsia/6406dabad940521074c
 #KODIPROP:inputstreamaddon=inputstream.adaptive
 #KODIPROP:inputstream.adaptive.manifest_type=dash
 #KODIPROP:inputstream.adaptive.license_type=org.w3.clearkey
-#KODIPROP:inputstream.adaptive.license_key=f58b11a488f7f5f30540ff994b300db8:1fdc9fb3da5d0fa5ac91a8771f6b6a77
+#KODIPROP:inputstream.adaptive.license_key={"keys": [{"kty": "oct", "kid": "9YsRpIj39fMFQP-ZSzANuA", "k": "H9yfs9pdD6Wskah3H2tqdw"}], "type": "temporary"}
 https://hbogoprod-vod.akamaized.net/video/vod/output/HBOAsia/650e6b22d940521074e27616_hbovodhd/dash0/IDN_DOLBY_index.mpd
 
 #EXTINF:-1 type="" group-title="HBOGO ASIA 2023" tvg-logo="https://dai3fd1oh325y.cloudfront.net/images/480p/040517X0-portrait.jpg",80 For Brady 2023
@@ -353,21 +353,21 @@ https://hbogoprod-vod.akamaized.net/video/vod/output/HBOAsia/64ddf8a9d940521074d
 #KODIPROP:inputstreamaddon=inputstream.adaptive
 #KODIPROP:inputstream.adaptive.manifest_type=dash
 #KODIPROP:inputstream.adaptive.license_type=org.w3.clearkey
-#KODIPROP:inputstream.adaptive.license_key=0f432456c5e58e45013d1ba2ea0f860e:6df575acb28196ecdaba6d55bff7e852
+#KODIPROP:inputstream.adaptive.license_key={"keys": [{"kty": "oct", "kid": "D0MkVsXljkUBPRui6g-GDg", "k": "bfV1rLKBluzaum1Vv_foUg"}], "type": "temporary"}
 https://hbogoprod-vod.akamaized.net/video/vod/output/HBOAsia/6545177fd940521074e797ec_hbovodhd/dash0/IDN_DOLBY_index.mpd
 
 #EXTINF:-1 type="" group-title="HBOGO ASIA 2023" tvg-logo="https://dai3fd1oh325y.cloudfront.net/images/480p/041228X0-portrait.jpg",Baby Ruby 2023
 #KODIPROP:inputstreamaddon=inputstream.adaptive
 #KODIPROP:inputstream.adaptive.manifest_type=dash
 #KODIPROP:inputstream.adaptive.license_type=org.w3.clearkey
-#KODIPROP:inputstream.adaptive.license_key=7d82776d50a48edf49594b46d56a0787:60a71e0a05ce61d647ecad0e37c70b61
+#KODIPROP:inputstream.adaptive.license_key={"keys": [{"kty": "oct", "kid": "fYJ3bVCkjt9JWUtG1WoHhw", "k": "YKceCgXOYdZH7K0ON8cLYQ"}], "type": "temporary"}
 https://hbogoprod-vod.akamaized.net/video/vod/output/HBOAsia/654545a9d940521074e79c83_hbovodhd/dash0/IDN_DOLBY_index.mpd
 
 #EXTINF:-1 type="" group-title="HBOGO ASIA 2023" tvg-logo="https://dai3fd1oh325y.cloudfront.net/images/480p/041270X0-portrait.jpg",When You Finish Saving The World 2023
 #KODIPROP:inputstreamaddon=inputstream.adaptive
 #KODIPROP:inputstream.adaptive.manifest_type=dash
 #KODIPROP:inputstream.adaptive.license_type=org.w3.clearkey
-#KODIPROP:inputstream.adaptive.license_key=c2bf82e3adcb49f58faebb28ee1e3df7:16c705cbb4a9cc307836aa1faa937729
+#KODIPROP:inputstream.adaptive.license_key={"keys": [{"kty": "oct", "kid": "wr-C463LSfWPrrso7h499w", "k": "FscFy7SpzDB4NqofqpN3KQ"}], "type": "temporary"}
 https://hbogoprod-vod.akamaized.net/video/vod/output/HBOAsia/6545601ad940521074e79f3b_hbovodhd/dash0/IDN_DOLBY_index.mpd
 
 #EXTINF:-1 type="" group-title="HBOGO ASIA 2023" tvg-logo="https://dai3fd1oh325y.cloudfront.net/images/480p/040265X0-portrait.jpg",Mummies 2023
