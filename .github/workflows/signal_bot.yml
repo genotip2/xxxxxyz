@@ -1,0 +1,49 @@
+name: Crypto Signal Bot
+
+on:
+  schedule:
+    # Jalankan setiap 1 jam (Menit ke-15 setiap jam UTC)
+    - cron: "15 * * * *"
+  workflow_dispatch:
+
+jobs:
+  run-bot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install Dependencies
+        run: pip install requests tradingview-ta
+
+      - name: Run Bot
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python signal_bot.py
+
+      - name: Check for changes and commit
+        run: |
+          git config --local user.name "github-actions[bot]"
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          
+          # Tambahkan SEMUA file JSON (active_buys, pairs_cache, cooldowns, btc_dominance)
+          git add *.json
+          
+          if git diff --cached --exit-code; then
+            echo "No changes to commit"
+          else
+            git commit -m "chore: update bot state [skip ci]"
+            git push
+          fi
