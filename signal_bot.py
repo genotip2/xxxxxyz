@@ -366,7 +366,12 @@ def check_exit(pair, current_price, data_1h):
     entry_data = ACTIVE_BUYS[pair]
     entry_price = entry_data['price']
     stop_loss = entry_data['stop_loss']
-    entry_atr = entry_data.get('entry_atr', current_price * 0.02)
+    
+    # [PERBAIKAN]: Paksa fallback 2% jika entry_atr dari database bernilai 0 atau None
+    entry_atr = entry_data.get('entry_atr')
+    if not entry_atr or entry_atr <= 0:
+        entry_atr = current_price * 0.02
+        
     highest_price = entry_data['highest_price']
     
     profit_pct = ((current_price - entry_price) / entry_price) * 100
@@ -394,7 +399,7 @@ def check_exit(pair, current_price, data_1h):
             ACTIVE_BUYS[pair]['trailing_active'] = True
             send_telegram_alert("ACTIVATE_TRAIL", pair, current_price, f"Profit > {ATR_TRAIL_ACTIVATION}x ATR. Trailing aktif.", entry_price=entry_price, profit_pct=profit_pct)
         
-        # Batas Trailing: 1.5x ATR dari harga tertinggi (selalu naik, tidak pernah turun)
+        # Batas Trailing: 1.5x ATR dari harga tertinggi
         trailing_limit = highest_price - (ATR_TRAIL_DISTANCE * entry_atr)
         
         if current_price <= trailing_limit:
