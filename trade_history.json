@@ -25,5 +25,14 @@
         "exit_reason": "SELL_CLOSE_EMA",
         "entry_date": "2026-08-21T01:41:30.235286+07:00",
         "exit_date": "2026-08-22T12:29:42.211032+07:00"
+    },
+    {
+        "pair": "XAUTUSDT",
+        "entry_price": 4658.27,
+        "exit_price": 4610.87,
+        "profit_pct": -1.0175451401486075,
+        "exit_reason": "SELL_EMA_MACD",
+        "entry_date": "2026-08-25T08:21:36.994924+07:00",
+        "exit_date": "2026-08-25T11:40:33.925470+07:00"
     }
 ]

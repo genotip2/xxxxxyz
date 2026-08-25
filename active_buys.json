@@ -1,12 +1,1 @@
-{
-    "XAUTUSDT": {
-        "price": 4658.27,
-        "time": "2026-08-25T08:21:36.994924+07:00",
-        "stop_loss": 4425.3565,
-        "entry_atr": 93.1654,
-        "trailing_active": false,
-        "highest_price": 4658.27,
-        "entry_score": 85,
-        "break_even_active": false
-    }
-}
+{}
