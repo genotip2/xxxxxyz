@@ -34,5 +34,14 @@
         "exit_reason": "SELL_EMA_MACD",
         "entry_date": "2026-08-25T08:21:36.994924+07:00",
         "exit_date": "2026-08-25T11:40:33.925470+07:00"
+    },
+    {
+        "pair": "TRXUSDT",
+        "entry_price": 0.3414,
+        "exit_price": 0.3379,
+        "profit_pct": -1.0251903925014654,
+        "exit_reason": "SELL_EMA_MACD",
+        "entry_date": "2026-08-28T20:56:56.286111+07:00",
+        "exit_date": "2026-08-30T00:32:48.822285+07:00"
     }
 ]
