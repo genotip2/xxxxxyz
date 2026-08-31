@@ -4,9 +4,19 @@
         "time": "2026-08-30T22:12:59.462212+07:00",
         "stop_loss": 2.483,
         "entry_atr": 0.04966,
-        "trailing_active": false,
-        "highest_price": 2.483,
+        "trailing_active": true,
+        "highest_price": 2.688,
         "entry_score": 85,
         "break_even_active": true
+    },
+    "NEARUSDT": {
+        "price": 1.856,
+        "time": "2026-08-31T23:49:28.208606+07:00",
+        "stop_loss": 1.7632,
+        "entry_atr": 0.03712,
+        "trailing_active": false,
+        "highest_price": 1.856,
+        "entry_score": 80,
+        "break_even_active": false
     }
 }
