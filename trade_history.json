@@ -70,5 +70,14 @@
         "exit_reason": "SELL_EMA_MACD",
         "entry_date": "2026-08-31T23:49:28.208606+07:00",
         "exit_date": "2026-09-02T03:43:37.275521+07:00"
+    },
+    {
+        "pair": "MORPHOUSDT",
+        "entry_price": 2.583,
+        "exit_price": 2.526,
+        "profit_pct": -2.2067363530778312,
+        "exit_reason": "STOP_LOSS",
+        "entry_date": "2026-09-02T06:06:44.360857+07:00",
+        "exit_date": "2026-09-02T20:22:24.218769+07:00"
     }
 ]
