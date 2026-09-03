@@ -1,1 +1,12 @@
-{}
+{
+    "LINKUSDT": {
+        "price": 11.23,
+        "time": "2026-09-03T15:40:53.346915+07:00",
+        "stop_loss": 10.6685,
+        "entry_atr": 0.22460000000000002,
+        "trailing_active": false,
+        "highest_price": 11.23,
+        "entry_score": 80,
+        "break_even_active": false
+    }
+}
