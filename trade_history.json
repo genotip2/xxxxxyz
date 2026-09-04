@@ -79,5 +79,14 @@
         "exit_reason": "STOP_LOSS",
         "entry_date": "2026-09-02T06:06:44.360857+07:00",
         "exit_date": "2026-09-02T20:22:24.218769+07:00"
+    },
+    {
+        "pair": "LINKUSDT",
+        "entry_price": 11.23,
+        "exit_price": 11.583,
+        "profit_pct": 3.143365983971503,
+        "exit_reason": "SELL_CLOSE_EMA",
+        "entry_date": "2026-09-03T15:40:53.346915+07:00",
+        "exit_date": "2026-09-04T20:14:50.515762+07:00"
     }
 ]
