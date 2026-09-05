@@ -88,5 +88,14 @@
         "exit_reason": "SELL_CLOSE_EMA",
         "entry_date": "2026-09-03T15:40:53.346915+07:00",
         "exit_date": "2026-09-04T20:14:50.515762+07:00"
+    },
+    {
+        "pair": "MORPHOUSDT",
+        "entry_price": 2.557,
+        "exit_price": 2.501,
+        "profit_pct": -2.1900664841611284,
+        "exit_reason": "SELL_CLOSE_EMA",
+        "entry_date": "2026-09-05T05:51:10.574242+07:00",
+        "exit_date": "2026-09-05T12:21:32.768451+07:00"
     }
 ]
