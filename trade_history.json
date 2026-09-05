@@ -106,5 +106,14 @@
         "exit_reason": "SELL_EMA_MACD",
         "entry_date": "2026-09-05T17:09:32.666395+07:00",
         "exit_date": "2026-09-06T01:51:20.831494+07:00"
+    },
+    {
+        "pair": "NEARUSDT",
+        "entry_price": 1.957,
+        "exit_price": 2.171,
+        "profit_pct": 10.935104752171677,
+        "exit_reason": "TRAILING_STOP",
+        "entry_date": "2026-09-04T06:02:42.589583+07:00",
+        "exit_date": "2026-09-06T03:59:08.447441+07:00"
     }
 ]
